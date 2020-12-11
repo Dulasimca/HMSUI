@@ -27,7 +27,9 @@
               "src/styles.css",
               "node_modules/primeflex/primeflex.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -93,7 +95,9 @@
               "src/styles.css",
               "node_modules/primeflex/primeflex.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js"
+            ]
           }
         },
         "lint": {
@@ -122,6 +126,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "hms-app"
 }

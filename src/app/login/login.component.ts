@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     this.authService.loginInfo(this.loginForm.value);
-    this.router.navigate(['home']);
+    this.router.navigate(['NewTicket']);
   }
 
   onChangePassword() {
