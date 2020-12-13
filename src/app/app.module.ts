@@ -37,6 +37,7 @@ import { DatePipe } from '@angular/common';
 import { MasterDataService } from './masters-services/master-data.service';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
 import { TicketReportComponent } from './reports/ticket-report/ticket-report.component';
+import { MenubarComponent } from './menubar/menubar.component';
 
 
 
@@ -47,7 +48,8 @@ import { TicketReportComponent } from './reports/ticket-report/ticket-report.com
     FooterComponent,
     LoginComponent,
     NewTicketComponent,
-    TicketReportComponent
+    TicketReportComponent,
+    MenubarComponent
   ],
   imports: [
     BrowserModule,

@@ -27,6 +27,7 @@ export class NewTicketComponent implements OnInit {
   ComponentDescription: any;
   Status: any;
   StatusOptions: SelectItem[];
+  CCOptions: SelectItem[];
   Assignee: any;
   DefaultCC: any;
   URL: any;
@@ -76,6 +77,7 @@ export class NewTicketComponent implements OnInit {
     let shopSeletion = [];
     let reasonSeletion = [];
     let statusSeletion = [];
+    let CCSeletion = [];
     switch (type) {
       case 'R':
         if (this.regionsData.length !== 0) {
@@ -134,7 +136,12 @@ export class NewTicketComponent implements OnInit {
           });
           if (this.compId !== undefined && this.compId !== null) {
             this.ComponentDescription = this.compId.desc;
-            this.CCData
+            this.CCData.forEach(bs => {
+              if (bs.id === this.compId.value) {
+                this.DefaultCC = bs.name;
+                this.Assignee = bs.assiginee;
+              }
+            });
           }
           this.componentOptions = this.componentsData;
           this.componentOptions.unshift({ label: '-select-', value: null });
@@ -165,11 +172,12 @@ export class NewTicketComponent implements OnInit {
       case 'Status':
         if (this.bugStatusData.length !== 0) {
           this.bugStatusData.forEach(bs => {
-            statusSeletion.push({ label: bs.value, id: bs.id });
-          })
+            statusSeletion.push({ label: bs.name, id: bs.id });
+          });
           this.StatusOptions = statusSeletion;
           this.StatusOptions.unshift({ label: '-select-', value: null });
         }
+        break;
     }
   }
 
@@ -185,26 +193,28 @@ export class NewTicketComponent implements OnInit {
     }
   }
 
-  onSave(form: NgForm) {
+  onSave() {
     this.blockScreen = true;
     const params = {
-      'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
-      'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
+      'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
+      'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
+      'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '-',
+      'assingedTo': this.Assignee,
+      'Ticketseverity': "enhanced",
+      'Ticketstatus': this.Status.label,
+      'short_desc': this.Subject,
       'Location': this.location,
-      'Component': this.compId,
-      'BugId': 0,
-      'ClosedDate': (this.showCloseDate) ? this.closed_date : '-',
-      'SLAType': this.selectedType,
-      'ShopNumber': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '-',
-      'FromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
-      'ToDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
-      'Remarks': (this.remarksTxt !== null && this.remarksTxt.trim() !== '') ? this.remarksTxt.trim() : '-',
-      'Reason': (this.reasonId !== undefined && this.reasonId !== null) ? this.reasonId : ''
+      'Component': this.compId.id,
+      'reporter': '42',
+      'everconfirmed': true,
+      'reporter_accessible': true,
+      'cclist_accessible': true,
+      // 'FromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
+      // 'ToDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
     }
-    this.restApiService.post(PathConstants.NMSPostURL, params).subscribe(res => {
+    this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
       if (res.item1) {
         this.blockScreen = false;
-        form.reset();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'success',

@@ -15,4 +15,6 @@ export class PathConstants {
     public static readonly MonthwiseIncidentGetURL = '/api/MonthwiseIncidentDetails';
     public static readonly BugStatus = '/api/BugStatus';
     public static readonly ComponentCC = '/api/ComponentCC';
+    public static readonly NewTicket = '/api/InsertNewTicket/Post';
+    public static readonly TicketReport = '/api/InsertNewTicket/Get';
 }
