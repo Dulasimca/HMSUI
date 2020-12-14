@@ -13,10 +13,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
+import { BlockUIModule } from 'primeng/blockui';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MenubarModule } from 'primeng/menubar';
+import { ChartModule } from 'primeng/chart';
+
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { MenubarComponent } from './menu-bar/menubar.component';
 
 
 
@@ -25,7 +32,9 @@ import { FooterComponent } from './footer/footer.component';
     AppComponent,
     TopbarComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    HomePageComponent,
+    MenubarComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +47,11 @@ import { FooterComponent } from './footer/footer.component';
     PanelModule,
     ButtonModule,
     ReactiveFormsModule,
+    ButtonModule,
+    BlockUIModule,
+    ProgressSpinnerModule,
+    MenubarModule,
+    ChartModule
   ],
   providers: [AuthService, RestAPIService, MessageService],
   bootstrap: [AppComponent]

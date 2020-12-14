@@ -7,7 +7,8 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     position: relative;
-  
+    background-color: rgb(194, 189, 189);
+
   }
 
   .p-component {
@@ -492,7 +493,8 @@ ul {
 }
   
 html, body { height: 100%; background-color: rgb(194, 189, 189); }
-body { margin: 0px; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol; }
+body { margin: 0px; background-color: rgb(194, 189, 189); 
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol; }
 
 .cursor-pointer{
   cursor: pointer !important;
@@ -534,6 +536,14 @@ body { margin: 0px; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Ro
   font-size: 18px;
   text-align: center !important;
   font-weight: 400;
+}
+
+.header-line-h2 {
+    color: #87888a !important;
+    text-decoration: underline !important;
+    text-align: center !important;
+    font-weight: 500;
+    font-size: 20px;
 }
 
 .p-calendar-w-btn .p-inputtext {
@@ -681,6 +691,15 @@ body { margin: 0px; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Ro
   color: black;
 }
 
+#rectangle{
+    width:200px;
+    height:100px;
+    background:rgb(171, 226, 62);
+    box-shadow: yellowgreen;
+    border: 2px solid whitesmoke;
+    border-radius: 5px;
+}
+
 /* .navbar-collapse {
   flex-basis: 100%;
   flex-grow: 1; 
@@ -706,3 +725,100 @@ body { margin: 0px; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Ro
  .navbar{
    color: whitesmoke !important;
  } */
+ .dashboard .overview-box .overview-box-icon {
+    width: 45px;
+    line-height: 40px;
+    height: 45px;
+    font-size: 24px;
+    margin: auto;
+    margin-top: -24px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.dashboard .overview-box .overview-box-title {
+    padding: 3px;
+    font-size: 18px;
+    letter-spacing: 0.23px;
+}
+.dashboard .overview-box .overview-box-value {
+    padding: 8px;
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+
+.dashboard .overview-box .overview-box-status {
+    padding: 8px;
+    font-size: 14px;
+}
+.dashboard .overview-box {
+    text-align: center;
+    position: relative;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-top: 1em;
+    color: #ffffff;
+    border: solid 1px #dfe6ee;
+    border-radius: 3px;
+}
+
+ .dashboard .overview-box.box-ho {
+    background-image: linear-gradient(to right, #f8c737, #f4a22e);
+}
+.dashboard .overview-box.box-ho .overview-box-icon {
+    background-color: #f4a52f;
+    border: solid 1.4px #ffd1a5;
+}
+
+.dashboard .overview-box.box-ro {
+    background-image: linear-gradient(to right, #12aeee, #0080d4);
+}
+.dashboard .overview-box.box-ro .overview-box-icon {
+    background-color: #0183d6;
+    border: solid 1.4px #96dbf7;
+}
+.dashboard .overview-box.box-ab {
+    background-image: linear-gradient(to right, #f36161, #e94747);
+}
+.dashboard .overview-box.box-ab .overview-box-icon {
+    background-color: #fa4040;
+    border: solid 1.4px #f77474;
+}
+.dashboard .overview-box.box-mb {
+    background-image: linear-gradient(to right, #bc74f8, #9042db)
+}
+.dashboard .overview-box.box-mb .overview-box-icon {
+    background-color: #9346dd;
+    border: solid 1.4px #dac2ef;
+}
+.dashboard .overview-box.box-do {
+    background-image: linear-gradient(to right, #4df168, #22f145);
+}
+.dashboard .overview-box.box-do .overview-box-icon {
+    background-color: #44fa63;
+    border: solid 1.4px #71ff89;
+}
+.dashboard .overview-box.box-sh {
+    margin-right: 0;
+    background-image: linear-gradient(to right, #fe7b94, #fd4a85);
+}
+.dashboard .overview-box.box-sh .overview-box-icon {
+    padding: 5px 7px;
+    line-height: 30px;
+    background-color: #fe5288;
+    border: solid 1.4px #f4cfdb;
+}
+
+.layout-wrapper .layout-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 50px);
+}
+
+.layout-wrapper .layout-content {
+    flex: 1 1 0;
+    padding: 2em;
+    background: #f2f2f2 !important;
+}
