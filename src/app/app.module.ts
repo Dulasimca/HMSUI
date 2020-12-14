@@ -23,11 +23,6 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogModule } from 'primeng/dialog';
 import { PanelModule } from 'primeng/panel';
-import { BlockUIModule } from 'primeng/blockui';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { MenubarModule } from 'primeng/menubar';
-import { ChartModule } from 'primeng/chart';
-
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
