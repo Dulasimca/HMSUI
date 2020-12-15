@@ -62,21 +62,55 @@
                             </ng-template>
                         </p-dropdown>
                     </div>
+
                     <div class="p-col-12 p-md-4 p-lg-2">
                         <div>
                             <label class="label-text-color" for="ticket">From Date:</label>
                         </div>
                         <p-calendar name="fDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="fromDate"
-                            showTime="true" hourFormat="12" [showIcon]="true" required></p-calendar>
+                            showTime="true" hourFormat="12" [showIcon]="true"
+                            (ngModelChange)="checkValidDateSelection()" required></p-calendar>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-2">
                         <div>
                             <label class="label-text-color" for="ticket">To Date:</label>
                         </div>
                         <p-calendar class="date-text" name="tDate" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-                            [(ngModel)]="toDate" showTime="true" hourFormat="12" [showIcon]="true" required>
+                            [(ngModel)]="toDate" showTime="true" hourFormat="12" [showIcon]="true"
+                            (ngModelChange)="checkValidDateSelection()" required>
                         </p-calendar>
                     </div>
+                    <div class="p-col-12 p-md-4 p-lg-1" style="margin-top: 15vh;">
+                        <button pButton type="submit" label="View" class="p-button-raised p-btn-pad bg-div" icon=""
+                            iconPos="right" (click)="onView()"></button>
+                    </div>
+                    <div class="p-col-12 p-md-4 p-lg-2" style="margin-top: 15vh;">
+                        <button pButton type="submit" label="Excel" (click)="dt.exportCSV()"
+                            class="p-button-raised p-btn-pad bg-div" icon="" iconPos="right"></button>
+                    </div>
+
+                </div>
+                <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+                    <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
+                        [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                        [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
+                        [(selection)]="selected" selectionMode="single" (onRowSelect)="onRowSelect($event)"
+                        exportFilename="TICKET_REPORT">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr style="text-align: center;">
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
             </p-panel>
         </div>
