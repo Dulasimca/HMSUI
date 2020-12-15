@@ -27,6 +27,7 @@ import { PanelModule } from 'primeng/panel';
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TableModule } from 'primeng/table';
@@ -47,6 +48,7 @@ import { MenubarComponent } from './menubar/menubar.component';
     TopbarComponent,
     FooterComponent,
     LoginComponent,
+    HomePageComponent,
     NewTicketComponent,
     TicketReportComponent,
     MenubarComponent
@@ -68,6 +70,11 @@ import { MenubarComponent } from './menubar/menubar.component';
     PanelModule,
     ButtonModule,
     ReactiveFormsModule,
+    ButtonModule,
+    BlockUIModule,
+    ProgressSpinnerModule,
+    MenubarModule,
+    ChartModule,
     SidebarModule,
     ProgressSpinnerModule,
     CalendarModule,

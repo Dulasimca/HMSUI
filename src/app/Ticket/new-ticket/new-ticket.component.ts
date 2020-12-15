@@ -195,48 +195,85 @@ export class NewTicketComponent implements OnInit {
 
   onSave() {
     this.blockScreen = true;
-    const params = {
-      'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
-      'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
-      'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '-',
-      'assingedTo': this.Assignee,
-      'Ticketseverity': "enhanced",
-      'Ticketstatus': this.Status.label,
-      'short_desc': this.Subject,
-      'Location': this.location,
-      'Component': this.compId.id,
-      'reporter': '42',
-      'everconfirmed': true,
-      'reporter_accessible': true,
-      'cclist_accessible': true,
-      // 'FromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
-      // 'ToDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
+    if (this.location !== undefined) {
+      const params = {
+        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
+        'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
+        'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '-',
+        'assingedTo': 42,
+        'Ticketseverity': "enhanced",
+        'Ticketstatus': this.Status.label,
+        'short_desc': this.Subject,
+        'product': this.location,
+        'component_id': this.compId.value,
+        'reporter': '42',
+        'URL': this.URL,
+        'everconfirmed': true,
+        'reporter_accessible': true,
+        'cclist_accessible': true,
+        // 'FromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
+        // 'ToDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
+      }
+      this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
+        if (res.item1) {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'success',
+            summary: 'Success Message', detail: 'Saved Successfully !'
+          });
+        } else {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: res.item2
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: 'Please Contact Administrator!'
+          });
+        }
+      });
     }
-    this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
-      if (res.item1) {
-        this.blockScreen = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'success',
-          summary: 'Success Message', detail: 'Saved Successfully !'
-        });
-      } else {
-        this.blockScreen = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: res.item2
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      this.blockScreen = false;
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'Please Contact Administrator!'
-        });
-      }
-    });
   }
 }
+
+// if (this.TicketDescription !== undefined) {
+//   const params = {
+//     'ticketID': '1',
+//     'reporter': '42',
+//     'ticketdescription': this.TicketDescription
+//   }
+//   this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
+//     if (res.item1) {
+//       this.blockScreen = false;
+//       this.messageService.clear();
+//       this.messageService.add({
+//         key: 't-err', severity: 'success',
+//         summary: 'Success Message', detail: 'Saved Successfully !'
+//       });
+//     } else {
+//       this.blockScreen = false;
+//       this.messageService.clear();
+//       this.messageService.add({
+//         key: 't-err', severity: 'error',
+//         summary: 'Error Message', detail: res.item2
+//       });
+//     }
+//   }, (err: HttpErrorResponse) => {
+//     this.blockScreen = false;
+//     if (err.status === 0 || err.status === 400) {
+//       this.messageService.clear();
+//       this.messageService.add({
+//         key: 't-err', severity: 'error',
+//         summary: 'Error Message', detail: 'Please Contact Administrator!'
+//       });
+//     }
+//   });
+// }
