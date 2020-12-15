@@ -15,7 +15,7 @@ import { Table } from 'primeng/table';
 export class TicketReportComponent implements OnInit {
   maxDate: Date = new Date();
   TicketReportCols: any;
-  TicketReportData: [];
+  TicketReportData: any;
   fromDate: any;
   toDate: any;
   showCloseDate: boolean;
@@ -67,6 +67,7 @@ export class TicketReportComponent implements OnInit {
       { field: 'DefaultCC', header: 'DefaultCC' },
       { field: 'URL', header: 'URL' },
     ];
+    this.TicketReportData = [{TicketID:"RAM"},{location:"SUBASH"}];
   }
 
   onSelect(type) {
@@ -157,4 +158,5 @@ export class TicketReportComponent implements OnInit {
     }
   }
 
+  onView() { }
 }
