@@ -6,7 +6,8 @@ import { MessageService, MenuItem } from 'primeng/api';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { PathConstants } from 'src/app/Constants/PathConstants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Table } from 'primeng/table/table';
+import { Table } from 'primeng/table';
+
 
 @Component({
   selector: 'app-ticket-report',
@@ -30,7 +31,7 @@ export class TicketReportComponent implements OnInit {
   locationOptions: SelectItem[];
   location: number;
   componentOptions: SelectItem[];
-  compId: string;
+  compId: any;
   disableDM: boolean;
   disableRM: boolean;
   disableShop: boolean;
@@ -58,16 +59,18 @@ export class TicketReportComponent implements OnInit {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'TicketID', header: 'Ticket ID' },
       { field: 'TicketDate', header: 'Ticket Date' },
+      { field: 'lastdiffed', header: 'Modified Date' },
       { field: 'Status', header: 'Status' },
       { field: 'location', header: 'Location' },
-      { field: 'Component', header: 'Component' },
-      { field: 'Region', header: 'Region' },
-      { field: 'District', header: 'District' },
+      { field: 'ComponentName', header: 'Component Name' },
+      { field: 'REGNNAME', header: 'Region' },
+      { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
       { field: 'Subject', header: 'Subject' },
       { field: 'Assignee', header: 'Assignee' },
-      { field: 'DefaultCC', header: 'DefaultCC' },
+      // { field: 'DefaultCC', header: 'DefaultCC' },
       { field: 'URL', header: 'URL' },
+      { field: 'reporter', header: 'Reporter' },
     ];
     // this.TicketReportData = [{ TicketID: "RAM" }, { location: "SUBASH" }];
   }
@@ -151,10 +154,10 @@ export class TicketReportComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        this.messageService.add({
-          key: 'msgKey', severity: 'warn', life: 5000
-          , summary: 'Invalid Date!', detail: 'Please select the valid date'
-        });
+        // this.messageService.add({
+        //   key: 'msgKey', severity: 'warn', life: 5000
+        //   , summary: 'Invalid Date!', detail: 'Please select the valid date'
+        // });
       }
       return this.fromDate, this.toDate;
     }
@@ -162,27 +165,31 @@ export class TicketReportComponent implements OnInit {
 
   onView() {
     const params = {
-      'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
-      'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
+      'RCode': /*(this.rcode !== undefined && this.rcode !== null) ? this.rcode : */'All',
+      'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : 'All',
       'Product': this.location,
       'Component': this.compId,
-      'fromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
-      'toDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
+      'FDate': '2020-12-01 3:17:38 PM',
+      'TDate': '2020-12-16 3:16:56 PM'
+      // 'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
+      // 'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
     }
     this.restApiService.getByParameters(PathConstants.TicketReport, params).subscribe(res => {
       if (res) {
+        this.TicketReportData = res;
+        let sno = 0;
+        res.forEach(res => {
+          sno += 1;
+          res.SlNo = sno;
+        })
         this.blockScreen = false;
         this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'success',
-          summary: 'Success Message', detail: 'Ticket Saved Successfully !'
-        });
       } else {
         this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: res.item2
+          summary: 'Error Message', detail: 'No Records Found'
         });
       }
     }, (err: HttpErrorResponse) => {
@@ -196,4 +203,6 @@ export class TicketReportComponent implements OnInit {
       }
     })
   }
+
+  onResetFields() { }
 }

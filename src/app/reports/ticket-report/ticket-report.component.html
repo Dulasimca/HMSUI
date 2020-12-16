@@ -7,16 +7,6 @@
             <p-panel>
                 <p-header>
                     <div class="ui-g-12 ui-md-8 ui-g panel-header">Ticket Report
-                        <!-- <div>
-                                <span class="ui-g-12 ui-md-1">
-                                    <button pButton type="submit" label="View" class="p-button-raised p-btn-pad bg-div"
-                                        icon="" iconPos="right" (click)="onView()"></button>
-                                </span>
-                                <span class="p-col-12 p-md-4 p-lg-1">
-                                    <button pButton type="submit" label="Excel" (click)="dt.exportCSV()"
-                                        class="p-button-raised p-btn-pad bg-div" icon="" iconPos="right"></button>
-                                </span>
-                            </div> -->
                     </div>
                 </p-header>
                 <p-toast position="top-center" key="t-err"></p-toast>
@@ -73,7 +63,22 @@
                         </p-dropdown>
                     </div>
 
-                    <div class="p-col-12 p-md-4 p-lg-2">
+                    <!-- <div class="p-col-12 p-md-4 p-lg-2 no-right-pad no-pad-top" style="padding-left: 15px;">
+                        <div>
+                            <label class="label-text-color" for="shopcd">From Date:</label>
+                        </div>
+                        <p-calendar name="fDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="fromDate"
+                            [showIcon]="true" (ngModelChange)="checkValidDateSelection()"></p-calendar>
+                    </div>
+                    <div class="p-col-12 p-md-4 p-lg-2 no-pad-top">
+                        <div>
+                            <label class="label-text-color" for="shopcd">To Date:</label>
+                        </div>
+                        <p-calendar name="tDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="toDate"
+                            [showIcon]="true" (ngModelChange)="checkValidDateSelection()"></p-calendar>
+                    </div> -->
+
+                    <!-- <div class="p-col-12 p-md-4 p-lg-2">
                         <div>
                             <label class="label-text-color" for="ticket">From Date:</label>
                         </div>
@@ -89,7 +94,7 @@
                             [(ngModel)]="toDate" showTime="true" hourFormat="12" [showIcon]="true"
                             (ngModelChange)="checkValidDateSelection()" required>
                         </p-calendar>
-                    </div>
+                    </div> -->
                     <div class="p-col-12 p-md-4 p-lg-5"></div>
 
                     <div class="p-col-12 p-md-4 p-lg-1" style="padding-left: 6vh;">
