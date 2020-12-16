@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { DatePipe } from '@angular/common';
-import { MessageService } from 'primeng/api';
+import { MessageService, MenuItem } from 'primeng/api';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { PathConstants } from 'src/app/Constants/PathConstants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Table } from 'primeng/table/table';
 
 @Component({
   selector: 'app-ticket-report',
@@ -13,6 +15,8 @@ import { PathConstants } from 'src/app/Constants/PathConstants';
 })
 export class TicketReportComponent implements OnInit {
   maxDate: Date = new Date();
+  TicketReportCols: any;
+  TicketReportData: [];
   fromDate: any;
   toDate: any;
   showCloseDate: boolean;
@@ -31,15 +35,41 @@ export class TicketReportComponent implements OnInit {
   disableRM: boolean;
   disableShop: boolean;
   componentsData: any[];
+  items: MenuItem[];
+  blockScreen: boolean;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService) { }
 
   ngOnInit() {
     this.showCloseDate = false;
+    this.items = [
+      {
+        label: 'Excel', icon: 'pi pi-file-excel', command: () => {
+          this.table.exportCSV();
+        }
+      }
+    ];
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.locationsData = this.masterDataService.getProducts();
+    this.TicketReportCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'TicketID', header: 'Ticket ID' },
+      { field: 'TicketDate', header: 'Ticket Date' },
+      { field: 'Status', header: 'Status' },
+      { field: 'location', header: 'Location' },
+      { field: 'Component', header: 'Component' },
+      { field: 'Region', header: 'Region' },
+      { field: 'District', header: 'District' },
+      { field: 'shop_number', header: 'Shop_Number' },
+      { field: 'Subject', header: 'Subject' },
+      { field: 'Assignee', header: 'Assignee' },
+      { field: 'DefaultCC', header: 'DefaultCC' },
+      { field: 'URL', header: 'URL' },
+    ];
+    // this.TicketReportData = [{ TicketID: "RAM" }, { location: "SUBASH" }];
   }
 
   onSelect(type) {
@@ -109,4 +139,61 @@ export class TicketReportComponent implements OnInit {
     }
   }
 
+  checkValidDateSelection() {
+    if (this.fromDate !== undefined && this.toDate !== undefined && this.fromDate !== '' && this.toDate !== '') {
+      let selectedFromDate = this.fromDate.getDate();
+      let selectedToDate = this.toDate.getDate();
+      let selectedFromMonth = this.fromDate.getMonth();
+      let selectedToMonth = this.toDate.getMonth();
+      let selectedFromYear = this.fromDate.getFullYear();
+      let selectedToYear = this.toDate.getFullYear();
+      if ((selectedFromDate > selectedToDate && ((selectedFromMonth >= selectedToMonth && selectedFromYear >= selectedToYear) ||
+        (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
+        (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 'msgKey', severity: 'warn', life: 5000
+          , summary: 'Invalid Date!', detail: 'Please select the valid date'
+        });
+      }
+      return this.fromDate, this.toDate;
+    }
+  }
+
+  onView() {
+    const params = {
+      'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
+      'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
+      'Product': this.location,
+      'Component': this.compId,
+      'fromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
+      'toDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
+    }
+    this.restApiService.getByParameters(PathConstants.TicketReport, params).subscribe(res => {
+      if (res) {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'success',
+          summary: 'Success Message', detail: 'Ticket Saved Successfully !'
+        });
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: res.item2
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please Contact Administrator!'
+        });
+      }
+    })
+  }
 }

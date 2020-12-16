@@ -33,7 +33,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TableModule } from 'primeng/table';
 import { AuthService } from './services/auth.service';
 import { RestAPIService } from './services/restAPI.service';
-import { MessageService } from 'primeng/api';
+import { MessageService, FilterService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { MasterDataService } from './masters-services/master-data.service';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
@@ -84,9 +84,9 @@ import { MenubarComponent } from './menubar/menubar.component';
     BlockUIModule,
     SplitButtonModule,
     MenubarModule,
-    DialogModule
+    DialogModule,
   ],
-  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService],
+  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService, FilterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

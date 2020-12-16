@@ -6,89 +6,93 @@
         <div class="p-col-12 p-md-12 p-lg-12 no-pad">
             <app-topbar></app-topbar>
         </div>
-        <div id="main" class="p-col-12 p-md-12 p-lg-12 layout-content">
-            <div class="p-grid card">
-                <div class="p-col-12 p-md-12 p-lg-12" style="display: flex;">
-                    <div class="p-col-12 p-md-12 p-lg-12 border-green card border-green" style="padding-bottom: 0;">
-                        <h2 class="header-line-h2" style="margin-top: 1px !important;">TASMAC Helpdesk Management</h2>
-                        <div class="p-col-12"></div>
-                        <div class="p-grid">
-                            <!-- <div class="p-col-12 p-md-4"></div>
+        <div id="main" class="p-col-12 p-md-12 p-lg-12 card layout-content">
+            <div class="p-grid">
+                <!-- <div class="p-col-12 p-md-12 p-lg-12" style="display: flex;"> -->
+                <!-- <div class="p-col-12 p-md-12 p-lg-12 border-green no-pad-top no-pad-left no-pad-right border-green"
+                    style="padding-bottom: 0;"> -->
+                <div class="p-col-12 dashboard-header">
+                    <h2 class="header-line-h2" style="margin-top: 1px !important; margin-bottom: 1px;">TASMAC
+                        Helpdesk Management
+                    </h2>
+                </div>
+                <!-- <div class="p-grid"> -->
+                <!-- <div class="p-col-12 p-md-4"></div>
                             <div class="p-col-12 p-md-5 padding-gap">
                                 <div class="p-inputgroup">
                                     <input type="text" pInputText placeholder="Keyword">
                                     <button type="button" pButton pRipple (click)="onSearch()" icon="pi pi-search"></button>
                                 </div>
                             </div> -->
-                            <div class="p-col-12 p-md-12 p-lg-12">
-                                <div class="p-grid dashboard card border-green">
-                                    <div class="p-col-12 p-md-6 p-lg-2">
-                                        <div class="overview-box  box-ab">
-                                            <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
-                                            <div class="overview-box-title">All Bugs</div>
-                                            <div class="overview-box-value">240</div>
-                                            <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
-                                        </div>
-                                    </div>
-                                    <div class="p-col-12 p-md-6 p-lg-2">
-                                        <div class="overview-box  box-mb">
-                                            <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
-                                            <div class="overview-box-title">My Bugs</div>
-                                            <div class="overview-box-value">80</div>
-                                            <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
-                                        </div>
-                                    </div>
-                                    <div class="p-col-12 p-md-6 p-lg-2">
-                                        <div class="overview-box  box-ho">
-                                            <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
-                                            <div class="overview-box-title">Head Office</div>
-                                            <div class="overview-box-value">100</div>
-                                            <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
-                                        </div>
-                                    </div>
-                                    <div class="p-col-12 p-md-6 p-lg-2">
-                                        <div class="overview-box  box-ro">
-                                            <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
-                                            <div class="overview-box-title">Regional Office</div>
-                                            <div class="overview-box-value">20</div>
-                                            <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
-                                        </div>
-                                    </div>
-                                    <div class="p-col-12 p-md-6 p-lg-2">
-                                        <div class="overview-box  box-do">
-                                            <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
-                                            <div class="overview-box-title">District Office</div>
-                                            <div class="overview-box-value">15</div>
-                                            <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
-                                        </div>
-                                    </div>
-                                    <div class="p-col-12 p-md-6 p-lg-2">
-                                        <div class="overview-box  box-sh">
-                                            <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
-                                            <div class="overview-box-title">Shops</div>
-                                            <div class="overview-box-value">85</div>
-                                            <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
-                                        </div>
-                                    </div>
-                                    <!-- <div class="p-col-12 p-lg-4">
+                <div class="p-col-12 p-md-12 p-lg-12 card border-green">
+                    <div class="p-grid dashboard" style="margin-top: 1px;">
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div class="overview-box  box-ab">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">All Bugs</div>
+                                <div class="overview-box-value">{{allBugsCount}}</div>
+                                <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
+                            </div>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div class="overview-box  box-mb">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">My Bugs</div>
+                                <div class="overview-box-value">{{myBugsCount}}</div>
+                                <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
+                            </div>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div class="overview-box  box-ho">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">Head Office</div>
+                                <div class="overview-box-value">{{headOfficeBugsCount}}</div>
+                                <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
+                            </div>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div class="overview-box  box-ro">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">Regional Office</div>
+                                <div class="overview-box-value">{{regionBugsCount}}</div>
+                                <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
+                            </div>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div class="overview-box  box-do">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">District Office</div>
+                                <div class="overview-box-value">{{districtBugsCount}}</div>
+                                <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
+                            </div>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div class="overview-box  box-sh">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">Shops</div>
+                                <div class="overview-box-value">{{shopBugsCount}}</div>
+                                <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
+                            </div>
+                        </div>
+                        <!-- <div class="p-col-12 p-lg-4">
                                         <div class="container">
 
                                         </div>
                                     </div> -->
-                                    <div class="p-col-12 p-md-12 p-lg-12" style="display: flex;">
-                                        <div class="p-col-12 p-md-12 p-lg-12 border-green">
-                                            <div class="header-line">Helpdesk Management Ticket Status</div>
-                                            <div class="padding-gap">
-                                                <p-chart type="pie" [data]="pieData" width="auto" height="80vh" [plugins]="plugin"
-                                                    [options]="pieOptions" (onDataSelect)="selectData($event)"></p-chart>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="p-col-12 p-md-12 p-lg-12" style="display: flex;">
+                            <div class="p-col-12 p-md-12 p-lg-12 border-green">
+                                <div class="header-line">Helpdesk Management Ticket Status</div>
+                                <div class="padding-gap">
+                                    <p-chart type="pie" [data]="pieData" width="auto" height="80vh" [plugins]="plugin"
+                                        [options]="pieOptions" (onDataSelect)="selectData($event)"></p-chart>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- </div> -->
+                <!-- </div> -->
+                <!-- </div> -->
             </div>
         </div>
     </div>

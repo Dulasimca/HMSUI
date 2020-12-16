@@ -9,9 +9,9 @@ import { TicketReportComponent } from './reports/ticket-report/ticket-report.com
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
-  { path: 'NewTicket', component: NewTicketComponent, canActivate: [AuthGuard] },
-  { path: 'TicketReport', component: TicketReportComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
+  { path: 'NewTicket', component: NewTicketComponent },
+  { path: 'TicketReport', component: TicketReportComponent },
 ];
 
 @NgModule({

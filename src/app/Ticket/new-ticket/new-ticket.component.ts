@@ -55,6 +55,7 @@ export class NewTicketComponent implements OnInit {
   disableDM: boolean;
   disableRM: boolean;
   blockScreen: boolean;
+  TicketID: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService) { }
@@ -134,10 +135,14 @@ export class NewTicketComponent implements OnInit {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
             }
           });
-          if (this.compId !== undefined && this.compId !== null) {
-            this.ComponentDescription = this.compId.desc;
+          if (this.componentsData !== undefined && this.componentsData !== null) {
+            this.componentsData.forEach(d => {
+              if (this.compId === d.value) {
+                this.ComponentDescription = d.desc;
+              }
+            })
             this.CCData.forEach(bs => {
-              if (bs.id === this.compId.value) {
+              if (bs.id === this.compId) {
                 this.DefaultCC = bs.name;
                 this.Assignee = bs.assiginee;
               }
@@ -197,15 +202,15 @@ export class NewTicketComponent implements OnInit {
     this.blockScreen = true;
     if (this.location !== undefined) {
       const params = {
-        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
-        'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
-        'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '-',
+        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '0',
+        'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '0',
+        'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '0',
         'assingedTo': 42,
         'Ticketseverity': "enhanced",
         'Ticketstatus': this.Status.label,
         'short_desc': this.Subject,
         'product': this.location,
-        'component_id': this.compId.value,
+        'component_id': this.compId,
         'reporter': '42',
         'URL': this.URL,
         'everconfirmed': true,
@@ -216,11 +221,85 @@ export class NewTicketComponent implements OnInit {
       }
       this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
         if (res.item1) {
+          this.TicketID = res.item3;
+          this.location = null;
+          this.Ticket_Description();
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'success',
-            summary: 'Success Message', detail: 'Saved Successfully !'
+            summary: 'Success Message', detail: 'Ticket Saved Successfully !'
+          });
+        } else {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: res.item2
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: 'Please Contact Administrator!'
+          });
+        }
+      });
+      // if (this.TicketID !== undefined) {
+      //   const params = {
+      //     'ticketID': this.TicketID,
+      //     'reporter': '42',
+      //     'ticketdescription': this.TicketDescription
+      //   }
+      //   this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
+      //     if (res.item1) {
+      //       this.blockScreen = false;
+      //       this.messageService.clear();
+      //       this.messageService.add({
+      //         key: 't-err', severity: 'success',
+      //         summary: 'Success Message', detail: 'Ticket Description Saved Successfully !'
+      //       });
+      //     } else {
+      //       this.blockScreen = false;
+      //       this.messageService.clear();
+      //       this.messageService.add({
+      //         key: 't-err', severity: 'error',
+      //         summary: 'Error Message', detail: res.item2
+      //       });
+      //     }
+      //   }, (err: HttpErrorResponse) => {
+      //     this.blockScreen = false;
+      //     if (err.status === 0 || err.status === 400) {
+      //       this.messageService.clear();
+      //       this.messageService.add({
+      //         key: 't-err', severity: 'error',
+      //         summary: 'Error Message', detail: 'Please Contact Administrator!'
+      //       });
+      //     }
+      //   });
+      // }
+    }
+
+    // this.Ticket_Description();
+  }
+
+  Ticket_Description() {
+    if (this.TicketID !== undefined) {
+      const params = {
+        'ticketID': this.TicketID,
+        'reporter': '42',
+        'ticketdescription': this.TicketDescription
+      }
+      this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
+        if (res.item1) {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'success',
+            summary: 'Success Message', detail: 'Ticket Description Saved Successfully !'
           });
         } else {
           this.blockScreen = false;
@@ -244,36 +323,3 @@ export class NewTicketComponent implements OnInit {
   }
 }
 
-// if (this.TicketDescription !== undefined) {
-//   const params = {
-//     'ticketID': '1',
-//     'reporter': '42',
-//     'ticketdescription': this.TicketDescription
-//   }
-//   this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
-//     if (res.item1) {
-//       this.blockScreen = false;
-//       this.messageService.clear();
-//       this.messageService.add({
-//         key: 't-err', severity: 'success',
-//         summary: 'Success Message', detail: 'Saved Successfully !'
-//       });
-//     } else {
-//       this.blockScreen = false;
-//       this.messageService.clear();
-//       this.messageService.add({
-//         key: 't-err', severity: 'error',
-//         summary: 'Error Message', detail: res.item2
-//       });
-//     }
-//   }, (err: HttpErrorResponse) => {
-//     this.blockScreen = false;
-//     if (err.status === 0 || err.status === 400) {
-//       this.messageService.clear();
-//       this.messageService.add({
-//         key: 't-err', severity: 'error',
-//         summary: 'Error Message', detail: 'Please Contact Administrator!'
-//       });
-//     }
-//   });
-// }

@@ -369,8 +369,12 @@ ul {
     border-width: 0px 1.2px 0px 0px;border-style: solid; border-color: white;
   }
 
-  .padding-gap{
+  .padding-gap-form{
     padding-top: 15px !important;
+  }
+
+  .margin-gap-layout {
+    margin-top: 10px;
   }
 
   .login-body{
@@ -530,6 +534,10 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
   font-size: 14px;
 }
 
+.dashboard-header {
+  background: #9dca71; color: #495057; border: 1px solid rgb(194 241 147);
+}
+
 .header-line {
   color: #87888a !important;
   text-decoration: underline !important;
@@ -539,7 +547,6 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
 }
 
 .header-line-h2 {
-    color: #87888a !important;
     text-decoration: underline !important;
     text-align: center !important;
     font-weight: 500;
