@@ -547,7 +547,7 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
 }
 
 .header-line-h2 {
-    text-decoration: underline !important;
+    /* text-decoration: underline !important; */
     text-align: center !important;
     font-weight: 500;
     font-size: 20px;

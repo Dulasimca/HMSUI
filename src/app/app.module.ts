@@ -23,6 +23,8 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogModule } from 'primeng/dialog';
 import { PanelModule } from 'primeng/panel';
+import { DataViewModule } from 'primeng/dataview';
+import { RippleModule } from 'primeng/ripple';
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -39,6 +41,8 @@ import { MasterDataService } from './masters-services/master-data.service';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
 import { TicketReportComponent } from './reports/ticket-report/ticket-report.component';
 import { MenubarComponent } from './menubar/menubar.component';
+import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
+import { PathConstants } from './helper/PathConstants';
 
 
 
@@ -51,7 +55,8 @@ import { MenubarComponent } from './menubar/menubar.component';
     HomePageComponent,
     NewTicketComponent,
     TicketReportComponent,
-    MenubarComponent
+    MenubarComponent,
+    TicketUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -85,8 +90,11 @@ import { MenubarComponent } from './menubar/menubar.component';
     SplitButtonModule,
     MenubarModule,
     DialogModule,
+    DataViewModule,
+    RippleModule
   ],
-  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService, FilterService],
+  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService, FilterService,
+    PathConstants],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
