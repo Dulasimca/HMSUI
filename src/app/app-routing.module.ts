@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
 import { AuthGuard } from './services/auth.guard';
 import { TicketReportComponent } from './reports/ticket-report/ticket-report.component';
+import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'NewTicket', component: NewTicketComponent },
   { path: 'TicketReport', component: TicketReportComponent },
+  { path: 'TicketDescription', component: TicketUpdateComponent },
 ];
 
 @NgModule({

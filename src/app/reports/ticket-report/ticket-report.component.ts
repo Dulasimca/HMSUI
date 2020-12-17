@@ -4,9 +4,9 @@ import { RestAPIService } from 'src/app/services/restAPI.service';
 import { DatePipe } from '@angular/common';
 import { MessageService, MenuItem } from 'primeng/api';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
-import { PathConstants } from 'src/app/Constants/PathConstants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Table } from 'primeng/table';
+import { PathConstants } from 'src/app/helper/PathConstants';
 
 
 @Component({
@@ -38,6 +38,9 @@ export class TicketReportComponent implements OnInit {
   componentsData: any[];
   items: MenuItem[];
   blockScreen: boolean;
+  shopOptions: SelectItem[];
+  shopData: any = [];
+  shopCode: any;
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
@@ -45,6 +48,7 @@ export class TicketReportComponent implements OnInit {
 
   ngOnInit() {
     this.showCloseDate = false;
+    this.shopData = this.masterDataService.getShops();
     this.items = [
       {
         label: 'Excel', icon: 'pi pi-file-excel', command: () => {
@@ -79,6 +83,7 @@ export class TicketReportComponent implements OnInit {
     let regionSelection = [];
     let districtSeletion = [];
     let locationSeletion = [];
+    let shopSeletion = [];
     switch (type) {
       case 'R':
         if (this.regionsData.length !== 0) {
@@ -86,7 +91,7 @@ export class TicketReportComponent implements OnInit {
             regionSelection.push({ label: r.name, value: r.code });
           })
           this.regionOptions = regionSelection;
-          this.regionOptions.unshift({ label: '-select-', value: null });
+          this.regionOptions.unshift({ label: 'All', value: 'All' });
         }
         break;
       case 'D':
@@ -97,7 +102,7 @@ export class TicketReportComponent implements OnInit {
             }
           })
           this.districtOptions = districtSeletion;
-          this.districtOptions.unshift({ label: '-select-', value: null });
+          this.districtOptions.unshift({ label: 'All', value: 'All' });
         }
         break;
       case 'L':
@@ -106,7 +111,7 @@ export class TicketReportComponent implements OnInit {
             locationSeletion.push({ label: d.name, value: d.id });
           })
           this.locationOptions = locationSeletion;
-          this.locationOptions.unshift({ label: '-select-', value: null });
+          this.locationOptions.unshift({ label: '-Select-', value: null });
           if (this.location === 2) {
             this.disableDM = this.disableRM = this.disableShop = true;
           } else if (this.location === 5) {
@@ -136,8 +141,19 @@ export class TicketReportComponent implements OnInit {
             }
           });
           this.componentOptions = this.componentsData;
-          this.componentOptions.unshift({ label: '-select-', value: null });
+          this.componentOptions.unshift({ label: 'All', value: 'All' });
         });
+        break;
+      case 'S':
+        if (this.shopData.length !== 0) {
+          this.shopData.forEach(s => {
+            if (this.dcode === s.dcode) {
+              shopSeletion.push({ label: s.shop_num, value: s.dcode });
+            }
+          })
+          this.shopOptions = shopSeletion;
+          this.shopOptions.unshift({ label: 'All', value: 'All' });
+        }
         break;
     }
   }
@@ -165,12 +181,13 @@ export class TicketReportComponent implements OnInit {
 
   onView() {
     const params = {
-      'RCode': /*(this.rcode !== undefined && this.rcode !== null) ? this.rcode : */'All',
+      'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : 'All',
       'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : 'All',
       'Product': this.location,
       'Component': this.compId,
+      'Shops': this.shopCode,
       'FDate': '2020-12-01 3:17:38 PM',
-      'TDate': '2020-12-16 3:16:56 PM'
+      'TDate': '2020-12-17 3:16:56 PM'
       // 'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
       // 'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
     }

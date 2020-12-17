@@ -85,77 +85,29 @@
                         </p-dropdown>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1"></div>
-
-                    <!-- <div class="p-col-12 p-md-4 p-lg-2">
-                        <div>
-                            <label for="reg" class="label-text-color">Region</label>
-                        </div>
-                        <p-dropdown #reg name="region" [options]="regionOptions"
-                            [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="rcode" (onClick)="onSelect('R')"
-                            (onChange)="onResetFields('R')" required>
-                            <ng-template let-item pTemplate="selectedItem">
-                                <span style="vertical-align:middle">{{item.label}}</span>
-                            </ng-template>
-                        </p-dropdown>
-                    </div>
-                    <div class="p-col-12 p-md-4 p-lg-2">
-                        <div>
-                            <label for="district" class="label-text-color">District</label>
-                        </div>
-                        <p-dropdown #district name="district" [options]="districtOptions"
-                            [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="dcode" (onClick)="onSelect('D')"
-                            required>
-                            <ng-template let-item pTemplate="selectedItem">
-                                <span style="vertical-align:middle">{{item.label}}</span>
-                            </ng-template>
-                        </p-dropdown>
-                    </div>
-
-                    <div class="p-col-12 p-md-4 p-lg-2">
-                        <div>
-                            <label for="product" class="label-text-color">Product</label>
-                        </div>
-                        <p-dropdown #product name="product" [options]="productOptions"
-                            [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="Product" (onClick)="onSelect('P')"
-                            (onChange)="onResetFields('P')" required>
-                            <ng-template let-item pTemplate="selectedItem">
-                                <span style="vertical-align:middle">{{item.label}}</span>
-                            </ng-template>
-                        </p-dropdown>
-                    </div>
-
-                    <div class="p-col-12 p-md-4 p-lg-2">
-                        <div>
-                            <label for="component" class="label-text-color">Component</label>
-                        </div>
-                        <p-dropdown #comp name="component" [options]="componentOptions"
-                            [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="Component"
-                            (onClick)="onSelect('C')" (onChange)="onResetFields('C')" (keyup.shift.tab)="onSelect('C')"
-                            filter="true" resetFilterOnHide="true" filterMatchMode="startsWith"
-                            (keyup.tab)="onSelect('C')" [showClear]="true" name="component" pTooltip="Enter your Com"
-                            required>>
-                            <ng-template let-item pTemplate="selectedItem">
-                                <span style="vertical-align:middle">{{item.label}}</span>
-                            </ng-template>
-                        </p-dropdown>
-                    </div> -->
-
                     <div class="p-col-12 p-md-4 p-lg-1"></div>
-                    <div style="padding-top: 4vh;" class="p-col-12 p-md-4 p-lg-2">
+                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-2">
                         <span class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="Assignee"
                                 type="text" autocomplete="off" tabindex="3">
                             <label for="float-input">Assignee</label>
                         </span>
                     </div>
-                    <div style="padding-top: 4vh;" class="p-col-12 p-md-4 p-lg-2">
+                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-2">
                         <div class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="DefaultCC"
                                 type="text" autocomplete="off" tabindex="3">
                             <label for="float-input">Default CC</label>
                         </div>
                     </div>
-                    <div class="p-col-12 p-md-4 p-lg-2">
+                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-2">
+                        <div class="p-float-label">
+                            <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="Status"
+                                type="text" autocomplete="off" [readonly]="true" tabindex="3">
+                            <label for="float-input">Status</label>
+                        </div>
+                    </div>
+                    <!-- <div class="p-col-12 p-md-4 p-lg-2">
                         <div>
                             <label for="status" class="label-text-color">Status</label>
                         </div>
@@ -167,8 +119,8 @@
                                 <span style="vertical-align:middle">{{item.label}}</span>
                             </ng-template>
                         </p-dropdown>
-                    </div>
-                    <div style="padding-top: 4vh;" class="p-col-12 p-md-4 p-lg-4">
+                    </div> -->
+                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-4">
                         <div class="p-float-label">
                             <textarea [(ngModel)]="ComponentDescription" rows="1" cols="59" pInputTextarea></textarea>
                             <label for="float-input">Component Description</label>
@@ -193,11 +145,12 @@
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1"></div>
                     <div class="p-col-12 p-md-4 p-lg-1"></div>
-                    <div class="p-col-12 p-md-4 p-lg-6">
-                        <div>
-                            <label class="label-text-color">Ticket Description</label>
+                    <div class="p-col-12 p-md-4 p-lg-6" style="padding-top: 2vh;">
+                        <div class="p-float-label">
+                            <textarea id="float-input" [(ngModel)]="TicketDescription" rows="5" cols="80"
+                                pInputTextarea></textarea>
+                            <label for="float-input">Ticket Description</label>
                         </div>
-                        <textarea [(ngModel)]="TicketDescription" rows="5" cols="80" pInputTextarea></textarea>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1" style="margin-top: 15vh;">
                         <button pButton type="submit" label="Submit" class="p-button-raised p-btn-pad bg-div" icon=""

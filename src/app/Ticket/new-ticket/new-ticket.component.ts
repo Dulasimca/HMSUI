@@ -5,7 +5,8 @@ import { MasterDataService } from 'src/app/masters-services/master-data.service'
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from 'src/app/Constants/PathConstants';
+import { Router } from '@angular/router';
+import { PathConstants } from 'src/app/helper/PathConstants';
 
 @Component({
   selector: 'app-new-ticket',
@@ -20,12 +21,12 @@ export class NewTicketComponent implements OnInit {
   districtOptions: SelectItem[];
   dcode: string;
   locationOptions: SelectItem[];
-  location: number;
+  location: any;
   componentOptions: SelectItem[];
   compId: any;
   reasonOptions: SelectItem[];
   ComponentDescription: any;
-  Status: any;
+  Status: any = "Assigned"
   StatusOptions: SelectItem[];
   CCOptions: SelectItem[];
   Assignee: any;
@@ -56,9 +57,10 @@ export class NewTicketComponent implements OnInit {
   disableRM: boolean;
   blockScreen: boolean;
   TicketID: any;
+  ticketView: any[];
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
-    private messageService: MessageService, private masterDataService: MasterDataService) { }
+    private messageService: MessageService, private masterDataService: MasterDataService, private router: Router) { }
 
   ngOnInit() {
     this.showCloseDate = false;
@@ -86,7 +88,7 @@ export class NewTicketComponent implements OnInit {
             regionSelection.push({ label: r.name, value: r.code });
           })
           this.regionOptions = regionSelection;
-          this.regionOptions.unshift({ label: '-select-', value: null });
+          this.regionOptions.unshift({ label: '-Select-', value: 'All' });
         }
         break;
       case 'D':
@@ -97,7 +99,7 @@ export class NewTicketComponent implements OnInit {
             }
           })
           this.districtOptions = districtSeletion;
-          this.districtOptions.unshift({ label: '-select-', value: null });
+          this.districtOptions.unshift({ label: '-Select-', value: 'All' });
         }
         break;
       case 'L':
@@ -106,7 +108,7 @@ export class NewTicketComponent implements OnInit {
             locationSeletion.push({ label: d.name, value: d.id });
           })
           this.locationOptions = locationSeletion;
-          this.locationOptions.unshift({ label: '-select-', value: null });
+          this.locationOptions.unshift({ label: '-Select-', value: 'All' });
           if (this.location === 2) {
             this.disableDM = this.disableRM = this.disableShop = true;
           } else if (this.location === 5) {
@@ -115,6 +117,9 @@ export class NewTicketComponent implements OnInit {
             this.disableDM = this.disableRM = false;
             this.disableShop = true;
           } else if (this.location === 3) {
+            this.disableDM = this.disableShop = true;
+            this.disableRM = false;
+          } else if (this.location === 9) {
             this.disableDM = this.disableShop = true;
             this.disableRM = false;
           }
@@ -149,7 +154,7 @@ export class NewTicketComponent implements OnInit {
             });
           }
           this.componentOptions = this.componentsData;
-          this.componentOptions.unshift({ label: '-select-', value: null });
+          this.componentOptions.unshift({ label: '-Select-', value: 'All' });
         });
         break;
       case 'S':
@@ -158,31 +163,20 @@ export class NewTicketComponent implements OnInit {
             if (this.dcode === s.dcode) {
               shopSeletion.push({ label: s.shop_num, value: s.dcode });
             }
-          })
-          this.shopOptions = shopSeletion;
-          this.shopOptions.unshift({ label: '-select-', value: null });
-        }
-        break;
-      case 'RE':
-        if (this.reasonData.length !== 0) {
-          this.reasonData.forEach(r => {
-            if (r.type === 1) {
-              reasonSeletion.push({ label: r.name, value: r.id });
-            }
-          })
-          this.reasonOptions = reasonSeletion;
-          this.reasonOptions.unshift({ label: '-select-', value: null });
-        }
-        break;
-      case 'Status':
-        if (this.bugStatusData.length !== 0) {
-          this.bugStatusData.forEach(bs => {
-            statusSeletion.push({ label: bs.name, id: bs.id });
           });
-          this.StatusOptions = statusSeletion;
-          this.StatusOptions.unshift({ label: '-select-', value: null });
+          this.shopOptions = shopSeletion;
+          this.shopOptions.unshift({ label: '-Select-', value: 'All' });
         }
         break;
+      // case 'Status':
+      //   if (this.bugStatusData.length !== 0) {
+      //     this.bugStatusData.forEach(bs => {
+      //       statusSeletion.push({ label: bs.name, id: bs.id });
+      //     });
+      //     this.StatusOptions = statusSeletion;
+      //     this.StatusOptions.unshift({ label: '-Select-', value: null });
+      //   }
+      //   break;
     }
   }
 
@@ -202,12 +196,12 @@ export class NewTicketComponent implements OnInit {
     this.blockScreen = true;
     if (this.location !== undefined) {
       const params = {
-        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '0',
+        'Region':/* (this.rcode !== undefined && this.rcode !== null) ? this.rcode : */'All',
         'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '0',
         'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '0',
         'assingedTo': 42,
         'Ticketseverity': "enhanced",
-        'Ticketstatus': this.Status.label,
+        'Ticketstatus': this.Status,
         'short_desc': this.Subject,
         'product': this.location,
         'component_id': this.compId,
@@ -222,7 +216,7 @@ export class NewTicketComponent implements OnInit {
       this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
         if (res.item1) {
           this.TicketID = res.item3;
-          this.location = null;
+          this.ticketUpdate();
           this.Ticket_Description();
           this.blockScreen = false;
           this.messageService.clear();
@@ -248,42 +242,8 @@ export class NewTicketComponent implements OnInit {
           });
         }
       });
-      // if (this.TicketID !== undefined) {
-      //   const params = {
-      //     'ticketID': this.TicketID,
-      //     'reporter': '42',
-      //     'ticketdescription': this.TicketDescription
-      //   }
-      //   this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
-      //     if (res.item1) {
-      //       this.blockScreen = false;
-      //       this.messageService.clear();
-      //       this.messageService.add({
-      //         key: 't-err', severity: 'success',
-      //         summary: 'Success Message', detail: 'Ticket Description Saved Successfully !'
-      //       });
-      //     } else {
-      //       this.blockScreen = false;
-      //       this.messageService.clear();
-      //       this.messageService.add({
-      //         key: 't-err', severity: 'error',
-      //         summary: 'Error Message', detail: res.item2
-      //       });
-      //     }
-      //   }, (err: HttpErrorResponse) => {
-      //     this.blockScreen = false;
-      //     if (err.status === 0 || err.status === 400) {
-      //       this.messageService.clear();
-      //       this.messageService.add({
-      //         key: 't-err', severity: 'error',
-      //         summary: 'Error Message', detail: 'Please Contact Administrator!'
-      //       });
-      //     }
-      //   });
-      // }
     }
-
-    // this.Ticket_Description();
+    // this.router.navigate(['/TicketDescription']);
   }
 
   Ticket_Description() {
@@ -299,7 +259,7 @@ export class NewTicketComponent implements OnInit {
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'success',
-            summary: 'Success Message', detail: 'Ticket Description Saved Successfully !'
+            summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Saved Successfully !'
           });
         } else {
           this.blockScreen = false;
@@ -321,5 +281,16 @@ export class NewTicketComponent implements OnInit {
       });
     }
   }
-}
 
+  ticketUpdate() {
+    let ticketSelection = [];
+    ticketSelection.forEach(res => {
+      ticketSelection.push({
+        TicketID: this.TicketID, AssignedTo: this.Assignee, Region: this.rcode,
+        District: this.dcode, Status: this.Status, Subject: this.Subject, location: this.location, component: this.compId,
+        Reporter: this.Assignee, URL: this.URL
+      });
+    })
+    this.ticketView = ticketSelection;
+  }
+}
