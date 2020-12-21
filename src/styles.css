@@ -822,3 +822,9 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
     padding: 2em;
     background: #f2f2f2 !important;
 }
+
+.p-dialog .p-dialog-content{
+  background: #ffffff;
+    color: #495057;
+    padding: 0 1.5rem 0rem 1.5rem;
+}
