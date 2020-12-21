@@ -18,16 +18,16 @@ export class MenubarComponent implements OnInit {
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: '/home' },
       { label: 'New Ticket', icon: '', routerLink: '/NewTicket' },
-      { label: 'Browse', icon: 'pi pi-fw pi-comments', routerLink: '/' },
+      { label: 'Browse', icon: 'pi pi-fw pi-comments', routerLink: '/home' },
       { label: 'Search', icon: 'pi pi-fw pi-chart-line', routerLink: '/SearchTicket' },
       {
         label: 'Report', icon: 'pi pi-fw pi-file',
         items: [
           {
-            label: 'All Tickets', routerLink: '/TicketReport'
+            label: 'My Tickets', routerLink: '/MyTickets'
           },
           {
-            label: 'My Report', routerLink: '/MyTickets'
+            label: 'All Tickets', routerLink: '/TicketReport'
           }
         ]
       }

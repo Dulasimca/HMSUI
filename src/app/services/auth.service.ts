@@ -27,6 +27,7 @@ export class AuthService {
   }
 
   public logout() {
+    localStorage.removeItem('USER_INFO');
     this.router.navigateByUrl('');
   }
 }

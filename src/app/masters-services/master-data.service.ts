@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestAPIService } from '../services/restAPI.service';
-import { PathConstants } from '../Constants/PathConstants';
+import { PathConstants } from '../helper/PathConstants';
 
 @Injectable({
   providedIn: 'root'

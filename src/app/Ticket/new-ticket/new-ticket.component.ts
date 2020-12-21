@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { PathConstants } from 'src/app/Constants/PathConstants';
+import { PathConstants } from 'src/app/helper/PathConstants';
 
 @Component({
   selector: 'app-new-ticket',
@@ -26,7 +26,7 @@ export class NewTicketComponent implements OnInit {
   compId: any;
   reasonOptions: SelectItem[];
   ComponentDescription: any;
-  Status: any;
+  Status: any = "UN - ASSIGNED"
   StatusOptions: SelectItem[];
   CCOptions: SelectItem[];
   Assignee: any;
@@ -78,7 +78,6 @@ export class NewTicketComponent implements OnInit {
     let districtSeletion = [];
     let locationSeletion = [];
     let shopSeletion = [];
-    let statusSeletion = [];
     switch (type) {
       case 'R':
         if (this.regionsData.length !== 0) {
@@ -148,7 +147,6 @@ export class NewTicketComponent implements OnInit {
               if (bs.id === this.compId) {
                 this.DefaultCC = bs.name;
                 this.Assignee = bs.assiginee;
-                this.Status = "UN-ASSIGNED";
               }
             });
           }
@@ -167,15 +165,15 @@ export class NewTicketComponent implements OnInit {
           this.shopOptions.unshift({ label: '-Select-', value: 'All' });
         }
         break;
-      case 'Status':
-        if (this.bugStatusData.length !== 0) {
-          this.bugStatusData.forEach(bs => {
-            statusSeletion.push({ label: bs.name, id: bs.id });
-          });
-          this.StatusOptions = statusSeletion;
-          this.StatusOptions.unshift({ label: '-Select-', value: null });
-        }
-        break;
+      // case 'Status':
+      //   if (this.bugStatusData.length !== 0) {
+      //     this.bugStatusData.forEach(bs => {
+      //       statusSeletion.push({ label: bs.name, id: bs.id });
+      //     });
+      //     this.StatusOptions = statusSeletion;
+      //     this.StatusOptions.unshift({ label: '-Select-', value: null });
+      //   }
+      //   break;
     }
   }
 
@@ -200,7 +198,7 @@ export class NewTicketComponent implements OnInit {
         'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '0',
         'assingedTo': 42,
         'Ticketseverity': "enhanced",
-        'Ticketstatus': "ASSIGNED",
+        'Ticketstatus': this.Status,
         'short_desc': this.Subject,
         'product': this.location,
         'component_id': this.compId,

@@ -15,7 +15,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { SidebarModule } from 'primeng/sidebar';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { CalendarModule } from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar'
 import { ToastModule } from 'primeng/toast';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { BlockUIModule } from 'primeng/blockui';
@@ -23,6 +23,8 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenubarModule } from 'primeng/menubar';
 import { DialogModule } from 'primeng/dialog';
 import { PanelModule } from 'primeng/panel';
+import { DataViewModule } from 'primeng/dataview';
+import { RippleModule } from 'primeng/ripple';
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -41,6 +43,8 @@ import { TicketReportComponent } from './reports/ticket-report/ticket-report.com
 import { MenubarComponent } from './menubar/menubar.component';
 import { MyTicketsComponent } from './my-tickets/my-tickets.component';
 import { SearchTicketComponent } from './search-ticket/search-ticket.component';
+import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
+import { PathConstants } from './helper/PathConstants';
 
 
 
@@ -55,7 +59,9 @@ import { SearchTicketComponent } from './search-ticket/search-ticket.component';
     TicketReportComponent,
     MenubarComponent,
     MyTicketsComponent,
-    SearchTicketComponent
+    SearchTicketComponent,
+    TicketUpdateComponent,
+    MyTicketsComponent
   ],
   imports: [
     BrowserModule,
@@ -88,9 +94,12 @@ import { SearchTicketComponent } from './search-ticket/search-ticket.component';
     BlockUIModule,
     SplitButtonModule,
     MenubarModule,
-    DialogModule
+    DialogModule,
+    DataViewModule,
+    RippleModule
   ],
-  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService],
+  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
+    PathConstants],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
