@@ -6,6 +6,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { PathConstants } from 'src/app/Constants/PathConstants';
 import { Table } from 'primeng/table';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-ticket-report',
@@ -15,7 +16,7 @@ import { Table } from 'primeng/table';
 export class TicketReportComponent implements OnInit {
   maxDate: Date = new Date();
   TicketReportCols: any;
-  TicketReportData: any;
+  TicketReportData: [];
   fromDate: any;
   toDate: any;
   showCloseDate: boolean;
@@ -29,12 +30,13 @@ export class TicketReportComponent implements OnInit {
   locationOptions: SelectItem[];
   location: number;
   componentOptions: SelectItem[];
-  compId: string;
+  compId: any;
   disableDM: boolean;
   disableRM: boolean;
   disableShop: boolean;
   componentsData: any[];
   items: MenuItem[];
+  blockScreen: boolean;
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
@@ -56,18 +58,20 @@ export class TicketReportComponent implements OnInit {
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'TicketID', header: 'Ticket ID' },
       { field: 'TicketDate', header: 'Ticket Date' },
+      { field: 'lastdiffed', header: 'Modified Date' },
       { field: 'Status', header: 'Status' },
       { field: 'location', header: 'Location' },
-      { field: 'Component', header: 'Component' },
-      { field: 'Region', header: 'Region' },
-      { field: 'District', header: 'District' },
+      { field: 'ComponentName', header: 'Component Name' },
+      { field: 'REGNNAME', header: 'Region' },
+      { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
       { field: 'Subject', header: 'Subject' },
       { field: 'Assignee', header: 'Assignee' },
-      { field: 'DefaultCC', header: 'DefaultCC' },
+      // { field: 'DefaultCC', header: 'DefaultCC' },
       { field: 'URL', header: 'URL' },
+      { field: 'reporter', header: 'Reporter' },
     ];
-    this.TicketReportData = [{TicketID:"RAM"},{location:"SUBASH"}];
+    // this.TicketReportData = [{ TicketID: "RAM" }, { location: "SUBASH" }];
   }
 
   onSelect(type) {
@@ -81,7 +85,7 @@ export class TicketReportComponent implements OnInit {
             regionSelection.push({ label: r.name, value: r.code });
           })
           this.regionOptions = regionSelection;
-          this.regionOptions.unshift({ label: '-select-', value: null });
+          this.regionOptions.unshift({ label: 'All', value: 'All' });
         }
         break;
       case 'D':
@@ -92,7 +96,7 @@ export class TicketReportComponent implements OnInit {
             }
           })
           this.districtOptions = districtSeletion;
-          this.districtOptions.unshift({ label: '-select-', value: null });
+          this.districtOptions.unshift({ label: 'All', value: 'All' });
         }
         break;
       case 'L':
@@ -101,7 +105,7 @@ export class TicketReportComponent implements OnInit {
             locationSeletion.push({ label: d.name, value: d.id });
           })
           this.locationOptions = locationSeletion;
-          this.locationOptions.unshift({ label: '-select-', value: null });
+          this.locationOptions.unshift({ label: 'All', value: 'All' });
           if (this.location === 2) {
             this.disableDM = this.disableRM = this.disableShop = true;
           } else if (this.location === 5) {
@@ -131,7 +135,7 @@ export class TicketReportComponent implements OnInit {
             }
           });
           this.componentOptions = this.componentsData;
-          this.componentOptions.unshift({ label: '-select-', value: null });
+          this.componentOptions.unshift({ label: 'All', value: 'All' });
         });
         break;
     }
@@ -158,5 +162,50 @@ export class TicketReportComponent implements OnInit {
     }
   }
 
-  onView() { }
+  onView() {
+    const params = {
+      'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '-',
+      'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '-',
+      'Product': this.location,
+      'Component': this.compId.value,
+      // 'FDate': '2020-12-01 3:17:38 PM',
+      // 'TDate': '2020-12-16 3:16:56 PM'
+      'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
+      'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
+    }
+    this.restApiService.getByParameters(PathConstants.TicketReport, params).subscribe(res => {
+      if (res) {
+        this.TicketReportData = res;
+        let sno = 0;
+        res.forEach(res => {
+          sno += 1;
+          res.SlNo = sno;
+        })
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'success',
+          summary: 'Success Message', detail: 'Ticket Saved Successfully !'
+        });
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: res.item2
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please Contact Administrator!'
+        });
+      }
+    })
+  }
+
+  onResetFields() { }
 }
