@@ -6,7 +6,7 @@
         <div class="p-col-12 p-md-12 p-lg-12 border-green" style="min-height:450px;">
             <p-panel>
                 <p-header>
-                    <div class="ui-g panel-header">Ticket Description
+                    <div class="ui-g panel-header">Ticket Update
                         <!-- <div class="ui-g-12" style="float: right;">Reporter - Subash</div> -->
                     </div>
                 </p-header>
@@ -34,7 +34,7 @@
                     </p-dataView> -->
 
 
-                <div style="padding-top: 4vh">
+                <div class="p-grid card" style="padding: 2vh 0vh;">
                     <div class="p-col-12 p-md-4 p-lg-4"></div>
                     <div class="p-col-12 p-md-4 p-lg-2">
                         <span class="p-float-label">
@@ -43,12 +43,33 @@
                             <label for="float-input">Enter Ticket ID</label>
                         </span>
                     </div>
-                    <div class="p-col-12 p-md-4 p-lg-2">
+                    <div class="p-col-12 p-md-4 p-lg-2" style="padding-top: 11px;">
                         <button pButton type="submit" label="Search Ticket" class="p-button-raised p-btn-pad bg-div"
                             icon="" iconPos="right" (click)="onView()"></button>
                     </div>
                 </div>
                 <div class="p-col-12 p-md-4 p-lg-4"></div>
+                <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+                    <p-table #dt *ngIf="showTable" styleClass="p-datatable-gridlines p-datatable-sm"
+                        [columns]="TicketReportCols" [value]="TicketReportData" [responsive]="true" autoLayout="true"
+                        [loading]="loading" [(selection)]="selected" selectionMode="single"
+                        (onRowSelect)="onRowSelect($event)" exportFilename="TICKET_REPORT">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr style="text-align: center;">
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
                 <div class="card">
                     <div class="p-col-12 p-md-4 p-lg-2">
                         <div>
@@ -70,9 +91,13 @@
                             <label for="float-input">Add Comment</label>
                         </div>
                     </div>
-                    <div class="p-col-12 p-md-4 p-lg-1">
-                        <button pButton type="submit" label="Update" class="p-button-raised p-btn-pad bg-div" icon=""
-                            iconPos="right" (click)="onUpdate()"></button>
+                    <div class="p-col-12 p-md-4 p-lg-2">
+                        <button pButton type="submit" label="Add Comment" class="p-button-raised p-btn-pad bg-div"
+                            icon="" iconPos="right" (click)="onUpdate()"></button>
+                    </div>
+                    <div class="p-col-12 p-md-4 p-lg-2">
+                        <button pButton type="submit" label="Submit Ticket" class="p-button-raised p-btn-pad bg-div"
+                            icon="" iconPos="right" (click)="onUpdate()"></button>
                     </div>
                 </div>
                 <!-- </form> -->
@@ -80,6 +105,6 @@
         </div>
     </div>
 </body>
-<div class="no-pad" style="margin-left: 15px; margin-right: 15px;">
+<div class="no-pad" style="margin-left: 34px; margin-right: 35px;">
     <app-footer></app-footer>
 </div>

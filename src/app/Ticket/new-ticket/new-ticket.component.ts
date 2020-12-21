@@ -26,7 +26,7 @@ export class NewTicketComponent implements OnInit {
   compId: any;
   reasonOptions: SelectItem[];
   ComponentDescription: any;
-  Status: any = "Assigned"
+  Status: any = "ASSIGNED"
   StatusOptions: SelectItem[];
   CCOptions: SelectItem[];
   Assignee: any;
@@ -78,9 +78,6 @@ export class NewTicketComponent implements OnInit {
     let districtSeletion = [];
     let locationSeletion = [];
     let shopSeletion = [];
-    let reasonSeletion = [];
-    let statusSeletion = [];
-    let CCSeletion = [];
     switch (type) {
       case 'R':
         if (this.regionsData.length !== 0) {
@@ -136,7 +133,7 @@ export class NewTicketComponent implements OnInit {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
             } else if (this.location === 5 && x.product_id === 5) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-            } else if (this.location === 2 && x.product_id === 5) {
+            } else if (this.location === 2 && x.product_id === 2) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
             }
           });
@@ -196,7 +193,7 @@ export class NewTicketComponent implements OnInit {
     this.blockScreen = true;
     if (this.location !== undefined) {
       const params = {
-        'Region':/* (this.rcode !== undefined && this.rcode !== null) ? this.rcode : */'All',
+        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '0',
         'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '0',
         'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '0',
         'assingedTo': 42,

@@ -19,28 +19,34 @@ export class TicketUpdateComponent implements OnInit {
   // products: Product[];
   product: any;
   ticketView: NewTicketComponent;
-
-  sortOptions: SelectItem[];
-
-  sortOrder: number;
-
-  sortField: string;
   bugStatusData: any = [];
   StatusOptions: SelectItem[];
+  Status: any;
   TicketDescription: any;
   blockScreen: boolean;
+  showTable: boolean = false;
+  TicketReportCols: any;
+  TicketReportData: [];
+  TicketID: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private router: Router) { }
 
   ngOnInit() {
     this.bugStatusData = this.masterDataService.getBugStatus();
-    // this.primengConfig.ripple = true;
-    // this.productService.getProducts().then(data => this.products = data);
-
-    this.sortOptions = [
-      { label: 'Price High to Low', value: '!price' },
-      { label: 'Price Low to High', value: 'price' }
+    this.TicketReportCols = [
+      { header: 'S.No', field: 'SlNo', width: '40px' },
+      { field: 'TicketID', header: 'Ticket ID' },
+      { field: 'TicketDate', header: 'Ticket Date' },
+      { field: 'lastdiffed', header: 'Modified Date' },
+      { field: 'Status', header: 'Status' },
+      { field: 'location', header: 'Location' },
+      { field: 'ComponentName', header: 'Component Name' },
+      { field: 'shop_number', header: 'Shop_Number' },
+      { field: 'Subject', header: 'Subject' },
+      { field: 'Assignee', header: 'Assignee' },
+      { field: 'URL', header: 'URL' },
+      { field: 'reporter', header: 'Reporter' },
     ];
   }
 
@@ -59,13 +65,49 @@ export class TicketUpdateComponent implements OnInit {
     }
   }
 
-  onView() { }
-
-  onUpdate() { }
-
-  Ticket_Description() {
+  onView() {
     const params = {
-      'ticketID': '',
+      'TicketID': this.TicketID
+    }
+    this.restApiService.getByParameters(PathConstants.TicketByID, params).subscribe(res => {
+      if (res) {
+        this.showTable = true;
+        this.TicketReportData = res;
+        this.TicketID = res.TicketID;
+        this.Status = res.Status;
+        let sno = 0;
+        res.forEach(res => {
+          if (res.shop_number === 0) {
+            res.shop_number = 'No Shop';
+          }
+          sno += 1;
+          res.SlNo = sno;
+        })
+        this.blockScreen = false;
+        this.messageService.clear();
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'No Records Found'
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please Contact Administrator!'
+        });
+      }
+    })
+  }
+
+  onUpdate() {
+    const params = {
+      'ticketID': this.TicketID,
       'reporter': '42',
       'ticketdescription': this.TicketDescription
     }
@@ -75,9 +117,8 @@ export class TicketUpdateComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'success',
-          summary: 'Success Message', detail: 'Status & Comment Saved !'
+          summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Saved Successfully !'
         });
-        // this.router.navigate(['/TicketDescription']);
       } else {
         this.blockScreen = false;
         this.messageService.clear();
@@ -96,18 +137,5 @@ export class TicketUpdateComponent implements OnInit {
         });
       }
     });
-  }
-
-  onSortChange(event) {
-    let value = event.value;
-
-    if (value.indexOf('!') === 0) {
-      this.sortOrder = -1;
-      this.sortField = value.substring(1, value.length);
-    }
-    else {
-      this.sortOrder = 1;
-      this.sortField = value;
-    }
   }
 }

@@ -61,20 +61,19 @@ export class TicketReportComponent implements OnInit {
     this.locationsData = this.masterDataService.getProducts();
     this.TicketReportCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
-      { field: 'TicketID', header: 'Ticket ID' },
-      { field: 'TicketDate', header: 'Ticket Date' },
-      { field: 'lastdiffed', header: 'Modified Date' },
-      { field: 'Status', header: 'Status' },
+      { field: 'TicketID', header: 'Ticket_ID' },
       { field: 'location', header: 'Location' },
-      { field: 'ComponentName', header: 'Component Name' },
+      { field: 'ComponentName', header: 'Component_Name' },
+      { field: 'Status', header: 'Status' },
+      { field: 'Subject', header: 'Subject' },
+      { field: 'Assignee', header: 'Assignee' },
+      { field: 'reporter', header: 'Reporter' },
+      { field: 'TicketDate', header: 'Ticket_Date' },
+      { field: 'lastdiffed', header: 'Modified_Date' },
       { field: 'REGNNAME', header: 'Region' },
       { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
-      { field: 'Subject', header: 'Subject' },
-      { field: 'Assignee', header: 'Assignee' },
-      // { field: 'DefaultCC', header: 'DefaultCC' },
       { field: 'URL', header: 'URL' },
-      { field: 'reporter', header: 'Reporter' },
     ];
     // this.TicketReportData = [{ TicketID: "RAM" }, { location: "SUBASH" }];
   }
@@ -91,7 +90,7 @@ export class TicketReportComponent implements OnInit {
             regionSelection.push({ label: r.name, value: r.code });
           })
           this.regionOptions = regionSelection;
-          this.regionOptions.unshift({ label: 'All', value: 'All' });
+          this.regionOptions.unshift({ label: 'All', value: null });
         }
         break;
       case 'D':
@@ -102,7 +101,7 @@ export class TicketReportComponent implements OnInit {
             }
           })
           this.districtOptions = districtSeletion;
-          this.districtOptions.unshift({ label: 'All', value: 'All' });
+          this.districtOptions.unshift({ label: 'All', value: null });
         }
         break;
       case 'L':
@@ -136,12 +135,13 @@ export class TicketReportComponent implements OnInit {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
             } else if (this.location === 5 && x.product_id === 5) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-            } else if (this.location === 2 && x.product_id === 5) {
+            } else if (this.location === 2 && x.product_id === 2) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
             }
           });
+          // this.componentsData.push({ label: 'All', value: 1 });
           this.componentOptions = this.componentsData;
-          this.componentOptions.unshift({ label: 'All', value: 'All' });
+          this.componentOptions.unshift({ label: 'All', value: null });
         });
         break;
       case 'S':
@@ -152,7 +152,7 @@ export class TicketReportComponent implements OnInit {
             }
           })
           this.shopOptions = shopSeletion;
-          this.shopOptions.unshift({ label: 'All', value: 'All' });
+          this.shopOptions.unshift({ label: 'All', value: null });
         }
         break;
     }
@@ -170,10 +170,10 @@ export class TicketReportComponent implements OnInit {
         (selectedFromMonth === selectedToMonth && selectedFromYear === selectedToYear))) ||
         (selectedFromMonth > selectedToMonth && selectedFromYear === selectedToYear) || (selectedFromYear > selectedToYear)) {
         this.messageService.clear();
-        // this.messageService.add({
-        //   key: 'msgKey', severity: 'warn', life: 5000
-        //   , summary: 'Invalid Date!', detail: 'Please select the valid date'
-        // });
+        this.messageService.add({
+          key: 'msgKey', severity: 'warn', life: 5000
+          , summary: 'Invalid Date!', detail: 'Please select the valid date'
+        });
       }
       return this.fromDate, this.toDate;
     }
@@ -184,10 +184,10 @@ export class TicketReportComponent implements OnInit {
       'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : 'All',
       'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : 'All',
       'Product': this.location,
-      'Component': this.compId,
-      'Shops': this.shopCode,
-      'FDate': '2020-12-01 3:17:38 PM',
-      'TDate': '2020-12-17 3:16:56 PM'
+      'Component': (this.compId !== undefined && this.compId !== null) ? this.compId : 1,
+      'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode : 'All',
+      'FDate': '2020-12-01 3:17:38',
+      'TDate': '2020-12-18 17:15:33'
       // 'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
       // 'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
     }

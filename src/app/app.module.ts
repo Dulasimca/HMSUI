@@ -43,6 +43,7 @@ import { TicketReportComponent } from './reports/ticket-report/ticket-report.com
 import { MenubarComponent } from './menubar/menubar.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { PathConstants } from './helper/PathConstants';
+import { MyTicketComponent } from './my-ticket/my-ticket.component';
 
 
 
@@ -56,7 +57,8 @@ import { PathConstants } from './helper/PathConstants';
     NewTicketComponent,
     TicketReportComponent,
     MenubarComponent,
-    TicketUpdateComponent
+    TicketUpdateComponent,
+    MyTicketComponent
   ],
   imports: [
     BrowserModule,
