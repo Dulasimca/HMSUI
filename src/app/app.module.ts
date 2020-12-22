@@ -35,7 +35,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TableModule } from 'primeng/table';
 import { AuthService } from './services/auth.service';
 import { RestAPIService } from './services/restAPI.service';
-import { MessageService, FilterService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { MasterDataService } from './masters-services/master-data.service';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
@@ -95,7 +95,7 @@ import { MyTicketComponent } from './my-ticket/my-ticket.component';
     DataViewModule,
     RippleModule
   ],
-  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService, FilterService,
+  providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
     PathConstants],
   bootstrap: [AppComponent]
 })

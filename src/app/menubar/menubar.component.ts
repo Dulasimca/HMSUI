@@ -17,7 +17,17 @@ export class MenubarComponent implements OnInit {
     this.showNavBar = false;
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: '/home' },
-      { label: 'New Ticket', icon: '', routerLink: '/NewTicket' },
+      {
+        label: 'Ticket', icon: 'pi pi-fw pi-file',
+        items: [
+          {
+            label: 'New Ticket', routerLink: '/NewTicket'
+          },
+          {
+            label: 'Update Ticket', routerLink: '/TicketUpdate'
+          }
+        ]
+      },
       { label: 'Browse', icon: 'pi pi-fw pi-comments', routerLink: '/' },
       { label: 'Search', icon: 'pi pi-fw pi-chart-line' },
       {

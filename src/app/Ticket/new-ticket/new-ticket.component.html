@@ -62,7 +62,7 @@
                         <div>
                             <label class="label-text-color" for="shopcd">Shop Number</label>
                         </div>
-                        <p-dropdown #shop name="shop" [disabled]="disableShop" [options]="shopOptions"
+                        <p-dropdown #shop name="shopcd" [disabled]="disableShop" [options]="shopOptions"
                             [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="shopCode" filter="true"
                             (onClick)="onSelect('S')" resetFilterOnHide="true" filterMatchMode="startsWith"
                             optionLabel="label" required>
