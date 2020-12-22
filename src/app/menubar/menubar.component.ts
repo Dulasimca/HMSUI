@@ -18,8 +18,14 @@ export class MenubarComponent implements OnInit {
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: '/home' },
       { label: 'New Ticket', icon: '', routerLink: '/NewTicket' },
-      { label: 'Browse', icon: 'pi pi-fw pi-comments', routerLink: '/home' },
-      { label: 'Search', icon: 'pi pi-fw pi-chart-line', routerLink: '/SearchTicket' },
+      {
+        label: 'Profile', icon: 'pi pi-fw pi-comments',
+        items: [
+          {
+            label: 'Change Password', routerLink: '/MyTickets'
+          },
+        ]
+      },
       {
         label: 'Report', icon: 'pi pi-fw pi-file',
         items: [
@@ -28,7 +34,8 @@ export class MenubarComponent implements OnInit {
           },
           {
             label: 'All Tickets', routerLink: '/TicketReport'
-          }
+          },
+          { label: 'Search', icon: '', routerLink: '/SearchTicket' },
         ]
       }
     ];

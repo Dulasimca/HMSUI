@@ -185,10 +185,10 @@ export class TicketReportComponent implements OnInit {
       'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : 'All',
       'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : 'All',
       'Product': this.location,
-      'Component': (this.compId !== undefined && this.compId !== null) ? this.compId : 1,
+      'Component': (this.compId !== undefined && this.compId !== null) ? this.compId.value : 1,
       'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode : 'All',
       'FDate': '2020-12-01 3:17:38',
-      'TDate': '2020-12-18 17:15:33'
+      'TDate': '2020-12-21 17:15:33'
       // 'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
       // 'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
     }

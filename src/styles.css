@@ -491,8 +491,9 @@ ul {
 
 .home-bg{
   background-color: rgb(194, 189, 189) !important;
-  margin-left: 35px; margin-right: 35px;
-  margin-top: 8px;
+  margin: 0px 16px;
+  /* margin-left: 35px; margin-right: 35px; */
+  /* margin-top: 8px; */
   height: auto;
 }
   
