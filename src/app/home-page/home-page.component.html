@@ -79,12 +79,66 @@
 
                                         </div>
                                     </div> -->
-                        <div class="p-col-12 p-md-12 p-lg-12" style="display: flex;">
-                            <div class="p-col-12 p-md-12 p-lg-12 border-green">
+                        <div class="p-col-12 p-md-12 p-lg-12 card" style="display: flex;">
+                            <div class="p-col-12 p-md-12 p-lg-6 border-green">
                                 <div class="header-line">Helpdesk Management Ticket Status</div>
                                 <div class="padding-gap">
-                                    <p-chart type="pie" [data]="pieData" width="auto" height="80vh" [plugins]="plugin"
+                                    <p-chart type="pie" [data]="pieData" width="auto" height="55vh" [plugins]="plugin"
                                         [options]="pieOptions" (onDataSelect)="selectData($event)"></p-chart>
+                                </div>
+                            </div>
+                            <div class="p-col-12 p-md-12 p-lg-6 border-green">
+                                <div class="header-line">User Manual To Downaload</div>
+                                <div class="p-grid dashboard-tiles" style="padding-top: 25px;">
+                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(1)">
+                                        <div class="card overview-box overview-box-1">
+                                            <div class="overview-box-name">Network & Camera Manual</div>
+                                            <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                            <div class="overview-box-badge">
+                                                <i class="pi pi-download"></i>
+                                            </div>
+                                        </div>
+
+                                        <!-- <img src="assets/images/dashboard/chart-1.svg"> -->
+                                        <!-- <div class="file-icon">
+                                        <img class="doc-icon" src="assets/images/dashboard/icon-doc.png">
+                                    </div>
+                                    <div class="file-title">
+                                        Network Camera Web Operational Manual
+                                    </div>
+                                    <div class="file-subtitle">
+                                        click here to download .pdf file
+                                    </div> -->
+                                    </div>
+                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(2)">
+                                        <div class="card overview-box overview-box-2">
+                                            <div class="overview-box-name">Network Video Recorder</div>
+                                            <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                            <div class="overview-box-badge">
+                                                <i class="pi pi-download"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(3)"
+                                        style="padding-top: 10px;">
+                                        <div class="card overview-box overview-box-3">
+                                            <div class="overview-box-name">KVMS Pro User Manual</div>
+                                            <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                            <div class="overview-box-badge">
+                                                <i class="pi pi-download"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(4)"
+                                        style="padding-top: 10px;">
+                                        <div class="card overview-box overview-box-4">
+                                            <div class="overview-box-name">HMS User Manual</div>
+                                            <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                            <div class="overview-box-badge">
+                                                <i class="pi pi-download"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -97,4 +151,4 @@
         </div>
     </div>
     <app-footer></app-footer>
-</body>
+</body>laydasout
