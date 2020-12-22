@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
 import { PathConstants } from '../Constants/PathConstants';
@@ -13,7 +14,8 @@ import { RestAPIService } from '../services/restAPI.service';
 export class MyTicketsComponent implements OnInit {
   TicketReportCols: any = [];
   TicketReportData: any = [];
-  showDialog: boolean = true;
+  showDialog: boolean = false;
+  showComment: boolean = false;
   selectedDocId: number;
   username: string;
   Assignee: any;
@@ -22,10 +24,15 @@ export class MyTicketsComponent implements OnInit {
   Subject: any;
   TicketDescription: any;
   Status: any;
+  reporter: any;
   bugStatusData: any = [];
   TDData: any = [];
+  TDCols: any = [];
   StatusOptions: SelectItem[];
   TicketID: any;
+  TD: any = [];
+  AllTD: any = [];
+  blockScreen: boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService) { }
@@ -47,6 +54,7 @@ export class MyTicketsComponent implements OnInit {
         });
       }
     });
+    this.onTD();
     this.TicketReportCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'TicketID', header: 'Ticket ID' },
@@ -63,6 +71,12 @@ export class MyTicketsComponent implements OnInit {
       { field: 'DefaultCC', header: 'DefaultCC' },
       { field: 'URL', header: 'URL' },
       { field: 'reporter', header: 'Reporter' },
+    ];
+    this.TDCols = [
+      { field: 'TicketID', header: 'TicketID' },
+      { field: 'reporter', header: 'Reporter' },
+      { field: 'ticketTime', header: 'Comment Date' },
+      { field: 'description', header: 'Description' },
     ];
   }
 
@@ -82,44 +96,88 @@ export class MyTicketsComponent implements OnInit {
   }
 
   onTD() {
-    if (this.TicketID !== null) {
-      const params = {
-        'UserName': this.username,
-        'TicketID': "TD"
-      }
-      this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
-        if (res) {
-          this.TDData = res;
-        }
-      });
-      this.TDData.forEach(TD => {
-        if (TD.ticket_id === this.TicketID) {
-          this.TicketDescription = TD.description;
-        }
-      })
+    const params = {
+      'UserName': this.username,
+      'TicketID': "TD"
     }
+    this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
+      if (res) {
+        this.AllTD = res;
+      }
+    });
   }
 
-  onRowSelect(event) {
+  onRowSelect(event, selectedRow) {
+    this.onResetTable();
     console.log(event);
-    this.showDialog = true;
     this.TicketID = event.data.TicketID;
     this.Assignee = event.data.Assignee;
     this.DefaultCC = event.data.DefaultCC;
+    this.reporter = event.data.reporter;
     this.Subject = event.data.Subject;
     this.URL = event.data.URL;
-    this.onTD();
-    // this.TicketDescription = event.data.TicketDescription;
-    this.selectedDocId = event.data.TicketID;
+    this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
+    this.Status = event.data.Status;
+    if (this.TicketID !== undefined) {
+      let ATD = [];
+      ATD = this.AllTD;
+      ATD.forEach(AllTD => {
+        if (this.TicketID === AllTD.ticket_id) {
+          this.TD.push({ TicketID: AllTD.ticket_id, description: AllTD.description, reporter: AllTD.reporter, ticketTime: AllTD.ticketTime });
+        }
+      });
+    }
+    this.TDData = this.TD
+    this.showDialog = true;
+  }
+
+  onComment() {
+    this.showComment = true;
   }
 
   onUpdate() {
+    const params = {
+      'ticketID': this.TicketID,
+      'reporter': 42,
+      'ticketdescription': this.TicketDescription
+    }
+    this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
+      if (res.item1) {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'success',
+          summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Updated Successfully !'
+        });
+      } else {
+        this.blockScreen = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: res.item2
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please Contact Administrator!'
+        });
+      }
+    });
+  }
 
+  onSave() { }
+
+  onResetTable() {
+    this.TDData = [];
+    this.TD = [];
   }
 
   onCancel() {
     this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
-    this.showDialog = false;
+    this.showDialog = this.showComment = false;
   }
-
 }

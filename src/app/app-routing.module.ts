@@ -13,9 +13,9 @@ import { ChangePasswordComponent } from './profiles/change-password/change-passw
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
-  { path: 'MyTickets', component: MyTicketsComponent, canActivate: [AuthGuard] },
-  { path: 'SearchTicket', component: SearchTicketComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomePageComponent},
+  { path: 'MyTickets', component: MyTicketsComponent },
+  { path: 'SearchTicket', component: SearchTicketComponent },
   { path: 'NewTicket', component: NewTicketComponent },
   { path: 'TicketReport', component: TicketReportComponent },
   { path: 'TicketUpdate', component: TicketUpdateComponent },
