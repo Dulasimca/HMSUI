@@ -1,0 +1,53 @@
+<body class="home-bg">
+    <div class="p-grid card page-content border-green">
+        <div class="p-col-12 p-md-12 p-lg-12 no-pad">
+            <app-topbar></app-topbar>
+        </div>
+        <div class="p-col-12 p-md-12 p-lg-12 border-green" style="min-height:69vh;">
+            <p-panel>
+                <p-header>
+                    <div class="ui-g-12 ui-md-8 ui-g panel-header">Search Ticket
+                    </div>
+                </p-header>
+                <p-toast position="top-center" key="t-err"></p-toast>
+                <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+                    <div class="p-col-12 p-md-4 p-lg-3"></div>
+                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-3">
+                        <div class="p-float-label">
+                            <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="TicketID"
+                                type="text" autocomplete="off" tabindex="3">
+                            <label for="float-input">Enter Ticket_ID</label>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-4 p-lg-2">
+                        <button pButton type="submit" label="Search Ticket" class="p-button-raised p-btn-pad bg-div" icon=""
+                            iconPos="right" (click)="onView()"></button>
+                    </div>
+                    <div class="p-col-12 p-md-4 p-lg-3"></div>
+                    <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
+                        [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                        [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
+                        [(selection)]="selected" selectionMode="single" exportFilename="MY_TICKET_REPORT">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr style="text-align: center;">
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </p-panel>
+        </div>
+    </div>
+</body>
+<div class="no-pad" style="margin-left: 34px; margin-right: 35px;">
+    <app-footer></app-footer>
+</div>

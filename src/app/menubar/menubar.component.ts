@@ -34,10 +34,10 @@ export class MenubarComponent implements OnInit {
         label: 'Report', icon: 'pi pi-fw pi-file',
         items: [
           {
-            label: 'All Tickets', routerLink: '/TicketReport'
+            label: 'My Tickets', routerLink: '/MyTickets'
           },
           {
-            label: 'My Report', routerLink: '/TicketReport'
+            label: 'All Tickets', routerLink: '/TicketReport'
           }
         ]
       }

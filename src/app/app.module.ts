@@ -41,9 +41,10 @@ import { MasterDataService } from './masters-services/master-data.service';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
 import { TicketReportComponent } from './reports/ticket-report/ticket-report.component';
 import { MenubarComponent } from './menubar/menubar.component';
+import { MyTicketsComponent } from './my-tickets/my-tickets.component';
+import { SearchTicketComponent } from './search-ticket/search-ticket.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { PathConstants } from './helper/PathConstants';
-import { MyTicketComponent } from './my-ticket/my-ticket.component';
 
 
 
@@ -57,8 +58,10 @@ import { MyTicketComponent } from './my-ticket/my-ticket.component';
     NewTicketComponent,
     TicketReportComponent,
     MenubarComponent,
+    MyTicketsComponent,
+    SearchTicketComponent,
     TicketUpdateComponent,
-    MyTicketComponent
+    MyTicketsComponent
   ],
   imports: [
     BrowserModule,

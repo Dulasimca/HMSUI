@@ -74,6 +74,7 @@ export class TicketReportComponent implements OnInit {
       { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
       { field: 'URL', header: 'URL' },
+      { field: 'reporter', header: 'Reporter' },
     ];
     // this.TicketReportData = [{ TicketID: "RAM" }, { location: "SUBASH" }];
   }
@@ -201,12 +202,16 @@ export class TicketReportComponent implements OnInit {
         })
         this.blockScreen = false;
         this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'success',
+          summary: 'Success Message', detail: 'Ticket Saved Successfully !'
+        });
       } else {
         this.blockScreen = false;
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'No Records Found'
+          summary: 'Error Message', detail: res.item2
         });
       }
     }, (err: HttpErrorResponse) => {

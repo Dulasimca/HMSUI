@@ -26,7 +26,7 @@ export class NewTicketComponent implements OnInit {
   compId: any;
   reasonOptions: SelectItem[];
   ComponentDescription: any;
-  Status: any = "ASSIGNED"
+  Status: any = "UN - ASSIGNED"
   StatusOptions: SelectItem[];
   CCOptions: SelectItem[];
   Assignee: any;
