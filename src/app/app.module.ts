@@ -61,7 +61,7 @@ import { PathConstants } from './helper/PathConstants';
     MyTicketsComponent,
     SearchTicketComponent,
     TicketUpdateComponent,
-    MyTicketsComponent
+    MyTicketsComponent,
   ],
   imports: [
     BrowserModule,

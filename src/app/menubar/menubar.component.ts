@@ -22,7 +22,7 @@ export class MenubarComponent implements OnInit {
         label: 'Profile', icon: 'pi pi-fw pi-comments',
         items: [
           {
-            label: 'Change Password', routerLink: '/MyTickets'
+            label: 'Change Password', routerLink: '/ChangePassword'
           },
         ]
       },
