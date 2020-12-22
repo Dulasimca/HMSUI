@@ -8,6 +8,7 @@ import { TicketReportComponent } from './reports/ticket-report/ticket-report.com
 import { MyTicketsComponent } from './my-tickets/my-tickets.component';
 import { SearchTicketComponent } from './search-ticket/search-ticket.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
+import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'NewTicket', component: NewTicketComponent },
   { path: 'TicketReport', component: TicketReportComponent },
   { path: 'TicketUpdate', component: TicketUpdateComponent },
+  { path: 'ChangePassword', component: ChangePasswordComponent },
 ];
 
 @NgModule({
