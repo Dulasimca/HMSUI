@@ -34,6 +34,7 @@ export class HomePageComponent implements OnInit {
   regionBugsCount: any = 0;
   districtBugsCount: any = 0;
   shopBugsCount: any = 0;
+  titleDownloadtext: string;
 
   constructor(private locationStrategy: LocationStrategy, private restApi: RestAPIService,
     private authService: AuthService) { }
@@ -43,6 +44,7 @@ export class HomePageComponent implements OnInit {
     this.onLoadChart();
     this.userInfo = this.authService.getLoggedUser();
     this.onLoadGridValues();
+    this.titleDownloadtext = 'Click to download .pdf';
   }
 
   onLoadGridValues() {
@@ -146,6 +148,20 @@ export class HomePageComponent implements OnInit {
         position: 'bottom'
       }
     }
+  }
+
+  onPDFDownload(gridValue) {
+    switch (gridValue) {
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+    }
+
   }
 
   preventBackButton() {
