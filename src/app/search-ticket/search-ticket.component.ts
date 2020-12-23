@@ -28,14 +28,14 @@ export class SearchTicketComponent implements OnInit {
       { field: 'Status', header: 'Status' },
       { field: 'location', header: 'Location' },
       { field: 'ComponentName', header: 'Component Name' },
-      { field: 'REGNNAME', header: 'Region' },
-      { field: 'Dname', header: 'District' },
-      { field: 'shop_number', header: 'Shop_Number' },
       { field: 'Subject', header: 'Subject' },
       { field: 'Assignee', header: 'Assignee' },
       { field: 'DefaultCC', header: 'DefaultCC' },
       { field: 'URL', header: 'URL' },
       { field: 'reporter', header: 'Reporter' },
+      { field: 'REGNNAME', header: 'Region' },
+      { field: 'Dname', header: 'District' },
+      { field: 'shop_number', header: 'Shop_Number' },
     ];
   }
 

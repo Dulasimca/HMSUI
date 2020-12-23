@@ -40,20 +40,7 @@ export class MyTicketsComponent implements OnInit {
   ngOnInit() {
     this.bugStatusData = this.masterDataService.getBugStatus();
     this.username = "42";
-    const params = {
-      'UserName': this.username,
-      'TicketID': "A"
-    }
-    this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
-      if (res) {
-        this.TicketReportData = res;
-        let sno = 0;
-        this.TicketReportData.forEach(result => {
-          sno += 1;
-          result.SlNo = sno;
-        });
-      }
-    });
+    this.onTicket();
     this.onTD();
     this.TicketReportCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
@@ -63,14 +50,14 @@ export class MyTicketsComponent implements OnInit {
       { field: 'Status', header: 'Status' },
       { field: 'location', header: 'Location' },
       { field: 'ComponentName', header: 'Component Name' },
-      { field: 'REGNNAME', header: 'Region' },
-      { field: 'Dname', header: 'District' },
-      { field: 'shop_number', header: 'Shop_Number' },
       { field: 'Subject', header: 'Subject' },
       { field: 'Assignee', header: 'Assignee' },
       { field: 'DefaultCC', header: 'DefaultCC' },
       { field: 'URL', header: 'URL' },
       { field: 'reporter', header: 'Reporter' },
+      { field: 'REGNNAME', header: 'Region' },
+      { field: 'Dname', header: 'District' },
+      { field: 'shop_number', header: 'Shop_Number' },
     ];
     this.TDCols = [
       { field: 'TicketID', header: 'TicketID' },
@@ -95,6 +82,23 @@ export class MyTicketsComponent implements OnInit {
     }
   }
 
+  onTicket() {
+    const params = {
+      'UserName': this.username,
+      'TicketID': "A"
+    }
+    this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
+      if (res) {
+        this.TicketReportData = res;
+        let sno = 0;
+        this.TicketReportData.forEach(result => {
+          sno += 1;
+          result.SlNo = sno;
+        });
+      }
+    });
+  }
+
   onTD() {
     const params = {
       'UserName': this.username,
@@ -103,6 +107,15 @@ export class MyTicketsComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
       if (res) {
         this.AllTD = res;
+        if (this.TicketID !== undefined) {
+          let ATD = [];
+          ATD = this.AllTD;
+          ATD.forEach(AllTD => {
+            if (this.TicketID === AllTD.ticket_id) {
+              this.TD.push({ TicketID: AllTD.ticket_id, description: AllTD.description, reporter: AllTD.reporter, ticketTime: AllTD.ticketTime });
+            }
+          });
+        }
       }
     });
   }
@@ -118,15 +131,7 @@ export class MyTicketsComponent implements OnInit {
     this.URL = event.data.URL;
     this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
     this.Status = event.data.Status;
-    if (this.TicketID !== undefined) {
-      let ATD = [];
-      ATD = this.AllTD;
-      ATD.forEach(AllTD => {
-        if (this.TicketID === AllTD.ticket_id) {
-          this.TD.push({ TicketID: AllTD.ticket_id, description: AllTD.description, reporter: AllTD.reporter, ticketTime: AllTD.ticketTime });
-        }
-      });
-    }
+    this.onTD();
     this.TDData = this.TD
     this.showDialog = true;
   }
@@ -136,40 +141,99 @@ export class MyTicketsComponent implements OnInit {
   }
 
   onUpdate() {
-    const params = {
-      'ticketID': this.TicketID,
-      'reporter': 42,
-      'ticketdescription': this.TicketDescription
+    if (this.TicketID !== undefined) {
+      const params = {
+        'ticketID': this.TicketID,
+        'reporter': 42,
+        'ticketdescription': this.TicketDescription,
+        'Status': (this.Status.label === undefined) ? this.Status : this.Status.label
+      }
+      this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
+        if (res) {
+          this.blockScreen = false;
+          this.onTicket();
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'success',
+            summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Updated Successfully !'
+          });
+          this.onCancel();
+        } else {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: res.item2
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: 'Please Contact Administrator!'
+          });
+        }
+      });
     }
-    this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
-      if (res.item1) {
-        this.blockScreen = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'success',
-          summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Updated Successfully !'
-        });
-      } else {
-        this.blockScreen = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: res.item2
-        });
-      }
-    }, (err: HttpErrorResponse) => {
-      this.blockScreen = false;
-      if (err.status === 0 || err.status === 400) {
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'Please Contact Administrator!'
-        });
-      }
-    });
   }
 
-  onSave() { }
+  onSave() {
+    this.blockScreen = true;
+    if (this.TicketID !== undefined) {
+      const params = {
+        'ticket_id': this.TicketID,
+        'assingedTo': 42,
+        'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
+        'short_desc': this.Subject,
+        // 'reporter': '42',
+        'URL': this.URL,
+        'CC': this.DefaultCC
+      }
+      this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
+        if (res) {
+          // this.TicketID = res.item3;
+          // this.ticketUpdate();
+          this.onUpdate();
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'success',
+            summary: 'Success Message', detail: 'Ticket Updated Successfully !'
+          });
+        } else {
+          this.blockScreen = false;
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: res.item2
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        this.blockScreen = false;
+        if (err.status === 0 || err.status === 400) {
+          this.messageService.clear();
+          this.messageService.add({
+            key: 't-err', severity: 'error',
+            summary: 'Error Message', detail: 'Please Contact Administrator!'
+          });
+        }
+      });
+    }
+    // this.router.navigate(['/TicketDescription']);
+  }
+
+  ticketUpdate() {
+    let ticketSelection = [];
+    ticketSelection.forEach(res => {
+      ticketSelection.push({
+        TicketID: this.TicketID, AssignedTo: this.Assignee, Status: this.Status, Subject: this.Subject,
+        Reporter: this.Assignee, URL: this.URL
+      });
+    })
+    // this.ticketView = ticketSelection;
+  }
 
   onResetTable() {
     this.TDData = [];
@@ -177,7 +241,8 @@ export class MyTicketsComponent implements OnInit {
   }
 
   onCancel() {
-    this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
+    this.Status = this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
+    this.StatusOptions = [];
     this.showDialog = this.showComment = false;
   }
 }

@@ -123,36 +123,38 @@ export class NewTicketComponent implements OnInit {
         }
         break;
       case 'C':
-        this.componentsData = [];
-        this.restApiService.get(PathConstants.ComponentsURL).subscribe((res: any) => {
-          res.forEach(x => {
-            if (this.location === 3 && x.product_id === 3) {
-              this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-              this.disableShop = true;
-            } else if (this.location === 4 && x.product_id === 4) {
-              this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-            } else if (this.location === 5 && x.product_id === 5) {
-              this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-            } else if (this.location === 2 && x.product_id === 2) {
-              this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-            }
-          });
-          if (this.componentsData !== undefined && this.componentsData !== null) {
-            this.componentsData.forEach(d => {
-              if (this.compId === d.value) {
-                this.ComponentDescription = d.desc;
-              }
-            })
-            this.CCData.forEach(bs => {
-              if (bs.id === this.compId) {
-                this.DefaultCC = bs.name;
-                this.Assignee = bs.assiginee;
+        if (this.componentsData.length === 0) {
+          this.componentsData = [];
+          this.restApiService.get(PathConstants.ComponentsURL).subscribe((res: any) => {
+            res.forEach(x => {
+              if (this.location === 3 && x.product_id === 3) {
+                this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
+                this.disableShop = true;
+              } else if (this.location === 4 && x.product_id === 4) {
+                this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
+              } else if (this.location === 5 && x.product_id === 5) {
+                this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
+              } else if (this.location === 2 && x.product_id === 2) {
+                this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
               }
             });
-          }
-          this.componentOptions = this.componentsData;
-          this.componentOptions.unshift({ label: '-Select-', value: 'All' });
-        });
+            this.componentOptions = this.componentsData;
+            this.componentOptions.unshift({ label: '-Select-', value: null });
+          });
+        }
+        if (this.compId !== null) {
+          this.componentsData.forEach(d => {
+            if (this.compId.value === d.value) {
+              this.ComponentDescription = d.desc;
+            }
+          });
+          this.CCData.forEach(bs => {
+            if (bs.id === this.compId.value) {
+              this.DefaultCC = bs.name;
+              this.Assignee = bs.assiginee;
+            }
+          });
+        }
         break;
       case 'S':
         if (this.shopData.length !== 0) {
@@ -207,6 +209,7 @@ export class NewTicketComponent implements OnInit {
         'everconfirmed': true,
         'reporter_accessible': true,
         'cclist_accessible': true,
+        'CC': this.DefaultCC
         // 'FromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
         // 'ToDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
       }
@@ -248,7 +251,8 @@ export class NewTicketComponent implements OnInit {
       const params = {
         'ticketID': this.TicketID,
         'reporter': '42',
-        'ticketdescription': this.TicketDescription
+        'ticketdescription': this.TicketDescription,
+        'Status': this.Status
       }
       this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
         if (res.item1) {

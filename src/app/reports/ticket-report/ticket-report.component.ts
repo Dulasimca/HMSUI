@@ -70,11 +70,11 @@ export class TicketReportComponent implements OnInit {
       { field: 'reporter', header: 'Reporter' },
       { field: 'TicketDate', header: 'Ticket_Date' },
       { field: 'lastdiffed', header: 'Modified_Date' },
+      { field: 'URL', header: 'URL' },
+      { field: 'reporter', header: 'Reporter' },
       { field: 'REGNNAME', header: 'Region' },
       { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
-      { field: 'URL', header: 'URL' },
-      { field: 'reporter', header: 'Reporter' },
     ];
     // this.TicketReportData = [{ TicketID: "RAM" }, { location: "SUBASH" }];
   }
@@ -193,25 +193,21 @@ export class TicketReportComponent implements OnInit {
       // 'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
     }
     this.restApiService.getByParameters(PathConstants.TicketReport, params).subscribe(res => {
-      if (res) {
+      if (res.length !== 0) {
+        this.blockScreen = false;
         this.TicketReportData = res;
         let sno = 0;
         res.forEach(res => {
           sno += 1;
           res.SlNo = sno;
-        })
-        this.blockScreen = false;
-        this.messageService.clear();
-        this.messageService.add({
-          key: 't-err', severity: 'success',
-          summary: 'Success Message', detail: 'Ticket Saved Successfully !'
         });
       } else {
         this.blockScreen = false;
+        this.TicketReportData = [];
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: res.item2
+          summary: 'Error Message', detail: 'No records been found'
         });
       }
     }, (err: HttpErrorResponse) => {
