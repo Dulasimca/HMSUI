@@ -6,14 +6,17 @@
         <div class="p-col-12 p-md-12 p-lg-12 border-green" style="min-height:69vh;">
             <p-panel>
                 <p-header>
-                    <div class="ui-g-12 ui-md-8 ui-g panel-header">My Ticket
+                    <div class="ui-g-12 ui-md-8 ui-g panel-header">My Ticket Report
                     </div>
                 </p-header>
                 <p-toast position="top-center" key="t-err"></p-toast>
                 <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
+
                     <div *ngIf="showTicketGrid">
-                        <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
-                            [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                        <button pButton type="submit" label="Excel" (click)="dd.exportCSV()"
+                            class="p-button-raised p-btn-pad bg-div" icon="" iconPos="right"></button>
+                        <p-table #dd styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
+                            [value]="TicketReportData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
                             [(selection)]="selected" selectionMode="single" (onRowSelect)="onRowSelect($event, rowData)"
                             exportFilename="MY_TICKET_REPORT">
@@ -35,16 +38,15 @@
                     </div>
                     <div *ngIf="showDialog">
                         <div style="float: right;">
+                            <button pButton type="submit" label="Excel" (click)="td.exportCSV()"
+                                class="p-button-raised p-btn-pad bg-div" icon="" iconPos="right"></button>
+                        </div>
+                        <div style="float: right;">
                             <button pButton type="submit" label="Back" class="p-button-raised p-btn-pad bg-div" icon=""
                                 iconPos="right" (click)="onCancel()"></button>
                         </div>
-                        <div></div>
-                        <div style="float: right;">
-                            <button pButton type="submit" label="Add Comment" class="p-button-raised p-btn-pad bg-div"
-                                icon="" iconPos="right" (click)="onComment()"></button>
-                        </div>
                         <h3>Comments for the ticket</h3>
-                        <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols"
+                        <p-table #td styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols"
                             [value]="TDData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
                             [responsive]="true" autoLayout="true" [loading]="loading" [(selection)]="selected"
                             selectionMode="single" (onRowSelect)="onRow($event)"

@@ -37,6 +37,7 @@ export class SearchTicketComponent implements OnInit {
   blockScreen: boolean;
   showTicketGrid: boolean = true;
   Ticket: any;
+  ID: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
@@ -63,6 +64,12 @@ export class SearchTicketComponent implements OnInit {
       { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
     ];
+    this.TDCols = [
+      { field: 'TicketID', header: 'TicketID' },
+      { field: 'reporter', header: 'Reporter' },
+      { field: 'ticketTime', header: 'Comment Date' },
+      { field: 'description', header: 'Description' },
+    ];
   }
 
   onSelect(type) {
@@ -83,7 +90,7 @@ export class SearchTicketComponent implements OnInit {
   onTicket() {
     const params = {
       'UserName': "ST",
-      'TicketID': this.Ticket || 0
+      'TicketID': (this.ID !== undefined && this.ID !== null) ? this.ID : 0
     }
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
       if (res) {
@@ -111,7 +118,7 @@ export class SearchTicketComponent implements OnInit {
           ATD = this.AllTD;
           ATD.forEach(AllTD => {
             if (this.TicketID === AllTD.ticket_id) {
-              this.TD.push({ TicketID: AllTD.ticket_id, description: AllTD.description, reporter: AllTD.reporter, ticketTime: AllTD.ticketTime, StatusRes: AllTD.Status});
+              this.TD.push({ TicketID: AllTD.ticket_id, description: AllTD.description, reporter: AllTD.reporter, ticketTime: AllTD.ticketTime });
             }
           });
         }
@@ -238,6 +245,7 @@ export class SearchTicketComponent implements OnInit {
   onResetTable() {
     this.TDData = [];
     this.TD = [];
+    this.ID = null;
   }
 
   onCancel() {
