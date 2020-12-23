@@ -6,7 +6,7 @@ import { RestAPIService } from '../services/restAPI.service';
 import { PathConstants } from '../helper/PathConstants';
 import { LocationStrategy } from '@angular/common';
 import { AuthService } from '../services/auth.service';
-import { AnonymousSubject } from 'rxjs/internal/Subject';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-home-page',
@@ -151,17 +151,26 @@ export class HomePageComponent implements OnInit {
   }
 
   onPDFDownload(gridValue) {
+    this.blockScreen = true;
+    const fileLoc = './assets/files/';
+    let fileName = '';
     switch (gridValue) {
       case 1:
-        break;
+        // const fileURL = pdfUrl + 'CameraUserManual.pdf';
+        fileName = 'CameraUserManual';
+    break;
       case 2:
+        fileName = 'NetworkVideoRecorder';
         break;
       case 3:
+        fileName = 'KVMSUserManual';
         break;
       case 4:
         break;
     }
-
+    const pdfURL = fileLoc + fileName + '.pdf';
+    FileSaver.saveAs(pdfURL, fileName);
+    this.blockScreen = false;
   }
 
   preventBackButton() {
