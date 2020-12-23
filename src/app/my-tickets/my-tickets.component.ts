@@ -33,6 +33,7 @@ export class MyTicketsComponent implements OnInit {
   TD: any = [];
   AllTD: any = [];
   blockScreen: boolean;
+  showTicketGrid: boolean = true;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService) { }
@@ -134,6 +135,7 @@ export class MyTicketsComponent implements OnInit {
     this.onTD();
     this.TDData = this.TD
     this.showDialog = true;
+    this.showTicketGrid = false;
   }
 
   onComment() {
@@ -244,5 +246,6 @@ export class MyTicketsComponent implements OnInit {
     this.Status = this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
     this.StatusOptions = [];
     this.showDialog = this.showComment = false;
+    this.showTicketGrid = true;
   }
 }

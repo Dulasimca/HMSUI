@@ -203,7 +203,7 @@ export class NewTicketComponent implements OnInit {
         'Ticketstatus': this.Status,
         'short_desc': this.Subject,
         'product': this.location,
-        'component_id': this.compId,
+        'component_id': this.compId.value,
         'reporter': '42',
         'URL': this.URL,
         'everconfirmed': true,

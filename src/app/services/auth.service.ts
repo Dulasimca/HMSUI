@@ -27,15 +27,13 @@ export class AuthService {
   }
 
   public getUserAccessible() {
-    // let roleId = localStorage.getItem('ID');
-    let gCode = localStorage.getItem('GCODE');
-    let rCode = localStorage.getItem('RCODE');
-    let gName = localStorage.getItem('GNAME');
-    let rName = localStorage.getItem('RNAME');
+    let username = localStorage.getItem('user');
+    let password = localStorage.getItem('pswd');
+    let userId = localStorage.getItem('Id');
 
-    if (gCode !== undefined && gCode !== ''
-      && rCode !== undefined && rCode !== '') {
-      return { gCode, rCode, gName, rName };
+    if (username !== undefined && username !== ''
+      && password !== undefined && password !== '') {
+      return { username, password, userId };
     }
   }
 

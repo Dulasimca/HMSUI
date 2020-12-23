@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { PathConstants } from 'src/app/helper/PathConstants';
+import { PathConstants } from 'src/app/Constants/PathConstants';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestAPIService } from 'src/app/services/restAPI.service';
@@ -17,18 +17,20 @@ import { RestAPIService } from 'src/app/services/restAPI.service';
 export class ChangePasswordComponent implements OnInit {
   ChangeForm: FormGroup;
   districtsData: any = [];
-  regionsData: any =[];
+  regionsData: any = [];
   userName: any;
   password: any;
   OldPassword: any;
   NewPassword: any;
+  login_User: any;
 
-  constructor(private router: Router,private restApiService: RestAPIService, private datepipe: DatePipe,
+  constructor(private router: Router, private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
-    this.districtsData = this.masterDataService.getDistricts();
-    this.regionsData = this.masterDataService.getRegions();
+    // this.login_User = JSON.parse(this.authService.getUserInfo()).user;
+    this.login_User = JSON.parse(this.authService.getCredentials()).user;
+    // this.userName = this.login_User;
     this.ChangeForm = this.fb.group({
       user: ['', Validators.required],
       pswd: ['', Validators.required],
@@ -48,50 +50,52 @@ export class ChangePasswordComponent implements OnInit {
     // }
   }
 
-  onForgetPswd() {
-    if (this.ChangeForm.invalid) {
-      this.messageService.clear();
-      this.messageService.add({
-        key: 't-err', severity: 'error',
-        summary: 'Error Message', detail: 'Please Enter Valid Credentials!'
-      });
-      return;
-    } else {
-      let username = new HttpParams().append('userName', this.userName);
-      this.restApiService.getByParameters(PathConstants.TicketDescription, username).subscribe(res => {
-        if (res !== undefined) {
-          if (this.userName.toLowerCase() === res[0].userName.toLowerCase() && this.OldPassword === res[0].Pwd && this.OldPassword !== this.NewPassword) {
-            this.router.navigate(['Home']);
-            this.setUsername(this.userName);
-            this.setOldPassword(this.OldPassword);
-            this.setNewPassword(this.NewPassword);
-          }
-        } else {
-          this.onClear();
-          this.messageService.clear();
-          this.messageService.add({
-            key: 't-err', severity: 'error',
-            summary: 'Error Message', detail: 'Please Enter Valid Credentials!'
-          });
-        }
-      });
-    }
-  }
+  // onForgetPswd() {
+  //   if (this.ChangeForm.invalid) {
+  //     this.messageService.clear();
+  //     this.messageService.add({
+  //       key: 't-err', severity: 'error',
+  //       summary: 'Error Message', detail: 'Please Enter Valid Credentials!'
+  //     });
+  //     return;
+  //   } else {
+  //     const params = {
+  //       'UserName': this.userName,
+  //       'Pswd': this.password
+  //     }
+  //     this.restApiService.getByParameters(PathConstants.ChangePassword, params).subscribe(res => {
+  //       if (res !== undefined) {
+  //         if (this.userName.toLowerCase() === res[0].userName.toLowerCase() && this.OldPassword === res[0].Pwd && this.OldPassword !== this.NewPassword) {
+  //           this.router.navigate(['Home']);
+  //           this.setUsername(this.userName);
+  //           this.setOldPassword(this.OldPassword);
+  //           this.setNewPassword(this.NewPassword);
+  //         }
+  //       } else {
+  //         this.onClear();
+  //         this.messageService.clear();
+  //         this.messageService.add({
+  //           key: 't-err', severity: 'error',
+  //           summary: 'Error Message', detail: 'Please Enter Valid Credentials!'
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   onNew() {
     let head = JSON.parse(this.authService.getCredentials()).pswd;
     const params = {
-      'UserId': this.userName,
-      'OldPassword': this.OldPassword,
-      'NewPassword': this.NewPassword
+      'UserName': this.userName,
+      'Pswd': this.NewPassword
     };
-    if (this.OldPassword === head && this.NewPassword !== undefined && this.NewPassword !== null) {
-      this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
+    if (this.OldPassword === head && this.NewPassword !== undefined && this.NewPassword !== null && this.NewPassword !== this.OldPassword) {
+      this.restApiService.put(PathConstants.ChangePassword, params).subscribe(res => {
         if (res) {
           this.messageService.clear();
           this.messageService.add({
-            key: 't-err', severity: 'error',
-            summary: 'Error Message', detail: 'Password Changed Successfully!'
+            key: 't-err', severity: 'success',
+            summary: 'Success Message', detail: 'Password Changed Successfully!'
           });
           // setTimeout(this.onTime, 3000);
         } else {
