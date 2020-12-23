@@ -24,7 +24,7 @@
                                     <button type="button" pButton pRipple (click)="onSearch()" icon="pi pi-search"></button>
                                 </div>
                             </div> -->
-                <div class="p-col-12 p-md-12 p-lg-12 card border-green">
+                <div class="p-col-12 p-md-12 p-lg-12 card border-green no-pad-bottom">
                     <div class="p-grid dashboard" style="margin-top: 1px;">
                         <div class="p-col-12 p-md-6 p-lg-2">
                             <div class="overview-box  box-ab">
@@ -79,24 +79,27 @@
 
                                         </div>
                                     </div> -->
-                        <div class="p-col-12 p-md-12 p-lg-12 card" style="display: flex;">
+                     <div class="p-col-12 p-md-12 p-lg-12">
+                       <div class="p-grid card" style="display: flex; margin-right: -0.1rem !important;
+                        margin-left: -0.1rem !important;">
                             <div class="p-col-12 p-md-12 p-lg-6 border-green">
                                 <div class="header-line">Helpdesk Management Ticket Status</div>
-                                <div class="padding-gap">
+                                <div class="margin-gap-layout">
                                     <p-chart type="pie" [data]="pieData" width="auto" height="55vh" [plugins]="plugin"
                                         [options]="pieOptions" (onDataSelect)="selectData($event)"></p-chart>
                                 </div>
                             </div>
                             <div class="p-col-12 p-md-12 p-lg-6 border-green">
-                                <div class="header-line">User Manual To Downaload</div>
+                                <div class="header-line">User Manual To Download</div>
                                 <div class="p-grid dashboard-tiles" style="padding-top: 25px;">
-                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(1)">
+                                    <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(1)">
                                         <div class="card overview-box overview-box-1">
-                                            <div class="overview-box-name">Network & Camera Manual</div>
-                                            <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                            <span class="overview-box-name">Network & Camera Manual</span>
+                                            <div class="overview-box-subtitle">{{titleDownloadtext}}</div> 
                                             <div class="overview-box-badge">
                                                 <i class="pi pi-download"></i>
                                             </div>
+                                            <div class="p-col-12 overview-box-bg-1"></div>
                                         </div>
 
                                         <!-- <img src="assets/images/dashboard/chart-1.svg"> -->
@@ -110,16 +113,17 @@
                                         click here to download .pdf file
                                     </div> -->
                                     </div>
-                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(2)">
+                                    <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(2)">
                                         <div class="card overview-box overview-box-2">
                                             <div class="overview-box-name">Network Video Recorder</div>
                                             <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
                                             <div class="overview-box-badge">
                                                 <i class="pi pi-download"></i>
                                             </div>
+                                            <div class="p-col-12 overview-box-bg-2"></div>
                                         </div>
                                     </div>
-                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(3)"
+                                    <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(3)"
                                         style="padding-top: 10px;">
                                         <div class="card overview-box overview-box-3">
                                             <div class="overview-box-name">KVMS Pro User Manual</div>
@@ -127,9 +131,10 @@
                                             <div class="overview-box-badge">
                                                 <i class="pi pi-download"></i>
                                             </div>
+                                            <div class="p-col-12 overview-box-bg-3"></div>
                                         </div>
                                     </div>
-                                    <div class="p-col-12 p-md-12 p-lg-6 no-pad" (click)="onPDFDownload(4)"
+                                    <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(4)"
                                         style="padding-top: 10px;">
                                         <div class="card overview-box overview-box-4">
                                             <div class="overview-box-name">HMS User Manual</div>
@@ -137,11 +142,13 @@
                                             <div class="overview-box-badge">
                                                 <i class="pi pi-download"></i>
                                             </div>
+                                            <div class="p-col-12 overview-box-bg-4"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
                 <!-- </div> -->
@@ -151,4 +158,4 @@
         </div>
     </div>
     <app-footer></app-footer>
-</body>laydasout
+</body>
