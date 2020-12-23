@@ -14,7 +14,7 @@
                     <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
                         [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                         [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                        [(selection)]="selected" selectionMode="single" (onRowSelect)="onRowSelect($event)"
+                        [(selection)]="selected" selectionMode="single" (onRowSelect)="onRowSelect($event, rowData)"
                         exportFilename="MY_TICKET_REPORT">
                         <ng-template pTemplate="header" let-columns>
                             <tr style="text-align: center;">
@@ -31,9 +31,37 @@
                             </tr>
                         </ng-template>
                     </p-table>
+                    <div *ngIf="showDialog">
+                        <div style="float: right;">
+                            <button pButton type="submit" label="Add Comment" class="p-button-raised p-btn-pad bg-div"
+                                icon="" iconPos="right" (click)="onComment()"></button>
+                        </div>
+                        <h3>Comments for the ticket</h3>
+                        <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols"
+                            [value]="TDData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
+                            [responsive]="true" autoLayout="true" [loading]="loading" [(selection)]="selected"
+                            selectionMode="single" (onRowSelect)="onRow($event)"
+                            exportFilename="MY_TICKET_DESCRIPTIONS">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr style="text-align: center;">
+                                    <th *ngFor="let col of columns">
+                                        {{col.header}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                <tr [pSelectableRow]="rowData">
+                                    <td *ngFor="let col of columns">
+                                        {{rowData[col.field]}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
                 </div>
             </p-panel>
-            <p-dialog header="Update Ticket!" [(visible)]="showDialog" [style]="{width: '32vw'}" [modal]="true"
+
+            <p-dialog header="Update Ticket Comment!" [(visible)]="showComment" [style]="{width: '32vw'}" [modal]="true"
                 [resizable]="false" [baseZIndex]="10000" icon="pi pi-exclamation-triangle">
                 <!-- <div class="padding-gap" style="padding-bottom: 10px;">Do you want to close the document ?</div> -->
                 <div class="p-col-12 p-md-4 p-lg-12">
@@ -90,7 +118,5 @@
             </p-dialog>
         </div>
     </div>
-</body>
-<div class="no-pad" style="margin-left: 34px; margin-right: 35px;">
     <app-footer></app-footer>
-</div>
+</body>

@@ -8,7 +8,7 @@ import { User } from '../login/user';
 })
 export class AuthService {
   isSignedIn: boolean;
-
+  getUserInfo: any;
   constructor(private router: Router) { }
 
   public isLoggedIn() {
@@ -25,6 +25,24 @@ export class AuthService {
   public getLoggedUser() {
     return JSON.parse(localStorage.getItem('USER_INFO'));
   }
+
+  public getUserAccessible() {
+    // let roleId = localStorage.getItem('ID');
+    let gCode = localStorage.getItem('GCODE');
+    let rCode = localStorage.getItem('RCODE');
+    let gName = localStorage.getItem('GNAME');
+    let rName = localStorage.getItem('RNAME');
+
+    if (gCode !== undefined && gCode !== ''
+      && rCode !== undefined && rCode !== '') {
+      return { gCode, rCode, gName, rName };
+    }
+  }
+
+  public getCredentials() {
+    this.getUserInfo = localStorage.getItem('USER_INFO');
+     return this.getUserInfo;
+   }
 
   public logout() {
     localStorage.removeItem('USER_INFO');
