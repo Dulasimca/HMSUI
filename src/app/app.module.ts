@@ -25,6 +25,8 @@ import { DialogModule } from 'primeng/dialog';
 import { PanelModule } from 'primeng/panel';
 import { DataViewModule } from 'primeng/dataview';
 import { RippleModule } from 'primeng/ripple';
+// import {TimelineModule} from 'primeng/timeline';
+import { PrimeNGConfig } from 'primeng/api';
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -63,7 +65,7 @@ import { ChangePasswordComponent } from './profiles/change-password/change-passw
     SearchTicketComponent,
     TicketUpdateComponent,
     MyTicketsComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,7 +100,8 @@ import { ChangePasswordComponent } from './profiles/change-password/change-passw
     MenubarModule,
     DialogModule,
     DataViewModule,
-    RippleModule
+    RippleModule,
+    // TimelineModule
   ],
   providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
     PathConstants],

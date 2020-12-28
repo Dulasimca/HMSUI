@@ -30,7 +30,7 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     // this.login_User = JSON.parse(this.authService.getUserInfo()).user;
     this.login_User = JSON.parse(this.authService.getCredentials()).user;
-    // this.userName = this.login_User;
+    this.userName = this.login_User;
     this.ChangeForm = this.fb.group({
       user: ['', Validators.required],
       pswd: ['', Validators.required],

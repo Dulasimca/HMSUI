@@ -147,19 +147,21 @@
                     <div class="p-col-12 p-md-4 p-lg-1"></div>
                     <div class="p-col-12 p-md-4 p-lg-6" style="padding-top: 2vh;">
                         <div class="p-float-label">
-                            <textarea id="float-input" [(ngModel)]="TicketDescription" rows="5" cols="80"
+                            <textarea id="float-input" [(ngModel)]="TicketDescription" rows="5" cols="90"
                                 pInputTextarea></textarea>
                             <label for="float-input">Ticket Description</label>
                         </div>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1" style="margin-top: 15vh;">
                         <button pButton type="submit" label="Submit" class="p-button-raised p-btn-pad bg-div" icon=""
-                            iconPos="right" (click)="onSave()"></button>
+                            iconPos="right"
+                            [disabled]="(!location || !compId || !Assignee || !DefaultCC || !Subject || !TicketDescription)"
+                            (click)="onSave()"></button>
                     </div>
-                    <div class="p-col-12 p-md-4 p-lg-2" style="margin-top: 15vh;">
+                    <!-- <div class="p-col-12 p-md-4 p-lg-2" style="margin-top: 15vh;">
                         <button pButton type="submit" label="Add an Attachment" class="p-button-raised p-btn-pad bg-div"
-                            icon="" iconPos="right"></button>
-                    </div>
+                            icon="" iconPos="right" [disabled]="true"></button>
+                    </div> -->
                 </div>
                 <!-- </form> -->
             </p-panel>

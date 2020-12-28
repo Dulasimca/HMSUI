@@ -38,14 +38,18 @@ export class SearchTicketComponent implements OnInit {
   showTicketGrid: boolean = true;
   Ticket: any;
   ID: any;
+  TT: [];
+  login_User: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
 
   ngOnInit() {
     this.bugStatusData = this.masterDataService.getBugStatus();
+    this.login_User = JSON.parse(this.authService.getCredentials()).user;
+    this.username = this.login_User;
     // this.username = JSON.parse(this.authService.getCredentials()).user;
-    this.username = '42';
+    // this.username = '42';
     this.onTD();
     this.TicketReportCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
@@ -65,9 +69,9 @@ export class SearchTicketComponent implements OnInit {
       { field: 'shop_number', header: 'Shop_Number' },
     ];
     this.TDCols = [
-      { field: 'TicketID', header: 'TicketID' },
-      { field: 'reporter', header: 'Reporter' },
-      { field: 'ticketTime', header: 'Comment Date' },
+      // { field: 'TicketID', header: 'TicketID' },
+      // { field: 'reporter', header: 'Reporter' },
+      // { field: 'ticketTime', header: 'Comment Date' },
       { field: 'description', header: 'Description' },
     ];
   }
@@ -140,11 +144,14 @@ export class SearchTicketComponent implements OnInit {
     this.onTD();
     this.showDialog = true;
     this.showTicketGrid = false;
-    this.TDData = this.TD
+    // this.TDData = this.TD
   }
 
-  onComment() {
-    this.showComment = true;
+  get description() {
+    return this.TDData.map((o) => o.description);
+  }
+  get ticketID() {
+    return this.TDData.map((o) => o.TicketID);
   }
 
   onUpdate() {
@@ -164,7 +171,10 @@ export class SearchTicketComponent implements OnInit {
             key: 't-err', severity: 'success',
             summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Updated Successfully !'
           });
-          this.onCancel();
+          this.CancelTD();
+          this.onTD();
+          // this.TDData = this.TD;
+          // this.onCancel();
         } else {
           this.blockScreen = false;
           this.messageService.clear();
@@ -251,11 +261,15 @@ export class SearchTicketComponent implements OnInit {
   onCancel() {
     this.Status = this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
     this.StatusOptions = [];
-    this.showDialog = this.showComment = false;
-    this.showTicketGrid = true;
+  }
+
+  CancelTD(){
+    this.TD = [];
+    this.TicketDescription = null;
   }
 
   onBack() {
-    this.showComment = false;
+    this.showTicketGrid = true;
+    this.showDialog = false;
   }
 }

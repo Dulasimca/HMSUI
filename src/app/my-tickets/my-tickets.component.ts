@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
 import { PathConstants } from '../Constants/PathConstants';
 import { MasterDataService } from '../masters-services/master-data.service';
+import { AuthService } from '../services/auth.service';
 import { RestAPIService } from '../services/restAPI.service';
 
 @Component({
@@ -34,13 +35,15 @@ export class MyTicketsComponent implements OnInit {
   AllTD: any = [];
   blockScreen: boolean;
   showTicketGrid: boolean = true;
+  login_User: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
-    private messageService: MessageService, private masterDataService: MasterDataService) { }
+    private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
 
   ngOnInit() {
     this.bugStatusData = this.masterDataService.getBugStatus();
-    this.username = "42";
+    this.login_User = JSON.parse(this.authService.getCredentials()).user;
+    this.username = this.login_User;
     this.onTicket();
     this.onTD();
     this.TicketReportCols = [
@@ -146,7 +149,7 @@ export class MyTicketsComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticketID': this.TicketID,
-        'reporter': 42,
+        'reporter': this.username,
         'ticketdescription': this.TicketDescription,
         'Status': (this.Status.label === undefined) ? this.Status : this.Status.label
       }
@@ -186,7 +189,7 @@ export class MyTicketsComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticket_id': this.TicketID,
-        'assingedTo': 42,
+        'assingedTo': this.username,
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
         // 'reporter': '42',

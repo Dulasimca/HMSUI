@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PathConstants } from 'src/app/helper/PathConstants';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-new-ticket',
@@ -58,12 +59,18 @@ export class NewTicketComponent implements OnInit {
   blockScreen: boolean;
   TicketID: any;
   ticketView: any[];
+  login_User: any;
+  user: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
-    private messageService: MessageService, private masterDataService: MasterDataService, private router: Router) { }
+    private messageService: MessageService, private masterDataService: MasterDataService, private router: Router,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.showCloseDate = false;
+    this.login_User = JSON.parse(this.authService.getCredentials()).user;
+    this.user = this.login_User;
+    // this.user = '42';
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.locationsData = this.masterDataService.getProducts();
@@ -188,6 +195,7 @@ export class NewTicketComponent implements OnInit {
       this.dcode = null;
       this.rcode = null;
       this.shopCode = null;
+      this.componentsData = [];
     }
   }
 
@@ -198,13 +206,13 @@ export class NewTicketComponent implements OnInit {
         'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '0',
         'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '0',
         'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '0',
-        'assingedTo': 42,
+        'assingedTo': this.Assignee,
         'Ticketseverity': "enhanced",
         'Ticketstatus': this.Status,
         'short_desc': this.Subject,
         'product': this.location,
         'component_id': this.compId.value,
-        'reporter': '42',
+        'reporter': this.user,
         'URL': this.URL,
         'everconfirmed': true,
         'reporter_accessible': true,
@@ -250,13 +258,14 @@ export class NewTicketComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticketID': this.TicketID,
-        'reporter': '42',
+        'reporter': this.user,
         'ticketdescription': this.TicketDescription,
         'Status': this.Status
       }
       this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
         if (res.item1) {
           this.blockScreen = false;
+          this.onClear();
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'success',
@@ -281,6 +290,11 @@ export class NewTicketComponent implements OnInit {
         }
       });
     }
+  }
+
+  onClear(){
+    this.location = this.rcode = this.dcode = this.shopCode = this.compId = this.Assignee = null;
+    this.DefaultCC = this.ComponentDescription = this.URL = this.Subject = this.TicketDescription = null;
   }
 
   ticketUpdate() {

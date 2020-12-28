@@ -22,7 +22,7 @@ export class TicketUpdateComponent implements OnInit {
   showDialog: boolean = false;
   showComment: boolean = false;
   selectedDocId: number;
-  username: string;
+  userName: string;
   Assignee: any;
   DefaultCC: any;
   URL: any;
@@ -39,14 +39,19 @@ export class TicketUpdateComponent implements OnInit {
   AllTD: any = [];
   blockScreen: boolean;
   showTicketGrid: boolean = true;
+  TT: [];
+  login_User: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private authService: AuthService) { }
 
   ngOnInit() {
     this.bugStatusData = this.masterDataService.getBugStatus();
-    // this.username = JSON.parse(this.authService.getCredentials()).user;
-    this.username = '42';
+    this.login_User = JSON.parse(this.authService.getCredentials()).user;
+    this.userName = this.login_User;
+    // this.login_User = JSON.parse(this.authService.getCredentials()).user;
+    // this.userName = this.login_User;
+    // this.userName = '42';
     this.onTicket();
     this.onTD();
     this.TicketReportCols = [
@@ -67,9 +72,9 @@ export class TicketUpdateComponent implements OnInit {
       { field: 'shop_number', header: 'Shop_Number' },
     ];
     this.TDCols = [
-      { field: 'TicketID', header: 'TicketID' },
-      { field: 'reporter', header: 'Reporter' },
-      { field: 'ticketTime', header: 'Comment Date' },
+      // { field: 'TicketID', header: 'TicketID' },
+      // { field: 'reporter', header: 'Reporter' },
+      // { field: 'ticketTime', header: 'Comment Date' },
       { field: 'description', header: 'Description' },
     ];
   }
@@ -91,7 +96,7 @@ export class TicketUpdateComponent implements OnInit {
 
   onTicket() {
     const params = {
-      'UserName': this.username,
+      'UserName': this.userName,
       'TicketID': "A"
     }
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
@@ -108,7 +113,7 @@ export class TicketUpdateComponent implements OnInit {
 
   onTD() {
     const params = {
-      'UserName': this.username,
+      'UserName': this.userName,
       'TicketID': "TD"
     }
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
@@ -139,20 +144,16 @@ export class TicketUpdateComponent implements OnInit {
     this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
     this.Status = event.data.Status;
     this.onTD();
-    this.TDData = this.TD
+    // this.TDData = this.TD
     this.showDialog = true;
     this.showTicketGrid = false;
-  }
-
-  onComment() {
-    this.showComment = true;
   }
 
   onUpdate() {
     if (this.TicketID !== undefined) {
       const params = {
         'ticketID': this.TicketID,
-        'reporter': 42,
+        'reporter': this.userName,
         'ticketdescription': this.TicketDescription,
         'Status': (this.Status.label === undefined) ? this.Status : this.Status.label
       }
@@ -165,7 +166,10 @@ export class TicketUpdateComponent implements OnInit {
             key: 't-err', severity: 'success',
             summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Updated Successfully !'
           });
-          this.onCancel();
+          this.CancelTD();
+          this.onTD();
+          // this.TDData = this.TD;
+          // this.onCancel();
         } else {
           this.blockScreen = false;
           this.messageService.clear();
@@ -201,8 +205,6 @@ export class TicketUpdateComponent implements OnInit {
       }
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
         if (res) {
-          // this.TicketID = res.item3;
-          // this.ticketUpdate();
           this.onUpdate();
           this.blockScreen = false;
           this.messageService.clear();
@@ -251,11 +253,15 @@ export class TicketUpdateComponent implements OnInit {
   onCancel() {
     this.Status = this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
     this.StatusOptions = [];
-    this.showDialog = this.showComment = false;
-    this.showTicketGrid = true;
+  }
+
+  CancelTD() {
+    this.TD = [];
+    this.TicketDescription = null;
   }
 
   onBack() {
-    this.showComment = false;
+    this.showTicketGrid = true;
+    this.showDialog = false;
   }
 }
