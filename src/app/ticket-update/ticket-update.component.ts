@@ -51,9 +51,6 @@ export class TicketUpdateComponent implements OnInit {
     this.bugStatusData = this.masterDataService.getBugStatus();
     this.login_User = JSON.parse(this.authService.getCredentials()).user;
     this.userName = this.login_User;
-    // this.login_User = JSON.parse(this.authService.getCredentials()).user;
-    // this.userName = this.login_User;
-    // this.userName = '42';
     this.onTicket();
     this.onTD();
     this.TicketReportCols = [
@@ -146,7 +143,6 @@ export class TicketUpdateComponent implements OnInit {
     this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
     this.Status = event.data.Status;
     this.onTD();
-    // this.TDData = this.TD
     this.showDialog = true;
     this.showTicketGrid = false;
   }
@@ -170,8 +166,6 @@ export class TicketUpdateComponent implements OnInit {
           });
           this.CancelTD();
           this.onTD();
-          // this.TDData = this.TD;
-          // this.onCancel();
         } else {
           this.blockScreen = false;
           this.messageService.clear();
@@ -201,7 +195,7 @@ export class TicketUpdateComponent implements OnInit {
         'assingedTo': this.userName,
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
-        'URL': this.URL,
+        'URL': "Tasmac-hms.com",
         'CC': this.DefaultCC
       }
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {

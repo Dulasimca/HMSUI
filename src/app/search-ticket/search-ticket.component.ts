@@ -50,8 +50,6 @@ export class SearchTicketComponent implements OnInit {
     this.bugStatusData = this.masterDataService.getBugStatus();
     this.login_User = JSON.parse(this.authService.getCredentials()).user;
     this.username = this.login_User;
-    // this.username = JSON.parse(this.authService.getCredentials()).user;
-    // this.username = '42';
     this.onTD();
     this.TicketReportCols = [
       { header: 'S.No', field: 'SlNo', width: '40px' },
@@ -100,7 +98,6 @@ export class SearchTicketComponent implements OnInit {
     }
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
       if (res) {
-        // this.ShowTable = true;
         this.TicketReportData = res;
         let sno = 0;
         this.TicketReportData.forEach(result => {
@@ -146,7 +143,6 @@ export class SearchTicketComponent implements OnInit {
     this.onTD();
     this.showDialog = true;
     this.showTicketGrid = false;
-    // this.TDData = this.TD
   }
 
   get description() {
@@ -160,7 +156,7 @@ export class SearchTicketComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticketID': this.TicketID,
-        'reporter': 42,
+        'reporter': this.username,
         'ticketdescription': this.TicketDescription,
         'Status': (this.Status.label === undefined) ? this.Status : this.Status.label
       }
@@ -175,8 +171,6 @@ export class SearchTicketComponent implements OnInit {
           });
           this.CancelTD();
           this.onTD();
-          // this.TDData = this.TD;
-          // this.onCancel();
         } else {
           this.blockScreen = false;
           this.messageService.clear();
@@ -203,17 +197,14 @@ export class SearchTicketComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticket_id': this.TicketID,
-        'assingedTo': 42,
+        'assingedTo': this.username,
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
-        // 'reporter': '42',
-        'URL': this.URL,
+        'URL': "Tasmac-hms.com",
         'CC': this.DefaultCC
       }
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
         if (res) {
-          // this.TicketID = res.item3;
-          // this.ticketUpdate();
           this.onUpdate();
           this.blockScreen = false;
           this.messageService.clear();
@@ -240,7 +231,6 @@ export class SearchTicketComponent implements OnInit {
         }
       });
     }
-    // this.router.navigate(['/TicketDescription']);
   }
 
   ticketUpdate() {
@@ -251,7 +241,6 @@ export class SearchTicketComponent implements OnInit {
         Reporter: this.Assignee, URL: this.URL
       });
     })
-    // this.ticketView = ticketSelection;
   }
 
   onResetTable() {
@@ -265,7 +254,7 @@ export class SearchTicketComponent implements OnInit {
     this.StatusOptions = [];
   }
 
-  CancelTD(){
+  CancelTD() {
     this.TD = [];
     this.TicketDescription = null;
   }
