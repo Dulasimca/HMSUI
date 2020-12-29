@@ -143,7 +143,7 @@ export class TicketReportComponent implements OnInit {
           });
           // this.componentsData.push({ label: 'All', value: 1 });
           this.componentOptions = this.componentsData;
-          this.componentOptions.unshift({ label: 'All', value: null });
+          this.componentOptions.unshift({ label: 'All', value: 1 });
         });
         break;
       case 'S':
@@ -189,7 +189,7 @@ export class TicketReportComponent implements OnInit {
       'Component': (this.compId !== undefined && this.compId !== null) ? this.compId.value : 1,
       'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode : 'All',
       'FDate': '2020-12-01 3:17:38',
-      'TDate': '2020-12-25 17:15:33'
+      'TDate': '2020-12-30 17:15:33'
       // 'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
       // 'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
     }
@@ -202,6 +202,7 @@ export class TicketReportComponent implements OnInit {
           sno += 1;
           res.SlNo = sno;
         });
+        // this.compId.value = null;
       } else {
         this.blockScreen = false;
         this.TicketReportData = [];
@@ -223,5 +224,16 @@ export class TicketReportComponent implements OnInit {
     })
   }
 
-  onResetFields() { }
+  onResetFields(field) {
+    if (field === 'RM') {
+      this.dcode = null;
+      this.shopCode = null;
+    } else if (field === 'L') {
+      this.compId = null;
+      this.dcode = null;
+      this.rcode = null;
+      this.shopCode = null;
+      this.componentsData = [];
+    }
+  }
 }

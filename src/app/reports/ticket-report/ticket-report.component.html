@@ -18,7 +18,7 @@
                         </div>
                         <p-dropdown #loc name="loc" [options]="locationOptions"
                             [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="location"
-                            (onClick)="onSelect('L')" (onChange)="onResetFields()" required>
+                            (onClick)="onSelect('L')" (onChange)="onResetFields('L')" required>
                             <ng-template let-item pTemplate="selectedItem">
                                 <span style="vertical-align:middle">{{item.label}}</span>
                             </ng-template>
@@ -30,7 +30,7 @@
                         </div>
                         <p-dropdown #reg name="rname" [options]="regionOptions"
                             [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="rcode" (onClick)="onSelect('R')"
-                            (onChange)="onResetFields()" filter="true" resetFilterOnHide="true"
+                            (onChange)="onResetFields('RM')" filter="true" resetFilterOnHide="true"
                             filterMatchMode="startsWith" [disabled]="disableRM" required>
                             <ng-template let-item pTemplate="selectedItem">
                                 <span style="vertical-align:middle">{{item.label}}</span>
