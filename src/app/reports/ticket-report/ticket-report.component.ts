@@ -41,6 +41,7 @@ export class TicketReportComponent implements OnInit {
   shopOptions: SelectItem[];
   shopData: any = [];
   shopCode: any;
+  loading: boolean;
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,

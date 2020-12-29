@@ -1001,7 +1001,7 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
 .ticketdesc {
   color: black;
   padding: 1vh;
-  border: 2px solid darksalmon !important;
+  /* border: 2px solid darksalmon !important; */
   margin: 1vh;
   border-radius: 1vh;
 }

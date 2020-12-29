@@ -18,7 +18,7 @@
                         </div>
                         <p-dropdown #loc name="loc" [options]="locationOptions"
                             [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="location"
-                            (onClick)="onSelect('L')" (onChange)="onResetFields('L')" required>
+                            (onClick)="onSelect('L')" (onChange)="onResetFields()" required>
                             <ng-template let-item pTemplate="selectedItem">
                                 <span style="vertical-align:middle">{{item.label}}</span>
                             </ng-template>
@@ -30,7 +30,7 @@
                         </div>
                         <p-dropdown #reg name="rname" [options]="regionOptions"
                             [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="rcode" (onClick)="onSelect('R')"
-                            (onChange)="onResetFields('RM')" filter="true" resetFilterOnHide="true"
+                            (onChange)="onResetFields()" filter="true" resetFilterOnHide="true"
                             filterMatchMode="startsWith" [disabled]="disableRM" required>
                             <ng-template let-item pTemplate="selectedItem">
                                 <span style="vertical-align:middle">{{item.label}}</span>
@@ -127,7 +127,6 @@
                         <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
                             [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                            [(selection)]="selected" selectionMode="single" (onRowSelect)="onRowSelect($event)"
                             exportFilename="TICKET_REPORT">
                             <ng-template pTemplate="header" let-columns>
                                 <tr style="text-align: center;">

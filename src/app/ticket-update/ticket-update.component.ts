@@ -41,6 +41,8 @@ export class TicketUpdateComponent implements OnInit {
   showTicketGrid: boolean = true;
   TT: [];
   login_User: any;
+  loading: boolean;
+  selected: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private authService: AuthService) { }
@@ -132,7 +134,7 @@ export class TicketUpdateComponent implements OnInit {
     });
   }
 
-  onRowSelect(event, selectedRow) {
+  onRowSelect(event) {
     this.onResetTable();
     console.log(event);
     this.TicketID = event.data.TicketID;

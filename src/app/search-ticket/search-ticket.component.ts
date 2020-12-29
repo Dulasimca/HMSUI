@@ -40,6 +40,8 @@ export class SearchTicketComponent implements OnInit {
   ID: any;
   TT: [];
   login_User: any;
+  loading: boolean;
+  selected: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
@@ -130,7 +132,7 @@ export class SearchTicketComponent implements OnInit {
     });
   }
 
-  onRowSelect(event, selectedRow) {
+  onRowSelect(event) {
     this.onResetTable();
     console.log(event);
     this.TicketID = event.data.TicketID;

@@ -36,6 +36,8 @@ export class MyTicketsComponent implements OnInit {
   blockScreen: boolean;
   showTicketGrid: boolean = true;
   login_User: any;
+  loading: boolean;
+  selected: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
@@ -124,7 +126,7 @@ export class MyTicketsComponent implements OnInit {
     });
   }
 
-  onRowSelect(event, selectedRow) {
+  onRowSelect(event) {
     this.onResetTable();
     console.log(event);
     this.TicketID = event.data.TicketID;

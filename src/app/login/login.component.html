@@ -14,22 +14,28 @@
                               margin-bottom: -12%;" />
                                 </div>
                                 <div> <i class="fa fa-user-circle fa-3x"></i> </div>
-                                <span>User Login</span>
+                                <span>HELPDESH MANAGEMENT SYSTEM - USER LOGIN</span>
                             </div>
                             <div class="p-col-12 p-md-12 p-lg-12" style="background: whitesmoke;">
                                 <div class="p-col-12 p-md-12 p-lg-12 txt-align">
                                     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
                                         <div class="p-col-12 p-md-12 p-lg-12">
-                                            <i class="fa fa-user fa-icon-customized"></i>
-                                            <input type="text" class="no-pad-top" id="user" formControlName="user"
-                                                pInputText [(ngModel)]="username" minlength="1" maxlength="30"
-                                                autocomplete="off" autocomplete="off" label=Username required />
+                                            <span class="p-float-label">
+                                                <i class="fa fa-user fa-icon-customized"></i>
+                                                <input type="text" class="p-col-12 p-md-12 p-lg-12 no-pad-top" id="user" formControlName="user"
+                                                    pInputText [(ngModel)]="username" minlength="1" maxlength="30"
+                                                    autocomplete="off" autocomplete="off" required />
+                                                <label for="float-input">Username</label>
+                                            </span>
                                         </div>
                                         <div class="p-col-12 p-md-12 p-lg-12">
-                                            <i class="fa fa-unlock-alt fa-icon-customized"></i>
-                                            <input class="no-pad-top" type="password" id="pswd" formControlName="pswd"
-                                                pInputText [(ngModel)]="password" minlength="1" maxlength="10"
-                                                autocomplete="off" required />
+                                            <span class="p-float-label">
+                                                <i class="fa fa-unlock-alt fa-icon-customized"></i>
+                                                <input class="p-col-12 p-md-12 p-lg-12 no-pad-top" type="password" id="pswd"
+                                                    formControlName="pswd" pInputText [(ngModel)]="password"
+                                                    minlength="1" maxlength="10" autocomplete="off" required />
+                                                <label for="float-input">Password</label>
+                                            </span>
                                         </div>
                                         <button pButton type="submit" label="login"
                                             class="p-button-raised p-btn-pad bg-div" icon="pi pi-sign-in"
