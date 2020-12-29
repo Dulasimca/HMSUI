@@ -198,10 +198,9 @@ export class TicketUpdateComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticket_id': this.TicketID,
-        'assingedTo': 42,
+        'assingedTo': this.userName,
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
-        // 'reporter': '42',
         'URL': this.URL,
         'CC': this.DefaultCC
       }
@@ -233,7 +232,6 @@ export class TicketUpdateComponent implements OnInit {
         }
       });
     }
-    // this.router.navigate(['/TicketDescription']);
   }
 
   ticketUpdate() {
@@ -244,7 +242,6 @@ export class TicketUpdateComponent implements OnInit {
         Reporter: this.Assignee, URL: this.URL
       });
     })
-    // this.ticketView = ticketSelection;
   }
 
   onResetTable() {
