@@ -1002,8 +1002,8 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
   color: black;
   padding: 1vh;
   /* border: 2px solid darksalmon !important; */
-  margin: 1vh;
+  margin: 2vh;
   border-radius: 1vh;
   background-color: #bbf5d8;
-  min-height: 20px;
+  min-height: 50px;
 }
