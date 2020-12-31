@@ -98,7 +98,7 @@
                     <h3>Previous Comments for the ticket - {{TicketID}}</h3>
                     <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols" [value]="TD"
                         [rows]="60" [responsive]="true" autoLayout="true" [loading]="loading" [(selection)]="selected"
-                        selectionMode="single" exportFilename="MY_TICKET_DESCRIPTIONS">
+                        selectionMode="single" exportFilename="MY_TICKET_DESCRIPTIONS" border:none>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                             <tr [pSelectableRow]="rowData">
                                 <td *ngFor="let col of columns">
