@@ -21,7 +21,6 @@ export class MyTicketsComponent implements OnInit {
   username: string;
   Assignee: any;
   DefaultCC: any;
-  URL: any;
   Subject: any;
   TicketDescription: any;
   Status: any;
@@ -46,6 +45,7 @@ export class MyTicketsComponent implements OnInit {
     this.bugStatusData = this.masterDataService.getBugStatus();
     this.login_User = JSON.parse(this.authService.getCredentials()).user;
     this.username = this.login_User;
+    // this.region = this.authService.getr
     this.onTicket();
     this.onTD();
     this.TicketReportCols = [
@@ -128,13 +128,12 @@ export class MyTicketsComponent implements OnInit {
 
   onRowSelect(event) {
     this.onResetTable();
-    console.log(event);
     this.TicketID = event.data.TicketID;
     this.Assignee = event.data.Assignee;
     this.DefaultCC = event.data.DefaultCC;
     this.reporter = event.data.reporter;
     this.Subject = event.data.Subject;
-    this.URL = event.data.URL;
+    // this.URL = event.data.URL;
     this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
     this.Status = event.data.Status;
     this.onTD();
@@ -195,7 +194,7 @@ export class MyTicketsComponent implements OnInit {
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
         // 'reporter': '42',
-        'URL': this.URL,
+        // 'URL': this.URL,
         'CC': this.DefaultCC
       }
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
@@ -236,8 +235,9 @@ export class MyTicketsComponent implements OnInit {
     ticketSelection.forEach(res => {
       ticketSelection.push({
         TicketID: this.TicketID, AssignedTo: this.Assignee, Status: this.Status, Subject: this.Subject,
-        Reporter: this.Assignee, URL: this.URL
+        Reporter: this.Assignee,
       });
+      //URL: this.URL
     })
     // this.ticketView = ticketSelection;
   }
@@ -248,9 +248,11 @@ export class MyTicketsComponent implements OnInit {
   }
 
   onCancel() {
-    this.Status = this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
+    this.Status = null; this.Assignee = null; this.TicketID = null;
+    this.DefaultCC = null; this.Subject = null; this.TicketDescription = null;
     this.StatusOptions = [];
     this.showDialog = this.showComment = false;
     this.showTicketGrid = true;
+    // this.URL 
   }
 }

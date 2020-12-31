@@ -48,6 +48,7 @@ import { SearchTicketComponent } from './search-ticket/search-ticket.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { PathConstants } from './helper/PathConstants';
 import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
+import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
 
 
 
@@ -66,6 +67,7 @@ import { ChangePasswordComponent } from './profiles/change-password/change-passw
     TicketUpdateComponent,
     MyTicketsComponent,
     ChangePasswordComponent,
+    TicketReportBydateComponent,
   ],
   imports: [
     BrowserModule,

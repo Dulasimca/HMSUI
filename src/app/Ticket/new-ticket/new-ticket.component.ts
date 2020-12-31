@@ -32,7 +32,7 @@ export class NewTicketComponent implements OnInit {
   CCOptions: SelectItem[];
   Assignee: any;
   DefaultCC: any;
-  URL: any;
+  //  URL: any;
   Subject: any;
   TicketDescription: any;
   reasonId: number;
@@ -213,7 +213,7 @@ export class NewTicketComponent implements OnInit {
         'product': this.location,
         'component_id': this.compId.value,
         'reporter': this.user,
-        'URL': this.URL,
+        // 'URL': this.URL,
         'everconfirmed': true,
         'reporter_accessible': true,
         'cclist_accessible': true,
@@ -292,9 +292,12 @@ export class NewTicketComponent implements OnInit {
     }
   }
 
-  onClear(){
-    this.location = this.rcode = this.dcode = this.shopCode = this.compId = this.Assignee = null;
-    this.DefaultCC = this.ComponentDescription = this.URL = this.Subject = this.TicketDescription = null;
+  onClear() {
+    this.location = null; this.rcode = null; this.dcode = null;
+    this.shopCode = null; this.compId = null; this.Assignee = null;
+    this.DefaultCC = null; this.ComponentDescription = null;
+    // this.URL =
+    this.Subject = null; this.TicketDescription = null;
   }
 
   ticketUpdate() {
@@ -303,7 +306,8 @@ export class NewTicketComponent implements OnInit {
       ticketSelection.push({
         TicketID: this.TicketID, AssignedTo: this.Assignee, Region: this.rcode,
         District: this.dcode, Status: this.Status, Subject: this.Subject, location: this.location, component: this.compId,
-        Reporter: this.Assignee, URL: this.URL
+        Reporter: this.Assignee,
+        // URL: this.URL
       });
     })
     this.ticketView = ticketSelection;
