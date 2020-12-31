@@ -90,8 +90,8 @@
                             </div>
                         </div>
                         <div class="p-col-12 p-md-4 p-lg-2">
-                            <button pButton type="submit" label="Update" class="p-button-raised p-btn-pad bg-div"
-                                icon="" iconPos="right" (click)="onSave()"></button>
+                            <button pButton type="submit" label="Save" class="p-button-raised p-btn-pad bg-div" icon=""
+                                iconPos="right" (click)="onSave()"></button>
                         </div>
                     </div>
 
@@ -102,7 +102,7 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                             <tr [pSelectableRow]="rowData">
                                 <td *ngFor="let col of columns">
-                                    <div style="color: red;">
+                                    <div style="color: rgb(7, 73, 160);">
                                         {{reporter}} posted on {{rowData.ticketTime}}
                                     </div>
                                     <div class="ticketdesc">

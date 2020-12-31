@@ -1004,4 +1004,6 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
   /* border: 2px solid darksalmon !important; */
   margin: 1vh;
   border-radius: 1vh;
+  background-color: #bbf5d8;
+  min-height: 20px;
 }
