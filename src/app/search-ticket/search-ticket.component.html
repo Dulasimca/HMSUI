@@ -26,9 +26,9 @@
                     <div class="p-col-12 p-md-4 p-lg-3"></div>
                     <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
                         [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-                        [paginator]="true" [responsive]="true" autoLayout="true"
-                        (onRowSelect)="onRowSelect($event)" [loading]="loading" [(selection)]="selected"
-                        selectionMode="single" exportFilename="MY_TICKET_REPORT">
+                        [paginator]="true" [responsive]="true" autoLayout="true" (onRowSelect)="onRowSelect($event)"
+                        [loading]="loading" [(selection)]="selected" selectionMode="single"
+                        exportFilename="MY_TICKET_REPORT">
                         <ng-template pTemplate="header" let-columns>
                             <tr style="text-align: center;">
                                 <th *ngFor="let col of columns">
@@ -86,13 +86,6 @@
                                 <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="DefaultCC"
                                     type="text" autocomplete="off" tabindex="3">
                                 <label for="float-input">Default CC</label>
-                            </div>
-                        </div>
-                        <div style="padding-top: 2vh" class="p-col-12 p-md-4 p-lg-3">
-                            <div class="p-float-label">
-                                <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="URL"
-                                    type="text" autocomplete="off" tabindex="3">
-                                <label for="float-input">URL</label>
                             </div>
                         </div>
                         <div style="padding-top: 2vh" class="p-col-12 p-md-4 p-lg-3">

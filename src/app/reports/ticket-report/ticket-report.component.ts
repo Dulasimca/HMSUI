@@ -141,7 +141,6 @@ export class TicketReportComponent implements OnInit {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
             }
           });
-          // this.componentsData.push({ label: 'All', value: 1 });
           this.componentOptions = this.componentsData;
           this.componentOptions.unshift({ label: 'All', value: 1 });
         });
@@ -202,7 +201,6 @@ export class TicketReportComponent implements OnInit {
           sno += 1;
           res.SlNo = sno;
         });
-        // this.compId.value = null;
       } else {
         this.blockScreen = false;
         this.TicketReportData = [];

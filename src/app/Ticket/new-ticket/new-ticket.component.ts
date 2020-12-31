@@ -70,7 +70,6 @@ export class NewTicketComponent implements OnInit {
     this.showCloseDate = false;
     this.login_User = JSON.parse(this.authService.getCredentials()).user;
     this.user = this.login_User;
-    // this.user = '42';
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.locationsData = this.masterDataService.getProducts();
@@ -174,15 +173,6 @@ export class NewTicketComponent implements OnInit {
           this.shopOptions.unshift({ label: '-Select-', value: 'All' });
         }
         break;
-      // case 'Status':
-      //   if (this.bugStatusData.length !== 0) {
-      //     this.bugStatusData.forEach(bs => {
-      //       statusSeletion.push({ label: bs.name, id: bs.id });
-      //     });
-      //     this.StatusOptions = statusSeletion;
-      //     this.StatusOptions.unshift({ label: '-Select-', value: null });
-      //   }
-      //   break;
     }
   }
 
@@ -213,13 +203,11 @@ export class NewTicketComponent implements OnInit {
         'product': this.location,
         'component_id': this.compId.value,
         'reporter': this.user,
-        // 'URL': this.URL,
+        'URL': "Tasmac-hms.com",
         'everconfirmed': true,
         'reporter_accessible': true,
         'cclist_accessible': true,
         'CC': this.DefaultCC
-        // 'FromDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd h:mm:ss a'),
-        // 'ToDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd h:mm:ss a'),
       }
       this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
         if (res.item1) {
@@ -293,11 +281,8 @@ export class NewTicketComponent implements OnInit {
   }
 
   onClear() {
-    this.location = null; this.rcode = null; this.dcode = null;
-    this.shopCode = null; this.compId = null; this.Assignee = null;
-    this.DefaultCC = null; this.ComponentDescription = null;
-    // this.URL =
-    this.Subject = null; this.TicketDescription = null;
+    this.location = this.rcode = this.dcode = this.shopCode = this.compId = this.Assignee = null;
+    this.DefaultCC = this.ComponentDescription = this.Subject = this.TicketDescription = null;
   }
 
   ticketUpdate() {
