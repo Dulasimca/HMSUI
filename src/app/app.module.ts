@@ -49,6 +49,7 @@ import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { PathConstants } from './helper/PathConstants';
 import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
+import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
 
 
 
@@ -68,6 +69,7 @@ import { TicketReportBydateComponent } from './reports/ticket-report-bydate/tick
     MyTicketsComponent,
     ChangePasswordComponent,
     TicketReportBydateComponent,
+    BugzillaReportComponent
   ],
   imports: [
     BrowserModule,

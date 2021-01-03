@@ -32,6 +32,7 @@ export class NewTicketComponent implements OnInit {
   CCOptions: SelectItem[];
   Assignee: any;
   DefaultCC: any;
+  DefaultTo: string;
   //  URL: any;
   Subject: any;
   TicketDescription: any;
@@ -156,7 +157,7 @@ export class NewTicketComponent implements OnInit {
           });
           this.CCData.forEach(bs => {
             if (bs.id === this.compId.value) {
-              this.DefaultCC = bs.name;
+              this.DefaultTo = bs.name;
               this.Assignee = bs.assiginee;
             }
           });
@@ -207,7 +208,8 @@ export class NewTicketComponent implements OnInit {
         'everconfirmed': true,
         'reporter_accessible': true,
         'cclist_accessible': true,
-        'CC': this.DefaultCC
+        'CC': this.DefaultCC,
+        'To': this.DefaultTo
       }
       this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
         if (res.item1) {

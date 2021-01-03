@@ -86,7 +86,7 @@
                                 <div class="header-line">Helpdesk Management Ticket Status</div>
                                 <div class="margin-gap-layout">
                                     <p-chart type="pie" [data]="pieData" width="auto" height="55vh" [plugins]="plugin"
-                                        [options]="pieOptions"></p-chart>
+                                        [options]="pieOptions" (onDataSelect)="selectData($event)"></p-chart>
                                 </div>
                             </div>
                             <div class="p-col-12 p-md-12 p-lg-6 border-green">

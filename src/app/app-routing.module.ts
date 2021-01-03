@@ -10,11 +10,13 @@ import { SearchTicketComponent } from './search-ticket/search-ticket.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
+import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomePageComponent },
+  { path: 'Bugzilla', component: BugzillaReportComponent, canActivate: [AuthGuard] },
   { path: 'MyTickets', component: MyTicketsComponent },
   { path: 'SearchTicket', component: SearchTicketComponent },
   { path: 'NewTicket', component: NewTicketComponent },
