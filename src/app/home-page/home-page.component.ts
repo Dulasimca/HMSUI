@@ -178,6 +178,11 @@ export class HomePageComponent implements OnInit {
     this.router.navigate(['/TicketByDateReport']);
   }
 
+  selectData(event) {
+    const index: string = event.element._index;
+    this.router.navigate(['Bugzilla'], { queryParams: { id: index, si: true } });
+  }
+
   preventBackButton() {
     history.pushState(null, null, location.href);
     this.locationStrategy.onPopState(() => {
