@@ -7,6 +7,7 @@ import { PathConstants } from '../helper/PathConstants';
 import { LocationStrategy } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import * as FileSaver from 'file-saver';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -37,7 +38,7 @@ export class HomePageComponent implements OnInit {
   titleDownloadtext: string;
 
   constructor(private locationStrategy: LocationStrategy, private restApi: RestAPIService,
-    private authService: AuthService) { }
+    private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.preventBackButton();
@@ -158,7 +159,7 @@ export class HomePageComponent implements OnInit {
       case 1:
         // const fileURL = pdfUrl + 'CameraUserManual.pdf';
         fileName = 'CameraUserManual';
-    break;
+        break;
       case 2:
         fileName = 'NetworkVideoRecorder';
         break;
@@ -171,6 +172,10 @@ export class HomePageComponent implements OnInit {
     const pdfURL = fileLoc + fileName + '.pdf';
     FileSaver.saveAs(pdfURL, fileName);
     this.blockScreen = false;
+  }
+
+  onNavigateToReport() {
+    this.router.navigate(['/TicketByDateReport']);
   }
 
   preventBackButton() {

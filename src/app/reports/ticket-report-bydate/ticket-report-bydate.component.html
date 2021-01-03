@@ -42,13 +42,29 @@
                         <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
                             [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                            exportFilename="TICKET_REPORT">
+                            exportFilename="TICKET_REPORT"
+                            [globalFilterFields]="['TicketID','ComponentName','Assignee','reporter']">
+                            <ng-template pTemplate="caption">
+                                <div class="p-d-flex">
+                                    <span class="p-input-icon-left p-ml-auto">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text"
+                                            (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                            placeholder="Search keyword" />
+                                    </span>
+                                </div>
+                            </ng-template>
                             <ng-template pTemplate="header" let-columns>
                                 <tr style="text-align: center;">
                                     <th *ngFor="let col of columns">
                                         {{col.header}}
                                     </th>
                                 </tr>
+                                <!-- <tr>
+                                    <th>
+                                        <p-columnFilter type="text" field="name"></p-columnFilter>
+                                    </th>
+                                </tr> -->
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                                 <tr [pSelectableRow]="rowData">

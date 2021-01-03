@@ -45,8 +45,6 @@ export class TicketReportBydateComponent implements OnInit {
       { field: 'reporter', header: 'Reporter' },
       { field: 'TicketDate', header: 'Ticket_Date' },
       { field: 'lastdiffed', header: 'Modified_Date' },
-      { field: 'URL', header: 'URL' },
-      { field: 'reporter', header: 'Reporter' },
       { field: 'REGNNAME', header: 'Region' },
       { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
