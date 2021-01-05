@@ -7,6 +7,7 @@ import { Table } from 'primeng/table/table';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-bugzilla-report',
   templateUrl: './bugzilla-report.component.html',
@@ -101,12 +102,12 @@ export class BugzillaReportComponent implements OnInit {
       element.creation_ts];
       rows.push(temp);
     });
-    import("jspdf").then(jsPDF => {
-      import("jspdf-autotable").then(x => {
-        const doc = new jsPDF.default('l', 'pt', 'a4');
-        doc.autoTable(this.bugzillaCols, rows);
-        doc.save('HELPDESK_STATUS_REPORT.pdf');
-      })
-    })
+    // import("jspdf").then(jsPDF => {
+    //   import("jspdf-autotable").then(x => {
+    //     const doc = new jsPDF.default('l', 'pt', 'a4');
+    //     doc.autoTable(this.bugzillaCols, rows);
+    //     doc.save('HELPDESK_STATUS_REPORT.pdf');
+    //   })
+    // })
   }
 }

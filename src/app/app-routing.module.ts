@@ -11,6 +11,7 @@ import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
+import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'TicketUpdate', component: TicketUpdateComponent },
   { path: 'ChangePassword', component: ChangePasswordComponent },
   { path: 'TicketByDateReport', component: TicketReportBydateComponent },
+  { path: 'AllTicketsReport', component: AllTicketsReportComponent },
 ];
 
 @NgModule({

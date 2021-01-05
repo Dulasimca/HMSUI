@@ -174,8 +174,8 @@ export class HomePageComponent implements OnInit {
     this.blockScreen = false;
   }
 
-  onNavigateToReport() {
-    this.router.navigate(['/TicketByDateReport']);
+  onNavigateToReport(value) {
+    this.router.navigate(['/AllTicketsReport'], { queryParams: { id: value, si: true } });
   }
 
   selectData(event) {

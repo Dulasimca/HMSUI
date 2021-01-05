@@ -50,6 +50,7 @@ import { PathConstants } from './helper/PathConstants';
 import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
+import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
 
 
 
@@ -69,7 +70,8 @@ import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-repo
     MyTicketsComponent,
     ChangePasswordComponent,
     TicketReportBydateComponent,
-    BugzillaReportComponent
+    BugzillaReportComponent,
+    AllTicketsReportComponent
   ],
   imports: [
     BrowserModule,

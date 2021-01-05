@@ -27,7 +27,7 @@
                 <div class="p-col-12 p-md-12 p-lg-12 card border-green no-pad-bottom">
                     <div class="p-grid dashboard" style="margin-top: 1px;">
                         <div class="p-col-12 p-md-6 p-lg-2">
-                            <div class="overview-box  box-ab" (click)="onNavigateToReport()">
+                            <div class="overview-box  box-ab" (click)="onNavigateToReport(9)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">All Bugs</div>
                                 <div class="overview-box-value">{{allBugsCount}}</div>
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
-                            <div class="overview-box  box-mb">
+                            <div class="overview-box  box-mb" (click)="onNavigateToReport(7)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">My Bugs</div>
                                 <div class="overview-box-value">{{myBugsCount}}</div>
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
-                            <div class="overview-box  box-ho" (click)="onNavigateToReport()">
+                            <div class="overview-box  box-ho" (click)="onNavigateToReport(2)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">Head Office</div>
                                 <div class="overview-box-value">{{headOfficeBugsCount}}</div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
-                            <div class="overview-box  box-ro" (click)="onNavigateToReport()">
+                            <div class="overview-box  box-ro" (click)="onNavigateToReport(3)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">Regional Office</div>
                                 <div class="overview-box-value">{{regionBugsCount}}</div>
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
-                            <div class="overview-box  box-do" (click)="onNavigateToReport()">
+                            <div class="overview-box  box-do" (click)="onNavigateToReport(4)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">District Office</div>
                                 <div class="overview-box-value">{{districtBugsCount}}</div>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
-                            <div class="overview-box  box-sh" (click)="onNavigateToReport()">
+                            <div class="overview-box  box-sh" (click)="onNavigateToReport(5)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">Shops</div>
                                 <div class="overview-box-value">{{shopBugsCount}}</div>
@@ -89,21 +89,22 @@
                                             [plugins]="plugin" [options]="pieOptions"
                                             (onDataSelect)="selectData($event)"></p-chart>
                                     </div>
-                                    <div class="p-col-12 p-md-12 p-lg-6 border-green">
-                                        <div class="header-line">User Manual To Download</div>
-                                        <div class="p-grid dashboard-tiles" style="padding-top: 25px;">
-                                            <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(1)">
-                                                <div class="card overview-box overview-box-1">
-                                                    <span class="overview-box-name">Network & Camera Manual</span>
-                                                    <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
-                                                    <div class="overview-box-badge">
-                                                        <i class="pi pi-download"></i>
-                                                    </div>
-                                                    <div class="p-col-12 overview-box-bg-1"></div>
+                                </div>
+                                <div class="p-col-12 p-md-12 p-lg-6 border-green">
+                                    <div class="header-line">User Manual To Download</div>
+                                    <div class="p-grid dashboard-tiles" style="padding-top: 25px;">
+                                        <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(1)">
+                                            <div class="card overview-box overview-box-1">
+                                                <span class="overview-box-name">Network & Camera Manual</span>
+                                                <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                                <div class="overview-box-badge">
+                                                    <i class="pi pi-download"></i>
                                                 </div>
+                                                <div class="p-col-12 overview-box-bg-1"></div>
+                                            </div>
 
-                                                <!-- <img src="assets/images/dashboard/chart-1.svg"> -->
-                                                <!-- <div class="file-icon">
+                                            <!-- <img src="assets/images/dashboard/chart-1.svg"> -->
+                                            <!-- <div class="file-icon">
                                         <img class="doc-icon" src="assets/images/dashboard/icon-doc.png">
                                     </div>
                                     <div class="file-title">
@@ -112,38 +113,37 @@
                                     <div class="file-subtitle">
                                         click here to download .pdf file
                                     </div> -->
-                                            </div>
-                                            <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(2)">
-                                                <div class="card overview-box overview-box-2">
-                                                    <div class="overview-box-name">Network Video Recorder</div>
-                                                    <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
-                                                    <div class="overview-box-badge">
-                                                        <i class="pi pi-download"></i>
-                                                    </div>
-                                                    <div class="p-col-12 overview-box-bg-2"></div>
+                                        </div>
+                                        <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(2)">
+                                            <div class="card overview-box overview-box-2">
+                                                <div class="overview-box-name">Network Video Recorder</div>
+                                                <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                                <div class="overview-box-badge">
+                                                    <i class="pi pi-download"></i>
                                                 </div>
+                                                <div class="p-col-12 overview-box-bg-2"></div>
                                             </div>
-                                            <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(3)"
-                                                style="padding-top: 10px;">
-                                                <div class="card overview-box overview-box-3">
-                                                    <div class="overview-box-name">KVMS Pro User Manual</div>
-                                                    <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
-                                                    <div class="overview-box-badge">
-                                                        <i class="pi pi-download"></i>
-                                                    </div>
-                                                    <div class="p-col-12 overview-box-bg-3"></div>
+                                        </div>
+                                        <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(3)"
+                                            style="padding-top: 10px;">
+                                            <div class="card overview-box overview-box-3">
+                                                <div class="overview-box-name">KVMS Pro User Manual</div>
+                                                <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                                <div class="overview-box-badge">
+                                                    <i class="pi pi-download"></i>
                                                 </div>
+                                                <div class="p-col-12 overview-box-bg-3"></div>
                                             </div>
-                                            <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(4)"
-                                                style="padding-top: 10px;">
-                                                <div class="card overview-box overview-box-4">
-                                                    <div class="overview-box-name">HMS User Manual</div>
-                                                    <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
-                                                    <div class="overview-box-badge">
-                                                        <i class="pi pi-download"></i>
-                                                    </div>
-                                                    <div class="p-col-12 overview-box-bg-4"></div>
+                                        </div>
+                                        <div class="p-col-6 p-md-6 p-lg-6 no-pad" (click)="onPDFDownload(4)"
+                                            style="padding-top: 10px;">
+                                            <div class="card overview-box overview-box-4">
+                                                <div class="overview-box-name">HMS User Manual</div>
+                                                <div class="overview-box-subtitle">{{titleDownloadtext}}</div>
+                                                <div class="overview-box-badge">
+                                                    <i class="pi pi-download"></i>
                                                 </div>
+                                                <div class="p-col-12 overview-box-bg-4"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -151,11 +151,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- </div> -->
-                    <!-- </div> -->
-                    <!-- </div> -->
                 </div>
+                <!-- </div> -->
+                <!-- </div> -->
+                <!-- </div> -->
             </div>
         </div>
-        <app-footer></app-footer>
+    </div>
+    <app-footer></app-footer>
 </body>
