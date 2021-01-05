@@ -3,7 +3,7 @@
         <div class="p-col-12 p-md-12 p-lg-12 no-pad">
             <app-topbar></app-topbar>
         </div>
-        <div class="p-col-12 p-md-12 p-lg-12 border-green" style="min-height:450px;">
+        <div class="p-col-12 p-md-12 p-lg-12 border-green">
             <p-panel>
                 <p-header>
                     <div class="ui-g panel-header">New Ticket
@@ -16,8 +16,8 @@
                     most
                     frequently reported tickets and check for the Ticket.
                 </p>
-                <div class="p-grid card" style="padding: 15px 0px 15px 0px;">
-                    <div class="p-col-12 p-md-4 p-lg-1"></div>
+                <div class="p-grid card border-green" style="padding-left: 15px;">
+                    <!-- <div class="p-col-12 p-md-4 p-lg-1"></div> -->
                     <div class="p-col-12 p-md-4 p-lg-2">
                         <div>
                             <label for="loc" class="label-text-color">Location</label>
@@ -84,61 +84,66 @@
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1"></div>
                     <div class="p-col-12 p-md-4 p-lg-1"></div>
-                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-2">
+                    <div style="padding-top: 1rem;" class="p-col-12 p-md-4 p-lg-2">
                         <span class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="Assignee"
                                 type="text" autocomplete="off" tabindex="3">
                             <label for="float-input">Assignee</label>
                         </span>
                     </div>
-                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-2">
+                    <div style="padding-top: 1rem;" class="p-col-12 p-md-4 p-lg-2">
                         <div class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="DefaultTo"
                                 type="text" autocomplete="off" [readonly]=true tabindex="3">
                             <label for="float-input">Default To</label>
                         </div>
                     </div>
-                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-2">
+                    <div style="padding-top: 1rem;" class="p-col-12 p-md-4 p-lg-2">
                         <div class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="DefaultCC"
                                 type="text" autocomplete="off" tabindex="3">
                             <label for="float-input">CC</label>
                         </div>
                     </div>
-                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-2">
+                    <div style="padding-top: 1rem;" class="p-col-12 p-md-4 p-lg-2">
                         <div class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="Status"
                                 type="text" autocomplete="off" [readonly]="true" tabindex="3">
                             <label for="float-input">Status</label>
                         </div>
                     </div>
-                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-4">
+                    <div class="p-col-12 p-md-4 p-lg-1"></div>
+                    <div class="p-col-12 p-md-4 p-lg-1"></div>
+                    <!-- <div class="p-grid"> -->
+                    <!-- <div class="p-col-12 p-md-4 p-lg-2"></div> -->
+                    <div style="padding-top: 1rem;" class="p-col-12 p-md-4 p-lg-4">
                         <div class="p-float-label">
                             <textarea [(ngModel)]="ComponentDescription" rows="1" cols="54" pInputTextarea></textarea>
                             <label for="float-input">Component Description</label>
                         </div>
                     </div>
-                    <div class="p-col-12 p-md-4 p-lg-1"></div>
-                    <div class="p-col-12 p-md-4 p-lg-1"></div>
-                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-4">
+                    <div style="padding-top: 1rem;" class="p-col-12 p-md-4 p-lg-4">
                         <div class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="Subject"
                                 type="text" autocomplete="off" tabindex="3">
                             <label for="float-input">Subject</label>
                         </div>
                     </div>
-                    <div class="p-col-12 p-md-4 p-lg-6" style="padding-top: 2vh;">
+                    <!-- </div> -->
+                    <div class="p-col-12 p-md-4 p-lg-6" style="padding-top: 1rem;">
                         <div class="p-float-label">
                             <textarea id="float-input" [(ngModel)]="TicketDescription" rows="5" cols="85" pInputTextarea
                                 tabindex="3"></textarea>
                             <label for="float-input">Ticket Description</label>
                         </div>
                     </div>
-                    <div class="p-col-12 p-md-4 p-lg-1" style="margin-top: 15vh;">
-                        <button pButton type="submit" label="Submit" class="p-button-raised p-btn-pad bg-div" icon=""
-                            iconPos="right"
-                            [disabled]="(!location || !compId || !Assignee || !DefaultCC || !Subject || !TicketDescription)"
-                            (click)="onSave()"></button>
+                    <div class="p-col-12">
+                        <div class="p-col-12 p-md-4 p-lg-1 no-pad-top" style="margin-left: 45%;">
+                            <button pButton type="submit" label="Submit" class="p-button-raised p-btn-pad bg-div"
+                                icon="" iconPos="right"
+                                [disabled]="(!location || !compId || !Assignee || !DefaultTo || !DefaultCC || !Subject || !TicketDescription)"
+                                (click)="onSave()"></button>
+                        </div>
                     </div>
                 </div>
             </p-panel>

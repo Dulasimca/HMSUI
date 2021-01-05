@@ -93,7 +93,9 @@ export class BugzillaReportComponent implements OnInit {
       }
     });
   }
+  onDownload() {
 
+  }
   exportPdf() {
     var rows = [];
     this.bugzillaData.forEach(element => {
