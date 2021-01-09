@@ -18,9 +18,9 @@ export class NewTicketComponent implements OnInit {
   shopOptions: SelectItem[];
   shopCode: any;
   regionOptions: SelectItem[];
-  rcode: string;
+  rcode: any;
   districtOptions: SelectItem[];
-  dcode: string;
+  dcode: any;
   locationOptions: SelectItem[];
   location: any;
   componentOptions: SelectItem[];
@@ -98,7 +98,7 @@ export class NewTicketComponent implements OnInit {
       case 'D':
         if (this.districtsData.length !== 0) {
           this.districtsData.forEach(d => {
-            if (this.rcode === d.rcode) {
+            if (this.rcode.value === d.rcode) {
               districtSeletion.push({ label: d.name, value: d.code });
             }
           })
@@ -194,14 +194,14 @@ export class NewTicketComponent implements OnInit {
     this.blockScreen = true;
     if (this.location !== undefined) {
       const params = {
-        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '0',
-        'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '0',
-        'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '0',
+        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : '0',
+        'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : '0',
+        'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.value : '0',
         'assingedTo': this.Assignee,
         'Ticketseverity': "enhanced",
         'Ticketstatus': this.Status,
         'short_desc': this.Subject,
-        'product': this.location,
+        'product': this.location.value,
         'component_id': this.compId.value,
         'reporter': this.user,
         'URL': "Tasmac-hms.com",
@@ -209,7 +209,18 @@ export class NewTicketComponent implements OnInit {
         'reporter_accessible': true,
         'cclist_accessible': true,
         'CC': this.DefaultCC,
-        'To': this.DefaultTo
+        'To': this.DefaultTo,
+        //mailsending
+        'Location': this.location.label,
+        'RegionalOffice': this.rcode.label,
+        'DistrictOffice': this.dcode.label,
+        'ShopCode': this.shopCode.label,
+        'Component': this.compId.label,
+        'Asignee': this.Assignee,
+        'Status': this.Status,
+        'ComponentDescription': this.ComponentDescription,
+        'TicketDescription': this.TicketDescription,
+        'Subject': this.Subject
       }
       this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
         if (res.item1) {

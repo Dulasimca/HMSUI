@@ -43,6 +43,12 @@ export class TicketUpdateComponent implements OnInit {
   login_User: any;
   loading: boolean;
   selected: any;
+  Location: any;
+  Region: any;
+  District: any;
+  ShopName: any;
+  Component: any;
+  ComponentDescription: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private authService: AuthService) { }
@@ -136,10 +142,16 @@ export class TicketUpdateComponent implements OnInit {
     console.log(event);
     this.TicketID = event.data.TicketID;
     this.Assignee = event.data.Assignee;
+    this.Location = event.data.location;
+    this.Region = event.data.REGNNAME;
+    this.District = event.data.Dname;
+    this.ShopName = event.data.shop_number;
+    this.Component = event.data.ComponentName;
     this.DefaultCC = event.data.DefaultCC;
     this.reporter = event.data.reporter;
     this.Subject = event.data.Subject;
     this.URL = event.data.URL;
+    this.ComponentDescription = event.data.description;
     this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
     this.Status = event.data.Status;
     this.onTD();
@@ -196,7 +208,19 @@ export class TicketUpdateComponent implements OnInit {
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
         'URL': "Tasmac-hms.com",
-        'CC': this.DefaultCC
+        'CC': this.DefaultCC,
+        //mailsending
+        'TicketId': this.TicketID,
+        'Location': this.Location,
+        'RegionalOffice': this.Region,
+        'DistrictOffice': this.District,
+        'ShopCode': this.ShopName,
+        'Component': this.Component,
+        'Asignee': this.Assignee,
+        'Status': this.Status,
+        'ComponentDescription': this.ComponentDescription,
+        'TicketDescription': this.TicketDescription,
+        'Subject': this.Subject
       }
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
         if (res) {
@@ -244,7 +268,13 @@ export class TicketUpdateComponent implements OnInit {
   }
 
   onCancel() {
-    this.Status = this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
+    this.Status = null;
+    this.Assignee = null;
+    this.TicketID = null;
+    this.DefaultCC = null;
+    this.Subject = null;
+    this.URL = null;
+    this.TicketDescription = null;
     this.StatusOptions = [];
   }
 
