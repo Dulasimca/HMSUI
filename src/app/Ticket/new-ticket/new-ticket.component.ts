@@ -113,18 +113,24 @@ export class NewTicketComponent implements OnInit {
           })
           this.locationOptions = locationSeletion;
           this.locationOptions.unshift({ label: '-Select-', value: 'All' });
-          if (this.location === 2) {
-            this.disableDM = this.disableRM = this.disableShop = true;
-          } else if (this.location === 5) {
-            this.disableDM = this.disableRM = this.disableShop = false;
-          } else if (this.location === 4) {
-            this.disableDM = this.disableRM = false;
+          if (this.location.value === 2) {
+            this.disableDM = true;
+            this.disableRM = true;
             this.disableShop = true;
-          } else if (this.location === 3) {
+          } else if (this.location.value === 5) {
+            this.disableDM = false;
+            this.disableRM = false;
+            this.disableShop = false;
+          } else if (this.location.value === 4) {
+            this.disableDM = false;
+            this.disableRM = false;
+            this.disableShop = true;
+          } else if (this.location.value === 3) {
             this.disableDM = this.disableShop = true;
             this.disableRM = false;
-          } else if (this.location === 9) {
-            this.disableDM = this.disableShop = true;
+          } else if (this.location.value === 9) {
+            this.disableDM = true;
+            this.disableShop = true;
             this.disableRM = false;
           }
         }
@@ -134,14 +140,14 @@ export class NewTicketComponent implements OnInit {
           this.componentsData = [];
           this.restApiService.get(PathConstants.ComponentsURL).subscribe((res: any) => {
             res.forEach(x => {
-              if (this.location === 3 && x.product_id === 3) {
+              if (this.location.value === 3 && x.product_id === 3) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
                 this.disableShop = true;
-              } else if (this.location === 4 && x.product_id === 4) {
+              } else if (this.location.value === 4 && x.product_id === 4) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-              } else if (this.location === 5 && x.product_id === 5) {
+              } else if (this.location.value === 5 && x.product_id === 5) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-              } else if (this.location === 2 && x.product_id === 2) {
+              } else if (this.location.value === 2 && x.product_id === 2) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
               }
             });
@@ -149,7 +155,7 @@ export class NewTicketComponent implements OnInit {
             this.componentOptions.unshift({ label: '-Select-', value: null });
           });
         }
-        if (this.compId !== null) {
+        if (this.compId !== null && this.compId !== undefined) {
           this.componentsData.forEach(d => {
             if (this.compId.value === d.value) {
               this.ComponentDescription = d.desc;
@@ -166,7 +172,7 @@ export class NewTicketComponent implements OnInit {
       case 'S':
         if (this.shopData.length !== 0) {
           this.shopData.forEach(s => {
-            if (this.dcode === s.dcode) {
+            if (this.dcode.value === s.dcode) {
               shopSeletion.push({ label: s.shop_num, value: s.dcode });
             }
           });
