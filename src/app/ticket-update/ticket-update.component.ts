@@ -209,7 +209,7 @@ export class TicketUpdateComponent implements OnInit {
         'ShopCode': this.ShopName,
         'Component': this.Component,
         'Asignee': this.Assignee,
-        'Status': this.Status,
+        'Status': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'ComponentDescription': this.ComponentDescription,
         'TicketDescription': this.TicketDescription,
         'Subject': this.Subject
