@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { DatePipe } from '@angular/common';
-import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PathConstants } from 'src/app/helper/PathConstants';
@@ -155,19 +154,6 @@ export class NewTicketComponent implements OnInit {
             this.componentOptions.unshift({ label: '-Select-', value: null });
           });
         }
-        if (this.compId !== null && this.compId !== undefined) {
-          this.componentsData.forEach(d => {
-            if (this.compId.value === d.value) {
-              this.ComponentDescription = d.desc;
-            }
-          });
-          this.CCData.forEach(bs => {
-            if (bs.id === this.compId.value) {
-              this.DefaultTo = bs.name;
-              this.Assignee = bs.assiginee;
-            }
-          });
-        }
         break;
       case 'S':
         if (this.shopData.length !== 0) {
@@ -180,6 +166,22 @@ export class NewTicketComponent implements OnInit {
           this.shopOptions.unshift({ label: '-Select-', value: 'All' });
         }
         break;
+    }
+  }
+
+  onChangeComponent() {
+    if (this.compId !== null && this.compId !== undefined) {
+      this.componentsData.forEach(d => {
+        if (this.compId.value === d.value) {
+          this.ComponentDescription = d.desc;
+        }
+      });
+      this.CCData.forEach(bs => {
+        if (bs.id === this.compId.value) {
+          this.DefaultTo = bs.name;
+          this.Assignee = bs.assiginee;
+        }
+      });
     }
   }
 
@@ -198,7 +200,20 @@ export class NewTicketComponent implements OnInit {
 
   onSave() {
     this.blockScreen = true;
-    if (this.location !== undefined) {
+    if (this.location !== undefined && this.location !== null) {
+      const bodyparams = {
+        'Location': (this.location !== undefined && this.location !== null) ? this.location.label : '-',
+        'RegionalOffice': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.label : '-',
+        'DistrictOffice': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.label : '-',
+        'ShopCode': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '-',
+        'Component': this.compId.label,
+        'Asignee': this.Assignee,
+        'Status': this.Status,
+        'ComponentDescription': this.ComponentDescription,
+        'TicketDescription': this.TicketDescription,
+        'Subject': this.Subject
+      }
+
       const params = {
         'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : '0',
         'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : '0',
@@ -217,16 +232,7 @@ export class NewTicketComponent implements OnInit {
         'CC': this.DefaultCC,
         'To': this.DefaultTo,
         //mailsending
-        'Location': this.location.label,
-        'RegionalOffice': this.rcode.label,
-        'DistrictOffice': this.dcode.label,
-        'ShopCode': this.shopCode.label,
-        'Component': this.compId.label,
-        'Asignee': this.Assignee,
-        'Status': this.Status,
-        'ComponentDescription': this.ComponentDescription,
-        'TicketDescription': this.TicketDescription,
-        'Subject': this.Subject
+        'bodyMessage': bodyparams
       }
       this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
         if (res.item1) {
@@ -300,8 +306,16 @@ export class NewTicketComponent implements OnInit {
   }
 
   onClear() {
-    this.location = this.rcode = this.dcode = this.shopCode = this.compId = this.Assignee = null;
-    this.DefaultCC = this.ComponentDescription = this.Subject = this.TicketDescription = null;
+    this.location = null;
+    this.rcode = null;
+    this.dcode = null;
+    this.shopCode = null;
+    this.compId = null;
+    this.Assignee = null;
+    this.DefaultCC = null;
+    this.ComponentDescription = null;
+    this.Subject = null;
+    this.TicketDescription = null;
   }
 
   ticketUpdate() {

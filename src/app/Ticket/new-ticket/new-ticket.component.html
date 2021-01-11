@@ -75,11 +75,8 @@
                         </div>
                         <p-dropdown #comp name="comp" [disabled]="!location" [options]="componentOptions"
                             [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="compId" filter="true"
-                            (onClick)="onSelect('C')" resetFilterOnHide="true" optionLabel="label"
-                            filterMatchMode="startsWith" required>
-                            <ng-template let-item pTemplate="selectedItem">
-                                <span style="vertical-align:middle">{{item.label}}</span>
-                            </ng-template>
+                            (onClick)="onSelect('C')" (ngModelChange)="onChangeComponent()" resetFilterOnHide="true"
+                            optionLabel="label" filterMatchMode="startsWith" required>
                         </p-dropdown>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1"></div>

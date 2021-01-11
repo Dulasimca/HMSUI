@@ -139,19 +139,18 @@ export class TicketUpdateComponent implements OnInit {
 
   onRowSelect(event) {
     this.onResetTable();
-    console.log(event);
     this.TicketID = event.data.TicketID;
     this.Assignee = event.data.Assignee;
     this.Location = event.data.location;
-    this.Region = event.data.REGNNAME;
-    this.District = event.data.Dname;
+    this.Region = (event.data.REGNNAME !== null && event.data.REGNNAME !== undefined) ? event.data.REGNNAME : '-';
+    this.District = (event.data.Dname !== null && event.data.Dname !== undefined) ? event.data.Dname : '-';
     this.ShopName = event.data.shop_number;
     this.Component = event.data.ComponentName;
     this.DefaultCC = event.data.DefaultCC;
     this.reporter = event.data.reporter;
     this.Subject = event.data.Subject;
     this.URL = event.data.URL;
-    this.ComponentDescription = event.data.description;
+    this.ComponentDescription = (event.data.description !== undefined && event.data.description !== null) ? event.data.description : '';
     this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
     this.Status = event.data.Status;
     this.onTD();
@@ -202,14 +201,7 @@ export class TicketUpdateComponent implements OnInit {
   onSave() {
     this.blockScreen = true;
     if (this.TicketID !== undefined) {
-      const params = {
-        'ticket_id': this.TicketID,
-        'assingedTo': this.userName,
-        'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
-        'short_desc': this.Subject,
-        'URL': "Tasmac-hms.com",
-        'CC': this.DefaultCC,
-        //mailsending
+      const bodyparams = {
         'TicketId': this.TicketID,
         'Location': this.Location,
         'RegionalOffice': this.Region,
@@ -221,6 +213,17 @@ export class TicketUpdateComponent implements OnInit {
         'ComponentDescription': this.ComponentDescription,
         'TicketDescription': this.TicketDescription,
         'Subject': this.Subject
+      }
+      const params = {
+        'ticket_id': this.TicketID,
+        'assingedTo': this.userName,
+        'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
+        'short_desc': this.Subject,
+        'URL': "Tasmac-hms.com",
+        'CC': this.DefaultCC,
+        //mailsending
+        'bodyMessage': bodyparams
+
       }
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
         if (res) {
