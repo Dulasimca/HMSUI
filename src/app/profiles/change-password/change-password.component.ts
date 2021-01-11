@@ -4,10 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { PathConstants } from 'src/app/Constants/PathConstants';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestAPIService } from 'src/app/services/restAPI.service';
+import { PathConstants } from 'src/app/helper/PathConstants';
 
 @Component({
   selector: 'app-change-password',

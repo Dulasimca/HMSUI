@@ -218,7 +218,7 @@ export class NewTicketComponent implements OnInit {
         'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : '0',
         'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : '0',
         'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.value : '0',
-        'assingedTo': this.Assignee,
+        'assingedTo': this.DefaultTo,
         'Ticketseverity': "enhanced",
         'Ticketstatus': this.Status,
         'short_desc': this.Subject,

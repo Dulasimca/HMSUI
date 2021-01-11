@@ -26,7 +26,6 @@ import { PanelModule } from 'primeng/panel';
 import { DataViewModule } from 'primeng/dataview';
 import { RippleModule } from 'primeng/ripple';
 // import {TimelineModule} from 'primeng/timeline';
-import { PrimeNGConfig } from 'primeng/api';
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -43,7 +42,7 @@ import { MasterDataService } from './masters-services/master-data.service';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
 import { TicketReportComponent } from './reports/ticket-report/ticket-report.component';
 import { MenubarComponent } from './menubar/menubar.component';
-import { MyTicketsComponent } from './my-tickets/my-tickets.component';
+import { MyTicketsComponent } from './reports/my-tickets/my-tickets.component';
 import { SearchTicketComponent } from './search-ticket/search-ticket.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { PathConstants } from './helper/PathConstants';

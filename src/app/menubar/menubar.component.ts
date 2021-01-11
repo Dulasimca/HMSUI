@@ -42,6 +42,9 @@ export class MenubarComponent implements OnInit {
           {
             label: 'All Tickets', routerLink: '/TicketReport'
           },
+          {
+            label: 'Tickets By Date', routerLink: '/TicketByDateReport'
+          },
         ]
       }
     ];
