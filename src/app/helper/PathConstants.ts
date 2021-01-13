@@ -15,5 +15,15 @@ export class PathConstants {
     public static readonly TicketReport = '/api/InsertNewTicket/Get';
     public static readonly TicketDescription = '/api/TicketDescription/Post';
     public static readonly TicketByID = '/api/TicketDescription/Get';
+    public static readonly AllTicketsGetURL = '/api/AllTickets';
+    public static readonly NMSPostURL = '/api/NMSData/Post';
+    public static readonly NMSGetURL = '/api/NMSData/Get';
+    public static readonly IncidentPostURL = '/api/IncidentDetails/Post';
+    public static readonly IncidentGetURL = '/api/IncidentDetails/Get';
+    public static readonly NMSDataPutURL = '/api/NMSData/Put';
+    public static readonly MonthwiseIncidentGetURL = '/api/MonthwiseIncidentDetails';
+    public static readonly UpdateTicket = '/api/InsertNewTicket/Put';
+    public static readonly MYTicket = '/api/TicketDescription/Get';
+    public static readonly ChangePassword = '/api/ChangePassword/Put';
     // public static readonly TicketReportByDate = '/api/Ticket'
 }

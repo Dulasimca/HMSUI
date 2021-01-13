@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 import { MasterDataService } from '../masters-services/master-data.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from '../Constants/PathConstants';
+import { PathConstants } from '../helper/PathConstants';
 import { AuthService } from '../services/auth.service';
 // import { PrimeNGConfig } from 'primeng/api';
 
@@ -43,6 +43,12 @@ export class TicketUpdateComponent implements OnInit {
   login_User: any;
   loading: boolean;
   selected: any;
+  Location: any;
+  Region: any;
+  District: any;
+  ShopName: any;
+  Component: any;
+  ComponentDescription: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private authService: AuthService) { }
@@ -133,13 +139,18 @@ export class TicketUpdateComponent implements OnInit {
 
   onRowSelect(event) {
     this.onResetTable();
-    console.log(event);
     this.TicketID = event.data.TicketID;
     this.Assignee = event.data.Assignee;
+    this.Location = event.data.location;
+    this.Region = (event.data.REGNNAME !== null && event.data.REGNNAME !== undefined) ? event.data.REGNNAME : '-';
+    this.District = (event.data.Dname !== null && event.data.Dname !== undefined) ? event.data.Dname : '-';
+    this.ShopName = event.data.shop_number;
+    this.Component = event.data.ComponentName;
     this.DefaultCC = event.data.DefaultCC;
     this.reporter = event.data.reporter;
     this.Subject = event.data.Subject;
     this.URL = event.data.URL;
+    this.ComponentDescription = (event.data.description !== undefined && event.data.description !== null) ? event.data.description : '';
     this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
     this.Status = event.data.Status;
     this.onTD();
@@ -190,13 +201,29 @@ export class TicketUpdateComponent implements OnInit {
   onSave() {
     this.blockScreen = true;
     if (this.TicketID !== undefined) {
+      const bodyparams = {
+        'TicketId': this.TicketID,
+        'Location': this.Location,
+        'RegionalOffice': this.Region,
+        'DistrictOffice': this.District,
+        'ShopCode': this.ShopName,
+        'Component': this.Component,
+        'Asignee': this.Assignee,
+        'Status': (this.Status.label === undefined) ? this.Status : this.Status.label,
+        'ComponentDescription': this.ComponentDescription,
+        'TicketDescription': this.TicketDescription,
+        'Subject': this.Subject
+      }
       const params = {
         'ticket_id': this.TicketID,
         'assingedTo': this.userName,
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
         'URL': "Tasmac-hms.com",
-        'CC': this.DefaultCC
+        'CC': this.DefaultCC,
+        //mailsending
+        'bodyMessage': bodyparams
+
       }
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
         if (res) {
@@ -244,7 +271,13 @@ export class TicketUpdateComponent implements OnInit {
   }
 
   onCancel() {
-    this.Status = this.Assignee = this.TicketID = this.DefaultCC = this.Subject = this.URL = this.TicketDescription = null;
+    this.Status = null;
+    this.Assignee = null;
+    this.TicketID = null;
+    this.DefaultCC = null;
+    this.Subject = null;
+    this.URL = null;
+    this.TicketDescription = null;
     this.StatusOptions = [];
   }
 

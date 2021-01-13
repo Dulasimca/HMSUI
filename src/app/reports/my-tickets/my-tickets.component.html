@@ -13,28 +13,32 @@
                 <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
 
                     <div *ngIf="showTicketGrid">
-                        <button pButton type="submit" label="Excel" (click)="dd.exportCSV()"
-                            class="p-button-raised p-btn-pad bg-div" icon="" iconPos="right"></button>
-                        <p-table #dd styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
-                            [value]="TicketReportData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-                            [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                            selectionMode="single" (onRowSelect)="onRowSelect($event)"
-                            exportFilename="MY_TICKET_REPORT">
-                            <ng-template pTemplate="header" let-columns>
-                                <tr style="text-align: center;">
-                                    <th *ngFor="let col of columns">
-                                        {{col.header}}
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                                <tr [pSelectableRow]="rowData">
-                                    <td *ngFor="let col of columns">
-                                        {{rowData[col.field]}}
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+                        <div style="float: right; margin-top: -30px;">
+                            <button pButton type="submit" label="Excel" (click)="dt.exportCSV()" icon="pi pi-download"
+                                class="p-button-raised p-btn-pad bg-div"></button>
+                        </div>
+                        <div class="p-col-12" style="margin-top: 20px;">
+                            <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
+                                [value]="TicketReportData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                                [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
+                                selectionMode="single" (onRowSelect)="onRowSelect($event)"
+                                exportFilename="MY_TICKET_REPORT">
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr style="text-align: center;">
+                                        <th *ngFor="let col of columns">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td *ngFor="let col of columns">
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
                     </div>
                     <div *ngIf="showDialog">
                         <div style="float: right;">

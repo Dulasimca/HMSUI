@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
-import { PathConstants } from '../Constants/PathConstants';
+import { PathConstants } from '../helper/PathConstants';
 import { MasterDataService } from '../masters-services/master-data.service';
 import { AuthService } from '../services/auth.service';
 import { RestAPIService } from '../services/restAPI.service';

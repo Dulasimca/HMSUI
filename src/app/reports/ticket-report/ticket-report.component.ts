@@ -187,8 +187,6 @@ export class TicketReportComponent implements OnInit {
       'Product': this.location,
       'Component': (this.compId !== undefined && this.compId !== null) ? this.compId.value : 1,
       'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode : 'All',
-      // 'FDate': '2020-12-01 3:17:38',
-      // 'TDate': '2020-12-30 17:15:33'
       'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd'),
       'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd'),
     }
@@ -206,8 +204,8 @@ export class TicketReportComponent implements OnInit {
         this.TicketReportData = [];
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'No records been found'
+          key: 't-err', severity: 'warn',
+          summary: 'Warning Message', detail: 'No records been found!'
         });
       }
     }, (err: HttpErrorResponse) => {

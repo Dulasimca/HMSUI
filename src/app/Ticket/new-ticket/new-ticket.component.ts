@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectItem, MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { DatePipe } from '@angular/common';
-import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PathConstants } from 'src/app/helper/PathConstants';
@@ -18,9 +17,9 @@ export class NewTicketComponent implements OnInit {
   shopOptions: SelectItem[];
   shopCode: any;
   regionOptions: SelectItem[];
-  rcode: string;
+  rcode: any;
   districtOptions: SelectItem[];
-  dcode: string;
+  dcode: any;
   locationOptions: SelectItem[];
   location: any;
   componentOptions: SelectItem[];
@@ -98,7 +97,7 @@ export class NewTicketComponent implements OnInit {
       case 'D':
         if (this.districtsData.length !== 0) {
           this.districtsData.forEach(d => {
-            if (this.rcode === d.rcode) {
+            if (this.rcode.value === d.rcode) {
               districtSeletion.push({ label: d.name, value: d.code });
             }
           })
@@ -113,18 +112,24 @@ export class NewTicketComponent implements OnInit {
           })
           this.locationOptions = locationSeletion;
           this.locationOptions.unshift({ label: '-Select-', value: 'All' });
-          if (this.location === 2) {
-            this.disableDM = this.disableRM = this.disableShop = true;
-          } else if (this.location === 5) {
-            this.disableDM = this.disableRM = this.disableShop = false;
-          } else if (this.location === 4) {
-            this.disableDM = this.disableRM = false;
+          if (this.location.value === 2) {
+            this.disableDM = true;
+            this.disableRM = true;
             this.disableShop = true;
-          } else if (this.location === 3) {
+          } else if (this.location.value === 5) {
+            this.disableDM = false;
+            this.disableRM = false;
+            this.disableShop = false;
+          } else if (this.location.value === 4) {
+            this.disableDM = false;
+            this.disableRM = false;
+            this.disableShop = true;
+          } else if (this.location.value === 3) {
             this.disableDM = this.disableShop = true;
             this.disableRM = false;
-          } else if (this.location === 9) {
-            this.disableDM = this.disableShop = true;
+          } else if (this.location.value === 9) {
+            this.disableDM = true;
+            this.disableShop = true;
             this.disableRM = false;
           }
         }
@@ -134,14 +139,14 @@ export class NewTicketComponent implements OnInit {
           this.componentsData = [];
           this.restApiService.get(PathConstants.ComponentsURL).subscribe((res: any) => {
             res.forEach(x => {
-              if (this.location === 3 && x.product_id === 3) {
+              if (this.location.value === 3 && x.product_id === 3) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
                 this.disableShop = true;
-              } else if (this.location === 4 && x.product_id === 4) {
+              } else if (this.location.value === 4 && x.product_id === 4) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-              } else if (this.location === 5 && x.product_id === 5) {
+              } else if (this.location.value === 5 && x.product_id === 5) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-              } else if (this.location === 2 && x.product_id === 2) {
+              } else if (this.location.value === 2 && x.product_id === 2) {
                 this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
               }
             });
@@ -149,24 +154,11 @@ export class NewTicketComponent implements OnInit {
             this.componentOptions.unshift({ label: '-Select-', value: null });
           });
         }
-        if (this.compId !== null) {
-          this.componentsData.forEach(d => {
-            if (this.compId.value === d.value) {
-              this.ComponentDescription = d.desc;
-            }
-          });
-          this.CCData.forEach(bs => {
-            if (bs.id === this.compId.value) {
-              this.DefaultTo = bs.name;
-              this.Assignee = bs.assiginee;
-            }
-          });
-        }
         break;
       case 'S':
         if (this.shopData.length !== 0) {
           this.shopData.forEach(s => {
-            if (this.dcode === s.dcode) {
+            if (this.dcode.value === s.dcode) {
               shopSeletion.push({ label: s.shop_num, value: s.dcode });
             }
           });
@@ -174,6 +166,22 @@ export class NewTicketComponent implements OnInit {
           this.shopOptions.unshift({ label: '-Select-', value: 'All' });
         }
         break;
+    }
+  }
+
+  onChangeComponent() {
+    if (this.compId !== null && this.compId !== undefined) {
+      this.componentsData.forEach(d => {
+        if (this.compId.value === d.value) {
+          this.ComponentDescription = d.desc;
+        }
+      });
+      this.CCData.forEach(bs => {
+        if (bs.id === this.compId.value) {
+          this.DefaultTo = bs.name;
+          this.Assignee = bs.assiginee;
+        }
+      });
     }
   }
 
@@ -192,16 +200,29 @@ export class NewTicketComponent implements OnInit {
 
   onSave() {
     this.blockScreen = true;
-    if (this.location !== undefined) {
+    if (this.location !== undefined && this.location !== null) {
+      const bodyparams = {
+        'Location': (this.location !== undefined && this.location !== null) ? this.location.label : '-',
+        'RegionalOffice': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.label : '-',
+        'DistrictOffice': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.label : '-',
+        'ShopCode': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '-',
+        'Component': this.compId.label,
+        'Asignee': this.Assignee,
+        'Status': this.Status,
+        'ComponentDescription': this.ComponentDescription,
+        'TicketDescription': this.TicketDescription,
+        'Subject': this.Subject
+      }
+
       const params = {
-        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : '0',
-        'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : '0',
-        'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.label : '0',
-        'assingedTo': this.Assignee,
+        'Region': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : '0',
+        'District': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : '0',
+        'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode.value : '0',
+        'assingedTo': this.DefaultTo,
         'Ticketseverity': "enhanced",
         'Ticketstatus': this.Status,
         'short_desc': this.Subject,
-        'product': this.location,
+        'product': this.location.value,
         'component_id': this.compId.value,
         'reporter': this.user,
         'URL': "Tasmac-hms.com",
@@ -209,7 +230,9 @@ export class NewTicketComponent implements OnInit {
         'reporter_accessible': true,
         'cclist_accessible': true,
         'CC': this.DefaultCC,
-        'To': this.DefaultTo
+        'To': this.DefaultTo,
+        //mailsending
+        'bodyMessage': bodyparams
       }
       this.restApiService.post(PathConstants.NewTicket, params).subscribe(res => {
         if (res.item1) {
@@ -283,8 +306,16 @@ export class NewTicketComponent implements OnInit {
   }
 
   onClear() {
-    this.location = this.rcode = this.dcode = this.shopCode = this.compId = this.Assignee = null;
-    this.DefaultCC = this.ComponentDescription = this.Subject = this.TicketDescription = null;
+    this.location = null;
+    this.rcode = null;
+    this.dcode = null;
+    this.shopCode = null;
+    this.compId = null;
+    this.Assignee = null;
+    this.DefaultCC = null;
+    this.ComponentDescription = null;
+    this.Subject = null;
+    this.TicketDescription = null;
   }
 
   ticketUpdate() {
