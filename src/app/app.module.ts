@@ -50,6 +50,7 @@ import { PathConstants } from './helper/PathConstants';
 import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
+import { ThemeService } from './theme/theme.service';
 
 
 
@@ -108,7 +109,7 @@ import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-repo
     // TimelineModule
   ],
   providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
-    PathConstants],
+    PathConstants, ThemeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
