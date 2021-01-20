@@ -3,7 +3,7 @@ import { ChartModule } from 'primeng/chart';
 import * as Chart from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { RestAPIService } from '../services/restAPI.service';
-import { PathConstants } from '../helper/PathConstants';
+import { PathConstants } from '../Helper/PathConstants';
 import { LocationStrategy } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import * as FileSaver from 'file-saver';

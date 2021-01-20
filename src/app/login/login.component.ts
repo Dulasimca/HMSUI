@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { PathConstants } from '../helper/PathConstants';
+import { PathConstants } from '../Helper/PathConstants';
 import { RestAPIService } from '../services/restAPI.service';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
