@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { RestAPIService } from 'src/app/services/restAPI.service';
-import { PathConstants } from 'src/app/helper/PathConstants';
+import { PathConstants } from 'src/app/Helper/PathConstants';
 
 @Component({
   selector: 'app-change-password',

@@ -6,7 +6,7 @@ import { MessageService, MenuItem } from 'primeng/api';
 import { MasterDataService } from 'src/app/masters-services/master-data.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Table } from 'primeng/table';
-import { PathConstants } from 'src/app/helper/PathConstants';
+import { PathConstants } from 'src/app/Helper/PathConstants';
 
 
 @Component({

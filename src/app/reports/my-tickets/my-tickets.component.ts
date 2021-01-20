@@ -5,7 +5,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { MasterDataService } from '../../masters-services/master-data.service';
 import { AuthService } from '../../services/auth.service';
 import { RestAPIService } from '../../services/restAPI.service';
-import { PathConstants } from 'src/app/helper/PathConstants';
+import { PathConstants } from 'src/app/Helper/PathConstants';
 
 @Component({
   selector: 'app-my-tickets',

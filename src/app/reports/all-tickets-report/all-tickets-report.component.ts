@@ -4,7 +4,7 @@ import { Table } from 'primeng/table/table';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { PathConstants } from 'src/app/helper/PathConstants';
+import { PathConstants } from 'src/app/Helper/PathConstants';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
