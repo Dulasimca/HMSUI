@@ -45,7 +45,7 @@ import { MenubarComponent } from './menubar/menubar.component';
 import { MyTicketsComponent } from './reports/my-tickets/my-tickets.component';
 import { SearchTicketComponent } from './search-ticket/search-ticket.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
-import { PathConstants } from './helper/PathConstants';
+import { PathConstants } from './Helper/PathConstants';
 import { ChangePasswordComponent } from './profiles/change-password/change-password.component';
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
