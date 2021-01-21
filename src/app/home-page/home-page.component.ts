@@ -3,7 +3,7 @@ import { ChartModule } from 'primeng/chart';
 import * as Chart from 'chart.js';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 import { RestAPIService } from '../services/restAPI.service';
-import { PathConstants } from '../Helper/PathConstants';
+import { PathConstants } from '../helper/PathConstants';
 import { LocationStrategy } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import * as FileSaver from 'file-saver';
@@ -110,16 +110,16 @@ export class HomePageComponent implements OnInit {
             label: "Percentage",
             data: this.bug_count,
             backgroundColor: [
-              "#f5953b",
-              "#4fc437",
-              "#f7ee39",
-              "#f73e3e",
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
             ],
             hoverBackgroundColor: [
-              "#f2851f",
-              "#3abf1f",
-              "#fff305",
-              "#ed2d2d",
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
             ]
           }]
       };
