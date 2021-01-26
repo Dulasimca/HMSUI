@@ -330,4 +330,8 @@ export class NewTicketComponent implements OnInit {
     })
     this.ticketView = ticketSelection;
   }
+
+  onCancel() {
+    this.router.navigate(['/home']);
+  }
 }

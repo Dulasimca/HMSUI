@@ -11,17 +11,19 @@
                         </div>
                     </p-header>
                     <p-toast position="top-center" key="t-err"></p-toast>
-                    <div class="p-col-12 p-md-4 p-lg-3"></div>
-                    <div style="padding-top: 2vh;" class="p-col-12 p-md-4 p-lg-3">
-                        <div class="p-float-label">
-                            <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="ID" type="text"
-                                autocomplete="off" tabindex="3">
-                            <label for="float-input">Enter Ticket_ID</label>
+                    <div class="p-grid" style="padding-top: 1rem;">
+                        <div class="p-col-8 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="ID"
+                                    type="text" autocomplete="off" tabindex="3" (keydown.enter)="onKeyEnter(ID)">
+                                <label for="float-input">Enter Ticket_ID</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="p-col-12 p-md-4 p-lg-2">
-                        <button pButton type="submit" label="Search Ticket" class="p-button-raised p-btn-pad bg-div"
-                            icon="" iconPos="right" (click)="onTicket()"></button>
+                        <div class="p-col-2 p-md-2 p-lg-1 no-pad-left">
+                            <!-- <button pButton type="submit" label="Search Ticket" class="p-button-raised p-btn-pad bg-div"
+                            icon="" iconPos="right" (click)="onTicket()"></button> -->
+                            <p-button icon="pi pi-search" (click)="onTicket()"></p-button>
+                        </div>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-3"></div>
                     <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
@@ -107,7 +109,7 @@
                         </div>
                     </div>
 
-                    <h3>Previous Comments for the ticket - {{TicketID}}</h3>
+                    <div style="font-size: 16px;">Previous Comments for the ticket - {{TicketID}}</div>
                     <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols" [value]="TD"
                         [rows]="60" [responsive]="true" autoLayout="true" [loading]="loading" [(selection)]="selected"
                         selectionMode="single" exportFilename="MY_TICKET_DESCRIPTIONS">

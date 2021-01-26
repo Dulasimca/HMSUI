@@ -13,13 +13,13 @@
                     <div class="p-col-11"></div>
                     <div class="p-col-12 p-md-4 p-lg-1 no-pad-left no-pad-top">
                         <button pButton type="button" label="Excel" (click)="dt.exportCSV()"
-                            class="p-button-raised p-btn-pad bg-div"></button>
+                            [disabled]="(ticketData.length == '0')" class="p-button-raised p-btn-pad bg-div"></button>
                     </div>
                 </div>
                 <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
                     <p-table #dt styleClass="p-datatable-gridlines" [columns]="ticketCols" [value]="ticketData"
                         [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
-                        autoLayout="true" [loading]="loading" exportFilename="TICKET_STATUS_REPORT">
+                        autoLayout="true" [loading]="loading" exportFilename="{{excelFileName}}">
                         <ng-template pTemplate="header" let-columns>
                             <tr style="text-align: center;">
                                 <th *ngFor="let col of columns">

@@ -15,6 +15,7 @@
                     <div *ngIf="showTicketGrid">
                         <div style="float: right; margin-top: -30px;">
                             <button pButton type="submit" label="Excel" (click)="dt.exportCSV()" icon="pi pi-download"
+                                [disabled]="(TicketReportData.length==0)"
                                 class="p-button-raised p-btn-pad bg-div"></button>
                         </div>
                         <div class="p-col-12" style="margin-top: 20px;">
@@ -22,7 +23,7 @@
                                 [value]="TicketReportData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                                 [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
                                 selectionMode="single" (onRowSelect)="onRowSelect($event)"
-                                exportFilename="MY_TICKET_REPORT">
+                                exportFilename="{{excelFileName}}">
                                 <ng-template pTemplate="header" let-columns>
                                     <tr style="text-align: center;">
                                         <th *ngFor="let col of columns">
@@ -49,7 +50,7 @@
                             <button pButton type="submit" label="Back" class="p-button-raised p-btn-pad bg-div" icon=""
                                 iconPos="right" (click)="onCancel()"></button>
                         </div>
-                        <h3>Comments for the ticket</h3>
+                        <div style="font-size: 16px; text-decoration: underline;">Ticket History</div>
                         <p-table #td styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols"
                             [value]="TDData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
                             [responsive]="true" autoLayout="true" [loading]="loading" [(selection)]="selected"

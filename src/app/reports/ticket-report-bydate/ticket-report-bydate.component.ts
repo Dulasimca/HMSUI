@@ -16,11 +16,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class TicketReportBydateComponent implements OnInit {
   maxDate: Date = new Date();
   TicketReportCols: any;
-  TicketReportData: [];
+  TicketReportData: any = [];
   fromDate: any;
   toDate: any;
   items: MenuItem[];
   loading: boolean;
+  excelFileName: string;
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
@@ -49,6 +50,7 @@ export class TicketReportBydateComponent implements OnInit {
       { field: 'Dname', header: 'District' },
       { field: 'shop_number', header: 'Shop_Number' },
     ];
+    this.excelFileName = 'TICKET_REPORT_BY_DATE ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
   }
 
   checkValidDateSelection() {

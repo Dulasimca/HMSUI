@@ -36,7 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TableModule } from 'primeng/table';
 import { AuthService } from './services/auth.service';
 import { RestAPIService } from './services/restAPI.service';
-import { MessageService } from 'primeng/api';
+import { MessageService, FilterService, PrimeNGConfig } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { MasterDataService } from './masters-services/master-data.service';
 import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
@@ -110,7 +110,7 @@ import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tick
     // TimelineModule
   ],
   providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
-    PathConstants, ThemeService],
+    PathConstants, ThemeService, FilterService, PrimeNGConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

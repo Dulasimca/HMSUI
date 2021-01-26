@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PathConstants } from 'src/app/Helper/PathConstants';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-all-tickets-report',
@@ -16,12 +18,16 @@ export class AllTicketsReportComponent implements OnInit {
   ticketCols: any;
   ticketData: any = [];
   loading: boolean;
+  userInfo: any;
+  execlFileName: string;
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApi: RestAPIService, private route: ActivatedRoute,
-    private messageService: MessageService) { }
+    private messageService: MessageService, private authService: AuthService, private datepipe: DatePipe
+  ) { }
 
   ngOnInit() {
+    this.userInfo = this.authService.getLoggedUser();
     let value: any = this.route.snapshot.queryParamMap.get('id');
     value = (value * 1);
     this.ticketCols = [
@@ -43,9 +49,14 @@ export class AllTicketsReportComponent implements OnInit {
     this.restApi.get(PathConstants.AllTicketsGetURL).subscribe(data => {
       if (data !== undefined && data !== null && data.length !== 0) {
         this.ticketData = data;
-        if (value !== undefined && value !== null && value !== 1) {
+        if (value !== undefined && value !== null && value !== 1 && value !== 5) {
           this.ticketData = this.ticketData.filter(y => {
             return (value === y.product_id)
+          })
+        } else if (value === 5) {
+          this.ticketData = this.ticketData.filter(y => {
+            const user_id = (y.assigned_to * 1);
+            return (this.userInfo.Id === user_id)
           })
         }
         let slno = 1;
@@ -53,6 +64,7 @@ export class AllTicketsReportComponent implements OnInit {
           x.SlNo = slno;
           slno += 1;
         });
+        this.execlFileName = 'TICKET_STATUS_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
         this.loading = false;
         if (this.ticketData.length !== 0) {
           this.messageService.clear();

@@ -6,7 +6,7 @@
         <div class="p-col-12 p-md-12 p-lg-12 border-color" style="min-height:69vh;">
             <p-panel>
                 <p-header>
-                    <div class="ui-g-12 ui-md-8 ui-g panel-header">Ticket Report
+                    <div class="ui-g-12 ui-md-8 ui-g panel-header">All Location Ticket Report
                     </div>
                 </p-header>
                 <p-toast position="top-center" key="t-err"></p-toast>
@@ -18,7 +18,7 @@
                         </div>
                         <p-dropdown #loc name="loc" [options]="locationOptions"
                             [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="location"
-                            (onClick)="onSelect('L')" (onChange)="onResetFields('L')" required>
+                            (onClick)="onSelect('L')" (onChange)="onResetFields('L')" optionLabel="label" required>
                             <ng-template let-item pTemplate="selectedItem">
                                 <span style="vertical-align:middle">{{item.label}}</span>
                             </ng-template>
@@ -113,12 +113,13 @@
                     <div class="p-col-12 p-md-4 p-lg-5"></div>
 
                     <div class="p-col-12 p-md-4 p-lg-1" style="padding-left: 6vh;">
-                        <button pButton type="submit" label="View" class="p-button-raised p-btn-pad bg-div" icon=""
-                            iconPos="right" (click)="onView()"></button>
+                        <button pButton type="submit" label="View" class="p-button-raised p-btn-pad bg-div" [disabled]="(!location || !compId || (!disableDM && !dcode) || (!disableRM && !rcode) 
+                            || (!disableShop && shopCode) || !fromDate || !toDate)" (click)="onView()"></button>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1">
                         <button pButton type="submit" label="Excel" (click)="dt.exportCSV()"
-                            class="p-button-raised p-btn-pad bg-div" icon="" iconPos="right"></button>
+                            [disabled]="(TicketReportData.length == '0')"
+                            class="p-button-raised p-btn-pad bg-div"></button>
                     </div>
 
                     <div class="p-col-12 p-md-4 p-lg-5"></div>
@@ -127,7 +128,7 @@
                         <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
                             [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                            exportFilename="TICKET_REPORT">
+                            exportFilename="{{excelFileName}}">
                             <ng-template pTemplate="header" let-columns>
                                 <tr style="text-align: center;">
                                     <th *ngFor="let col of columns">

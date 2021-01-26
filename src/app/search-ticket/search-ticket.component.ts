@@ -97,15 +97,37 @@ export class SearchTicketComponent implements OnInit {
       'TicketID': (this.ID !== undefined && this.ID !== null) ? this.ID : 0
     }
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
-      if (res) {
+      if (res.length !== 0 && res !== undefined && res !== null) {
         this.TicketReportData = res;
         let sno = 0;
         this.TicketReportData.forEach(result => {
           sno += 1;
           result.SlNo = sno;
         });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'warn',
+          summary: 'Warning Message', detail: 'Invalid ticket id!'
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.blockScreen = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please Contact Administrator!'
+        });
       }
     });
+  }
+
+  onKeyEnter(value) {
+    const id = value.toString().trim();
+    if (id !== '' && value !== undefined && value !== null) {
+      this.onTicket();
+    }
   }
 
   onTD() {

@@ -21,7 +21,7 @@ export class MenubarComponent implements OnInit {
         label: 'Ticket', icon: 'pi pi-ticket',
         items: [
           { label: 'New Ticket', icon: '', routerLink: '/NewTicket' },
-          { label: 'Update Tickets', routerLink: '/TicketUpdate' },
+          { label: 'Update Ticket', routerLink: '/TicketUpdate' },
         ]
       },
       { label: 'Search', icon: 'pi pi-search', routerLink: '/SearchTicket' },

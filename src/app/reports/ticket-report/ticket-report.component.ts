@@ -17,7 +17,7 @@ import { PathConstants } from 'src/app/Helper/PathConstants';
 export class TicketReportComponent implements OnInit {
   maxDate: Date = new Date();
   TicketReportCols: any;
-  TicketReportData: [];
+  TicketReportData: any = [];
   fromDate: any;
   toDate: any;
   showCloseDate: boolean;
@@ -29,7 +29,7 @@ export class TicketReportComponent implements OnInit {
   districtOptions: SelectItem[];
   dcode: string;
   locationOptions: SelectItem[];
-  location: number;
+  location: any;
   componentOptions: SelectItem[];
   compId: any;
   disableDM: boolean;
@@ -42,6 +42,7 @@ export class TicketReportComponent implements OnInit {
   shopData: any = [];
   shopCode: any;
   loading: boolean;
+  excelFileName: string;
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
@@ -92,7 +93,8 @@ export class TicketReportComponent implements OnInit {
             regionSelection.push({ label: r.name, value: r.code });
           })
           this.regionOptions = regionSelection;
-          this.regionOptions.unshift({ label: 'All', value: null });
+          this.regionOptions.unshift({ label: 'All', value: 'All' });
+          this.regionOptions.unshift({ label: '-select', value: null });
         }
         break;
       case 'D':
@@ -103,7 +105,8 @@ export class TicketReportComponent implements OnInit {
             }
           })
           this.districtOptions = districtSeletion;
-          this.districtOptions.unshift({ label: 'All', value: null });
+          this.districtOptions.unshift({ label: 'All', value: 'All' });
+          this.districtOptions.unshift({ label: '-select', value: null });
         }
         break;
       case 'L':
@@ -113,14 +116,14 @@ export class TicketReportComponent implements OnInit {
           })
           this.locationOptions = locationSeletion;
           this.locationOptions.unshift({ label: '-Select-', value: null });
-          if (this.location === 2) {
+          if (this.location.value === 2) {
             this.disableDM = this.disableRM = this.disableShop = true;
-          } else if (this.location === 5) {
+          } else if (this.location.value === 5) {
             this.disableDM = this.disableRM = this.disableShop = false;
-          } else if (this.location === 4) {
+          } else if (this.location.value === 4) {
             this.disableDM = this.disableRM = false;
             this.disableShop = true;
-          } else if (this.location === 3) {
+          } else if (this.location.value === 3) {
             this.disableDM = this.disableShop = true;
             this.disableRM = false;
           }
@@ -130,19 +133,20 @@ export class TicketReportComponent implements OnInit {
         this.componentsData = [];
         this.restApiService.get(PathConstants.ComponentsURL).subscribe((res: any) => {
           res.forEach(x => {
-            if (this.location === 3 && x.product_id === 3) {
+            if (this.location.value === 3 && x.product_id === 3) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
               this.disableShop = true;
-            } else if (this.location === 4 && x.product_id === 4) {
+            } else if (this.location.value === 4 && x.product_id === 4) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-            } else if (this.location === 5 && x.product_id === 5) {
+            } else if (this.location.value === 5 && x.product_id === 5) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
-            } else if (this.location === 2 && x.product_id === 2) {
+            } else if (this.location.value === 2 && x.product_id === 2) {
               this.componentsData.push({ label: x.name, value: x.id, desc: x.description });
             }
           });
           this.componentOptions = this.componentsData;
           this.componentOptions.unshift({ label: 'All', value: 1 });
+          this.componentOptions.unshift({ label: '-select', value: null });
         });
         break;
       case 'S':
@@ -184,7 +188,7 @@ export class TicketReportComponent implements OnInit {
     const params = {
       'RCode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode : 'All',
       'DCode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode : 'All',
-      'Product': this.location,
+      'Product': this.location.value,
       'Component': (this.compId !== undefined && this.compId !== null) ? this.compId.value : 1,
       'Shops': (this.shopCode !== undefined && this.shopCode !== null) ? this.shopCode : 'All',
       'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd'),
@@ -193,6 +197,7 @@ export class TicketReportComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.TicketReport, params).subscribe(res => {
       if (res.length !== 0) {
         this.blockScreen = false;
+        this.excelFileName = this.location.label + ' TICKET_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
         this.TicketReportData = res;
         let sno = 0;
         res.forEach(res => {
@@ -205,7 +210,7 @@ export class TicketReportComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'warn',
-          summary: 'Warning Message', detail: 'No records been found!'
+          summary: 'Warning Message', detail: 'No records has been found!'
         });
       }
     }, (err: HttpErrorResponse) => {

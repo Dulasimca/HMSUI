@@ -99,7 +99,7 @@
                         <div class="p-float-label">
                             <input class="p-col-12" id="float-input" size="30" pInputText [(ngModel)]="DefaultCC"
                                 type="text" autocomplete="off" tabindex="3">
-                            <label for="float-input">CC</label>
+                            <label for="float-input">CC (optional)</label>
                         </div>
                     </div>
                     <div style="padding-top: 1rem;" class="p-col-12 p-md-4 p-lg-2">
@@ -135,11 +135,17 @@
                         </div>
                     </div>
                     <div class="p-col-12">
-                        <div class="p-col-12 p-md-4 p-lg-1 no-pad-top" style="margin-left: 45%;">
-                            <button pButton type="submit" label="Submit" class="p-button-raised p-btn-pad bg-div"
-                                icon="" iconPos="right"
-                                [disabled]="(!location || !compId || !Assignee || !DefaultTo || !Subject || !TicketDescription)"
-                                (click)="onSave()"></button>
+                        <div class="p-grid">
+                            <div class="p-col-6 p-md-4 p-lg-1 no-pad-top" style="margin-left: 40%;">
+                                <button pButton type="submit" label="Submit" class="p-button-raised p-btn-pad bg-div"
+                                    style="float: right;"
+                                    [disabled]="(!location || !compId || !Assignee || !DefaultTo || !Subject || !TicketDescription)"
+                                    (click)="onSave()"></button>
+                            </div>
+                            <div class="p-col-6 p-md-4 p-lg-1 no-pad-top no-left-pad">
+                                <button pButton type="button" label="Cancel" class="p-button-raised p-btn-pad bg-div"
+                                    icon="" iconPos="right" (click)="onCancel()"></button>
+                            </div>
                         </div>
                     </div>
                 </div>

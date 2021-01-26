@@ -33,6 +33,7 @@
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-1 no-pad-left" style="margin-top: 20px;">
                         <button pButton type="submit" label="Excel" (click)="dt.exportCSV()"
+                            [disabled]="(TicketReportData.length == 0)"
                             class="p-button-raised p-btn-pad bg-div"></button>
                     </div>
 
@@ -42,7 +43,7 @@
                         <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
                             [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                            exportFilename="TICKET_REPORT"
+                            exportFilename="{{excelFileName}}"
                             [globalFilterFields]="['TicketID','ComponentName','Assignee','reporter']">
                             <ng-template pTemplate="caption">
                                 <div class="p-d-flex">

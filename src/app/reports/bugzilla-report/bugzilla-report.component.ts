@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/api/menuitem';
 import { Table } from 'primeng/table/table';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -18,9 +19,11 @@ export class BugzillaReportComponent implements OnInit {
   bugzillaData: any = [];
   loading: boolean;
   items: MenuItem[];
+  excelFileName: string;
   @ViewChild('dt', { static: false }) table: Table;
 
-  constructor(private restApi: RestAPIService, private route: ActivatedRoute, private messageService: MessageService) { }
+  constructor(private restApi: RestAPIService, private route: ActivatedRoute,
+    private messageService: MessageService, private datepipe: DatePipe) { }
 
   ngOnInit() {
     this.items = [
@@ -67,6 +70,7 @@ export class BugzillaReportComponent implements OnInit {
             slno += 1;
           });
         }
+        this.excelFileName = 'BUGZILLA_STATUS_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
         this.loading = false;
       } else {
         this.loading = false;
