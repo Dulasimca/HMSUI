@@ -12,20 +12,24 @@ import { ChangePasswordComponent } from './profiles/change-password/change-passw
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
 import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
+import { RelocationFormComponent } from './relocation-form/relocation-form.component';
+import { TheftFormComponent } from './theft-form/theft-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomePageComponent },
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'Bugzilla', component: BugzillaReportComponent, canActivate: [AuthGuard] },
-  { path: 'MyTickets', component: MyTicketsComponent },
-  { path: 'SearchTicket', component: SearchTicketComponent },
-  { path: 'NewTicket', component: NewTicketComponent },
-  { path: 'TicketReport', component: TicketReportComponent },
-  { path: 'TicketUpdate', component: TicketUpdateComponent },
-  { path: 'ChangePassword', component: ChangePasswordComponent },
-  { path: 'TicketByDateReport', component: TicketReportBydateComponent },
-  { path: 'AllTicketsReport', component: AllTicketsReportComponent },
+  { path: 'MyTickets', component: MyTicketsComponent, canActivate: [AuthGuard] },
+  { path: 'SearchTicket', component: SearchTicketComponent, canActivate: [AuthGuard] },
+  { path: 'NewTicket', component: NewTicketComponent, canActivate: [AuthGuard] },
+  { path: 'TicketReport', component: TicketReportComponent, canActivate: [AuthGuard] },
+  { path: 'TicketUpdate', component: TicketUpdateComponent, canActivate: [AuthGuard] },
+  { path: 'ChangePassword', component: ChangePasswordComponent, canActivate: [AuthGuard] },
+  { path: 'TicketByDateReport', component: TicketReportBydateComponent, canActivate: [AuthGuard] },
+  { path: 'AllTicketsReport', component: AllTicketsReportComponent, canActivate: [AuthGuard] },
+  { path: 'RelocationForm', component: RelocationFormComponent, canActivate: [AuthGuard] },
+  { path: 'TheftForm', component: TheftFormComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

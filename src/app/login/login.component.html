@@ -20,22 +20,20 @@
                                 <div class="p-col-12 p-md-12 p-lg-12 txt-align">
                                     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
                                         <div class="p-col-12 p-md-12 p-lg-12">
-                                            <label for="uname" class="label-text-color"
-                                                style="float: left;">Username</label>
-                                            <i class="fa fa-user fa-icon-customized"></i>
-                                            <input type="text" class="p-col-12 p-md-12 p-lg-12 no-pad-top" name="uname"
-                                                id="user" formControlName="user" pInputText [(ngModel)]="username"
-                                                minlength="1" maxlength="30" autocomplete="off" autocomplete="off"
-                                                required />
+                                            <label for="uname" class="label-text-color" style="float: left;">Username <i
+                                                    class="fa fa-user-circle" aria-hidden="true"></i></label>
+
+                                            <input type="text" class="p-col-12 p-md-12 p-lg-12" name="uname" id="user"
+                                                formControlName="user" pInputText [(ngModel)]="username" minlength="1"
+                                                maxlength="30" autocomplete="off" autocomplete="off" required />
                                         </div>
                                         <div class="p-col-12 p-md-12 p-lg-12">
                                             <label class="label-text-color" for="pwd"
                                                 style="float: left;">Password</label>
                                             <i class="fa fa-unlock-alt fa-icon-customized"></i>
-                                            <input class="p-col-12 p-md-12 p-lg-12 no-pad-top" name="pwd"
-                                                type="password" id="pswd" formControlName="pswd" pInputText
-                                                [(ngModel)]="password" minlength="1" maxlength="10" autocomplete="off"
-                                                required />
+                                            <input class="p-col-12 p-md-12 p-lg-12" name="pwd" type="password" id="pswd"
+                                                formControlName="pswd" pInputText [(ngModel)]="password" minlength="1"
+                                                maxlength="10" autocomplete="off" required />
                                         </div>
                                         <button pButton type="submit" label="Login"
                                             class="p-button-raised p-btn-pad bg-div" icon="pi pi-sign-in"

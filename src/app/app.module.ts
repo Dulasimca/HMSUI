@@ -51,6 +51,8 @@ import { TicketReportBydateComponent } from './reports/ticket-report-bydate/tick
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
 import { ThemeService } from './theme/theme.service';
 import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
+import { RelocationFormComponent } from './relocation-form/relocation-form.component';
+import { TheftFormComponent } from './theft-form/theft-form.component';
 
 
 
@@ -71,7 +73,9 @@ import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tick
     ChangePasswordComponent,
     TicketReportBydateComponent,
     BugzillaReportComponent,
-    AllTicketsReportComponent
+    AllTicketsReportComponent,
+    RelocationFormComponent,
+    TheftFormComponent
   ],
   imports: [
     BrowserModule,

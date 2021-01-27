@@ -13,6 +13,7 @@ export class MasterDataService {
   reasons?: any;
   bugStatus?: any;
   cc?: any;
+  issuesType: any[];
 
   constructor(private restApiService: RestAPIService) { }
 
@@ -84,5 +85,15 @@ export class MasterDataService {
       });
     });
     return this.cc;
+  }
+
+  getIssuesType() {
+    this.issuesType = [];
+    this.restApiService.get(PathConstants.IssuesTypeGet).subscribe(issues => {
+      issues.forEach(it => {
+        this.issuesType.push({ 'id': it.Iss_ID, 'type': it.Type });
+      })
+    });
+    return this.issuesType;
   }
 }

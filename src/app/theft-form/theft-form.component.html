@@ -1,0 +1,148 @@
+<body class="home-bg">
+    <p-blockUI [blocked]="blockScreen">
+        <p-progressSpinner class="spinner" strokeWidth="4" *ngIf="blockScreen"></p-progressSpinner>
+    </p-blockUI>
+    <div class="p-grid card page-content border-color">
+        <div class="p-col-12 p-md-12 p-lg-12 no-pad">
+            <app-topbar></app-topbar>
+        </div>
+        <p-toast position="top-center" key="t-err"></p-toast>
+        <div class="p-col-12 p-md-12 p-lg-12 border-color" style="min-height: 445px;">
+            <p-panel>
+                <p-header>Theft Details Form
+                    <div class="ui-g panel-header">
+                        <div class="ui-g-12"></div>
+                    </div>
+                </p-header>
+                <form #f="ngForm" name="relocationForm">
+                    <div class="p-grid card">
+                        <!-- row 1 -->
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label for="rname" class="label-text-color">Region:</label>
+                            </div>
+                            <p-dropdown #reg name="rname" [options]="regionOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="rcode"
+                                (onClick)="onSelect('RM')" (onChange)="onResetFields('RM')" filter="true"
+                                resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label for="dname" class="label-text-color">District:</label>
+                            </div>
+                            <p-dropdown #dist name="dname" [options]="districtOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="dcode"
+                                (onClick)="onSelect('DM')" filter="true" resetFilterOnHide="true"
+                                filterMatchMode="startsWith" (onChange)="onResetFields('DM')" optionLabel="label"
+                                required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label class="label-text-color" for="shopcd">Shop Number:</label>
+                            </div>
+                            <p-dropdown #shop name="shop" [options]="shopOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="shopNo" filter="true"
+                                (onClick)="onSelect('SH')" resetFilterOnHide="true" filterMatchMode="startsWith"
+                                optionLabel="label" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label class="label-text-color" for="issue">Issues Type:</label>
+                            </div>
+                            <p-dropdown #iss name="issue" [options]="issueTypeOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="issueType" filter="true"
+                                (onClick)="onSelect('IT')" resetFilterOnHide="true" filterMatchMode="startsWith"
+                                optionLabel="label" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="addr" id="float-input" size="30" pInputText
+                                    [(ngModel)]="address" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">Address</label>
+                            </div>
+                        </div>
+                        &nbsp;
+                        <!-- row 2 -->
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label for="reasons" class="label-text-color">Reason:</label>
+                            </div>
+                            <p-dropdown #res name="reasons" [options]="reasonOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="reason" filter="true"
+                                resetFilterOnHide="true" (onClick)="onSelect('RE')" filterMatchMode="startsWith"
+                                optionLabel="label" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-2">
+                            <div>
+                                <label for="stats" class="label-text-color">Status:</label>
+                            </div>
+                            <p-dropdown #stats name="stats" [options]="statusOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="status" filter="true"
+                                resetFilterOnHide="true" (onClick)="onSelect('ST')" filterMatchMode="startsWith"
+                                optionLabel="label" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="p-col-12 p-md-4 p-lg-2">
+                            <div>
+                                <label class="label-text-color" for="ddate">Document Date:</label>
+                            </div>
+                            <p-calendar name="ddate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="docDate"
+                                showTime="true" hourFormat="12" [showIcon]="true" required></p-calendar>
+                        </div>
+                        <div class="p-col-12 p-md-4 p-lg-2">
+                            <div>
+                                <label class="label-text-color" for="cdate">Completed Date:</label>
+                            </div>
+                            <p-calendar name="cdate" [maxDate]="maxDate" dateFormat="dd/mm/yy"
+                                [(ngModel)]="completedDate" showTime="true" hourFormat="12" [showIcon]="true" required>
+                            </p-calendar>
+                        </div>
+                        <div class="p-col-12 p-md-6 p-lg-3">
+                            <div>
+                                <label class="label-text-color" for="url">Video URL:</label>
+                            </div>
+                            <input class="p-col-12" name="url" type="url" pInputText [(ngModel)]="urlPath"
+                                autocomplete="off" style="text-decoration: underline; color: rgb(116, 116, 255);"
+                                required>
+                            <!-- (change)="onFileUpload($event)" -->
+                        </div>
+                        <!-- row 3 -->
+                        <div class="p-col-12 p-md-12 p-lg-12">
+                            <div class="p-col-12 p-md-12 p-lg-12 txt-align" style="margin-top: 5px;">
+                                <button pButton type="submit" label="Save" class="p-button-raised p-btn-pad bg-div"
+                                    (click)="onSave(f)" [disabled]="!f.valid"></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p-panel>
+        </div>
+    </div>
+
+</body>
+<div class="no-pad footer-styling">
+    <app-footer></app-footer>
+</div>

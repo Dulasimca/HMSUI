@@ -19,7 +19,7 @@ export class AllTicketsReportComponent implements OnInit {
   ticketData: any = [];
   loading: boolean;
   userInfo: any;
-  execlFileName: string;
+  excelFileName: string;
   @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApi: RestAPIService, private route: ActivatedRoute,
@@ -64,7 +64,7 @@ export class AllTicketsReportComponent implements OnInit {
           x.SlNo = slno;
           slno += 1;
         });
-        this.execlFileName = 'TICKET_STATUS_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
+        this.excelFileName = 'TICKET_STATUS_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
         this.loading = false;
         if (this.ticketData.length !== 0) {
           this.messageService.clear();

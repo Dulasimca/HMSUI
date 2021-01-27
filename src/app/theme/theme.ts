@@ -16,12 +16,16 @@ export const light_y: Theme = {
 
     "--comment-text-color": "#ffb102",
 
+    "--pi-bg-highlight": "#fbf17a",
+
     "--border-default": "1px solid #f7e81b",
 
     "--panel-background": "#f5d049",
 
     "--button-background": "#fcd23d",
     "--button-border": "1px solid #f1c629",
+
+    "--pi-input-box-shadow": "#f1e782",
 
     "--border-color-default": "#f8d248",
 
@@ -49,6 +53,8 @@ export const dark_g: Theme = {
     "--background-default": "#157110",
 
     "--comment-text-color": "#157110",
+
+    "--pi-bg-highlight": "#9bd469",
 
     "--border-default": "1px solid #7ED626;",
 
@@ -89,6 +95,9 @@ export const dark_b: Theme = {
 
     "--border-color-default": "#60affa",
 
+    "--pi-input-box-shadow": "#749ffc",
+
+    "--pi-bg-highlight": "#5dc0f7",
 
     "--border-default": "1px solid #2d91ee;",
 
@@ -125,8 +134,12 @@ export const light_r: Theme = {
 
     "--panel-background": "#f88e4c",
 
+    "--pi-bg-highlight": "#ff9c62",
+
     "--button-background": "#ee772d",
     "--button-border": "1px solid #f17528",
+
+    "--pi-input-box-shadow": "#ffa078",
 
     "--primary-default": "#5DFDCB",
     "--primary-dark": "#24B286",

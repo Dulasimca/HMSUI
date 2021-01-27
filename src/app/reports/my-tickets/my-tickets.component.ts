@@ -37,7 +37,7 @@ export class MyTicketsComponent implements OnInit {
   login_User: any;
   loading: boolean;
   selected: any;
-  execlFileName: string;
+  excelFileName: string;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
@@ -72,7 +72,7 @@ export class MyTicketsComponent implements OnInit {
       { field: 'ticketTime', header: 'Comment Date' },
       { field: 'description', header: 'Description' },
     ];
-    this.execlFileName = 'MY_TICKET_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
+    this.excelFileName = 'MY_TICKET_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
   }
 
   onSelect(type) {
