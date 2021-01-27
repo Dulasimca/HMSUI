@@ -18,12 +18,12 @@ export const light_y: Theme = {
 
     "--pi-bg-highlight": "#fbf17a",
 
-    "--border-default": "1px solid #f7e81b",
+    "--border-default": "#f7e81b",
 
     "--panel-background": "#f5d049",
 
     "--button-background": "#fcd23d",
-    "--button-border": "1px solid #f1c629",
+    "--button-border": "#f1c629",
 
     "--pi-input-box-shadow": "#f1e782",
 
@@ -56,14 +56,14 @@ export const dark_g: Theme = {
 
     "--pi-bg-highlight": "#9bd469",
 
-    "--border-default": "1px solid #7ED626;",
+    "--border-default": "#7ED626;",
 
     "--panel-background": "#9dca71",
 
     "--border-color-default": "#a4d27d",
 
     "--button-background": "#4CAF50",
-    "--button-border": "1px solid #4CAF50",
+    "--button-border": "#4CAF50",
 
     "--primary-default": "#5DFDCB",
     "--primary-dark": "#24B286",
@@ -91,7 +91,7 @@ export const dark_b: Theme = {
     "--comment-text-color": "#1271cb",
 
     "--button-background": "#2b8fec",
-    "--button-border": "1px solid #1f78ca",
+    "--button-border": "#1f78ca",
 
     "--border-color-default": "#60affa",
 
@@ -99,7 +99,7 @@ export const dark_b: Theme = {
 
     "--pi-bg-highlight": "#5dc0f7",
 
-    "--border-default": "1px solid #2d91ee;",
+    "--border-default": "#2d91ee;",
 
     "--panel-background": "#49a5fc",
 
@@ -130,14 +130,14 @@ export const light_r: Theme = {
 
     "--border-color-default": "#fa9455",
 
-    "--border-default": "1px solid #ec7830",
+    "--border-default": "#ec7830",
 
     "--panel-background": "#f88e4c",
 
     "--pi-bg-highlight": "#ff9c62",
 
     "--button-background": "#ee772d",
-    "--button-border": "1px solid #f17528",
+    "--button-border": "#f17528",
 
     "--pi-input-box-shadow": "#ffa078",
 

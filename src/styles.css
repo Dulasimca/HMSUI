@@ -35,8 +35,9 @@ body {
     color: #ce0000;
     text-align: end !important;
     align-self: center !important;
-    text-decoration: underline;
-    margin: 3rem 0 0 3rem;
+    margin: 0rem 0 0 2.5rem;
+    font-size: 25px;
+    white-space: pre;
   }
 
   .header-h1 {
@@ -50,20 +51,16 @@ body {
 
   .header-h2 {
     color: #ce0000;
-    font-size: 20px;
-    margin-top: -2px !important;
+    font-size: 22px;
     margin-bottom: 0px !important;
     font-weight: normal;
   }
 
   .header-h3 {
     font-weight: normal;
-    /* color: #32CD32 !important; */
     color: #ce0000;
-    font-size: 18px;
-    padding-top: 0px !important;
-    margin-top: -2px !important;
-    /* margin-left: 4.3em; */
+    font-size: 20px;
+    margin-top: 1.5px !important;
 }
 
 @media screen and (max-width: 775px) {
@@ -1122,14 +1119,14 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
   --background-tertiary: #1271cb;
   --background-light: #E05C0A; */
 
-   --border-default: 1px solid #7ED626;
+   --border-default: #7ED626;
 
    --pi-bg-highlight: #9bd469;
 
    --panel-background: #9dca71;
 
    --button-background: #4CAF50;
-   --button-border: 1px solid #4CAF50;
+   --button-border: #4CAF50;
  
   --border-color-default: #a4d27d;
 
@@ -1334,7 +1331,7 @@ h6 {
 
 .bg-div {
   background: var(--background-default);
-  border: var(--border-default);
+  border: 1px solid var(--border-default);
 }
 
 .cursor-pointer{
@@ -1392,19 +1389,34 @@ h6 {
   border-color: var(--button-background);
 }
 
+.p-radiobutton .p-radiobutton-box.p-highlight {
+  border-color: var(--button-background);
+  background: var(--button-background);
+}
+
+.p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+  border-color: var(--button-background);
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+  border-color: var(--button-background);
+  background: var(--button-background);
+  color: #ffffff;
+}
+
 .border-color {
   border: 0.03px var(--border-color-default) solid;
 }
 
 .p-selectbutton .p-button.p-highlight {
   background: var(--button-background);
-  border-color: var(--button-border);
+  border-color: 1px solid var(--button-border);
   color: #ffffff;
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
   background: var(--button-background);
-  border-color: var(--button-border);
+  border-color: 1px solid var(--button-border);
   color: #ffffff;
 }
 
