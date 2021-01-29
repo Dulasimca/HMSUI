@@ -14,6 +14,8 @@ import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-repo
 import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
 import { RelocationFormComponent } from './relocation-form/relocation-form.component';
 import { TheftFormComponent } from './theft-form/theft-form.component';
+import { TheftReportComponent } from './reports/theft-report/theft-report.component';
+import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaion-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,6 +32,8 @@ const routes: Routes = [
   { path: 'AllTicketsReport', component: AllTicketsReportComponent, canActivate: [AuthGuard] },
   { path: 'RelocationForm', component: RelocationFormComponent, canActivate: [AuthGuard] },
   { path: 'TheftForm', component: TheftFormComponent, canActivate: [AuthGuard] },
+  { path: 'TheftReport', component: TheftReportComponent, canActivate: [AuthGuard] },
+  { path: 'RelocationReport', component: ReloctaionReportComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

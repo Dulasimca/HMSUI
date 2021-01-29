@@ -62,6 +62,12 @@ export class MenubarComponent implements OnInit {
           {
             label: 'Tickets By Date', routerLink: '/TicketByDateReport'
           },
+          {
+            label: 'Theft', routerLink: '/TheftReport'
+          },
+          {
+            label: 'Relocation', routerLink: '/RelocationReport'
+          }
         ]
       }
     ];

@@ -53,6 +53,8 @@ import { ThemeService } from './theme/theme.service';
 import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
 import { RelocationFormComponent } from './relocation-form/relocation-form.component';
 import { TheftFormComponent } from './theft-form/theft-form.component';
+import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaion-report.component';
+import { TheftReportComponent } from './reports/theft-report/theft-report.component';
 
 
 
@@ -75,7 +77,9 @@ import { TheftFormComponent } from './theft-form/theft-form.component';
     BugzillaReportComponent,
     AllTicketsReportComponent,
     RelocationFormComponent,
-    TheftFormComponent
+    TheftFormComponent,
+    ReloctaionReportComponent,
+    TheftReportComponent
   ],
   imports: [
     BrowserModule,

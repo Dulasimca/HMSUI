@@ -42,6 +42,7 @@ export class RelocationFormComponent implements OnInit {
   relocationDetailsData: any = [];
   relocationDetailsCols: any;
   isEditClicked: boolean;
+  loading: Boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,

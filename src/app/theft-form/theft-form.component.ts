@@ -7,7 +7,6 @@ import { MasterDataService } from '../masters-services/master-data.service';
 import { PathConstants } from '../helper/PathConstants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import { format } from 'path';
 
 @Component({
   selector: 'app-theft-form',
@@ -43,6 +42,7 @@ export class TheftFormComponent implements OnInit {
   theftDetailsCols: any;
   theftDetailsData: any = [];
   Theft_Id: any;
+  loading: Boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,
