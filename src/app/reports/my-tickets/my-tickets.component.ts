@@ -33,7 +33,6 @@ export class MyTicketsComponent implements OnInit {
   TD: any = [];
   AllTD: any = [];
   blockScreen: boolean;
-  showTicketGrid: boolean = true;
   login_User: any;
   loading: boolean;
   selected: any;
@@ -141,7 +140,6 @@ export class MyTicketsComponent implements OnInit {
     this.onTD();
     this.TDData = this.TD
     this.showDialog = true;
-    this.showTicketGrid = false;
   }
 
   onComment() {
@@ -254,7 +252,6 @@ export class MyTicketsComponent implements OnInit {
     this.DefaultCC = null; this.Subject = null; this.TicketDescription = null;
     this.StatusOptions = [];
     this.showDialog = this.showComment = false;
-    this.showTicketGrid = true;
     // this.URL 
   }
 }

@@ -38,7 +38,6 @@ export class TicketUpdateComponent implements OnInit {
   TD: any = [];
   AllTD: any = [];
   blockScreen: boolean;
-  showTicketGrid: boolean = true;
   TT: [];
   login_User: any;
   loading: boolean;
@@ -49,6 +48,7 @@ export class TicketUpdateComponent implements OnInit {
   ShopName: any;
   Component: any;
   ComponentDescription: any;
+  dialogHeader: string;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private authService: AuthService) { }
@@ -155,7 +155,7 @@ export class TicketUpdateComponent implements OnInit {
     this.Status = event.data.Status;
     this.onTD();
     this.showDialog = true;
-    this.showTicketGrid = false;
+    this.dialogHeader = 'Update Ticket' + this.TicketID + ' - Reported By ' + this.reporter
   }
 
   onUpdate() {
@@ -170,6 +170,7 @@ export class TicketUpdateComponent implements OnInit {
         if (res) {
           this.blockScreen = false;
           this.onTicket();
+          this.showDialog = false;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'success',
@@ -284,10 +285,5 @@ export class TicketUpdateComponent implements OnInit {
   CancelTD() {
     this.TD = [];
     this.TicketDescription = null;
-  }
-
-  onBack() {
-    this.showTicketGrid = true;
-    this.showDialog = false;
   }
 }

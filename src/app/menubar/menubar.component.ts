@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -10,30 +11,39 @@ import { MenuItem } from 'primeng/api';
 export class MenubarComponent implements OnInit {
   items: MenuItem[];
   showNavBar: boolean;
+  roleId: any;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.showNavBar = false;
+    this.roleId = this.authService.getLoggedUser().RoleId;
+    const showMenu = (this.roleId === 1 || this.roleId === 3) ? true : false;
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: '/home' },
       {
-        label: 'Documents', icon: 'pi pi-file',
-        items: [
-          { label: 'Relocation', routerLink: '/RelocationForm' },
-          { label: 'Theft', routerLink: '/TheftForm' },
-        ]
-      },
-      {
-        label: 'Ticket', icon: 'pi pi-ticket',
+        label: 'Ticket', icon: 'pi pi-ticket', visible: showMenu,
         items: [
           { label: 'New Ticket', icon: '', routerLink: '/NewTicket' },
           { label: 'Update Ticket', routerLink: '/TicketUpdate' },
+          { label: 'Search', icon: '', routerLink: '/SearchTicket' },
         ]
       },
-      { label: 'Search', icon: 'pi pi-search', routerLink: '/SearchTicket' },
       {
-        label: 'Profile', icon: 'pi pi-fw pi-comments',
+        label: 'Request', icon: 'pi pi-file', visible: showMenu,
+        items: [
+          { label: 'Relocation', routerLink: '/RelocationForm' },
+        ]
+      },
+      {
+        label: 'Incident', icon: 'pi pi-file', visible: showMenu,
+        items: [
+          { label: 'Theft', routerLink: '/TheftForm' },
+        ]
+      },
+
+      {
+        label: 'Profile', icon: 'pi pi-fw pi-comments', visible: showMenu,
         items: [
           {
             label: 'Change Password', routerLink: '/ChangePassword'
@@ -41,7 +51,7 @@ export class MenubarComponent implements OnInit {
         ]
       },
       {
-        label: 'Report', icon: 'pi pi-fw pi-file',
+        label: 'Reports', icon: 'pi pi-fw pi-file', visible: showMenu,
         items: [
           {
             label: 'My Tickets', routerLink: '/MyTickets'

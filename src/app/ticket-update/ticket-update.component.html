@@ -4,7 +4,7 @@
             <app-topbar></app-topbar>
         </div>
         <div class="p-col-12 p-md-12 p-lg-12 border-color" style="min-height:69vh;">
-            <div *ngIf="showTicketGrid">
+            <div>
                 <p-panel>
                     <p-header>
                         <div class="ui-g-12 ui-md-8 ui-g panel-header">Update Ticket
@@ -16,7 +16,7 @@
                             **Please select the ticket to update**
                         </div>
                         <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
-                            [value]="TicketReportData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                            [value]="TicketReportData" [rows]="50" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
                             [(selection)]="selected" selectionMode="single" (onRowSelect)="onRowSelect($event)"
                             exportFilename="MY_TICKET_REPORT">
@@ -39,18 +39,15 @@
                 </p-panel>
             </div>
 
-            <div *ngIf="showDialog">
-                <p-panel>
-                    <p-header>
-                        <div class="ui-g-12 ui-md-8 ui-g panel-header">Update Ticket {{TicketID}} - Reported By
-                            {{reporter}}
-                        </div>
-                    </p-header>
+            <p-dialog header="{{dialogHeader}}" [(visible)]="showDialog" [style]="{width: '90vw' , height: '80vw'}"
+                [modal]="true" [resizable]="true" [baseZIndex]="10000" [closable]="true" [maximizable]="true"
+                icon="pi pi-exclamation-triangle">
+                <div class="p-col-12 p-md-12 p-lg-12 card border-color margin-gap-layout">
                     <p-toast position="top-center" key="t-err"></p-toast>
-                    <div style="float: right;">
+                    <!-- <div style="float: right;">
                         <button pButton type="submit" label="Back" class="p-button-raised p-btn-pad bg-div" icon=""
                             iconPos="right" (click)="onBack()"></button>
-                    </div>
+                    </div> -->
                     <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
                         <div class="p-col-12 p-md-4 p-lg-3">
                             <div>
@@ -115,8 +112,8 @@
                             </tr>
                         </ng-template>
                     </p-table>
-                </p-panel>
-            </div>
+                </div>
+            </p-dialog>
         </div>
     </div>
     <app-footer></app-footer>

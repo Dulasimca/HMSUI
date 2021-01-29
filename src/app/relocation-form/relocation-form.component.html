@@ -73,18 +73,12 @@
                         </div>
                         &nbsp;
                         <!-- row 2 -->
-                        <div class="p-col-12 p-md-6 p-lg-2">
-                            <div>
-                                <label for="reasons" class="label-text-color">Reason:</label>
+                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="reasonText" id="float-input" size="30" pInputText
+                                    [(ngModel)]="reason" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">Reason</label>
                             </div>
-                            <p-dropdown #res name="reasons" [options]="reasonOptions"
-                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="reason" filter="true"
-                                resetFilterOnHide="true" (onClick)="onSelect('RE')" filterMatchMode="startsWith"
-                                optionLabel="label" required>
-                                <ng-template let-item pTemplate="selectedItem">
-                                    <span style="vertical-align:middle">{{item.label}}</span>
-                                </ng-template>
-                            </p-dropdown>
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
                             <div>
@@ -93,7 +87,7 @@
                             <p-dropdown #stats name="stats" [options]="statusOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="status" filter="true"
                                 resetFilterOnHide="true" (onClick)="onSelect('ST')" filterMatchMode="startsWith"
-                                optionLabel="label" required>
+                                optionLabel="label" [disabled]="!isEditClicked" required>
                                 <ng-template let-item pTemplate="selectedItem">
                                     <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
@@ -103,23 +97,72 @@
                             <div>
                                 <label class="label-text-color" for="ddate">Document Date:</label>
                             </div>
-                            <p-calendar name="ddate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="docDate"
-                                showTime="true" hourFormat="12" [showIcon]="true" required></p-calendar>
+                            <p-calendar name="ddate" [maxDate]="maxDate" dateFormat="yy-mm-dd" [(ngModel)]="docDate"
+                                [showIcon]="true" required></p-calendar>
                         </div>
-                        <div class="p-col-12 p-md-4 p-lg-2">
+                        <div *ngIf="isEditClicked" class="p-col-12 p-md-4 p-lg-2">
                             <div>
                                 <label class="label-text-color" for="cdate">Completed Date:</label>
                             </div>
-                            <p-calendar name="cdate" [maxDate]="maxDate" dateFormat="dd/mm/yy"
-                                [(ngModel)]="completedDate" showTime="true" hourFormat="12" [showIcon]="true" required>
+                            <p-calendar name="cdate" [maxDate]="maxDate" dateFormat="yy-mm-dd"
+                                [(ngModel)]="completedDate" [showIcon]="true" required>
                             </p-calendar>
                         </div>
                         <!-- row 3 -->
                         <div class="p-col-12 p-md-12 p-lg-12">
-                            <div class="p-col-12 p-md-12 p-lg-12 txt-align" style="margin-top: 5px;">
-                                <button pButton type="submit" label="Save" class="p-button-raised p-btn-pad bg-div"
-                                    (click)="onSave(f)" [disabled]="!f.valid"></button>
+                            <div class="p-grid">
+                                <div class="p-col-4 p-md-2 p-lg-5"></div>
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="submit" label="Save" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="onSave(f)" [disabled]="!f.valid"></button>
+                                </div>
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="button" label="View" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="isEditClicked=true"></button>
+                                </div>
+                                <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
+                                    <button pButton type="button" label="Clear" class="p-button-raised p-btn-pad bg-div"
+                                        (click)="onClear(f)"></button>
+                                </div>
                             </div>
+                        </div>
+                        <!-- row 4 -->
+                        <div *ngIf="isEditClicked" class="p-col-12 p-md-12 p-lg-12 card border-color">
+                            <div class="header-line">Relocation Details
+                                <span>
+                                    <button pButton type="button" icon="pi pi-times" iconPos="left"
+                                        style="float: right; height: 1.75rem; width: 2rem;"
+                                        (click)="isEditClicked=false"></button>
+                                </span>
+                            </div>
+                            <div class="p-col-6 p-md-4 p-lg-2">
+                                <div>
+                                    <label class="label-text-color" for="vdate">Date:</label>
+                                </div>
+                                <p-calendar name="vdate" [maxDate]="maxDate" dateFormat="yy-mm-dd"
+                                    [(ngModel)]="viewDate" [showIcon]="true" (ngModelChange)="getRelocationDetails()"
+                                    required>
+                                </p-calendar>
+                            </div>
+                            <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm"
+                                [columns]="relocationDetailsCols" [value]="relocationDetailsData" [rows]="50"
+                                [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true" [responsive]="true"
+                                autoLayout="true" [loading]="loading" selectionMode="single">
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr style="text-align: center;">
+                                        <th *ngFor="let col of columns">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData" (dblclick)="onRowSelect(rowData, rowIndex, f)">
+                                        <td *ngFor="let col of columns">
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </div>
                 </form>

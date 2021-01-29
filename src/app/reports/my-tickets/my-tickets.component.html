@@ -11,50 +11,16 @@
                 </p-header>
                 <p-toast position="top-center" key="t-err"></p-toast>
                 <div class="p-col-12 p-md-12 p-lg-12 no-pad-top">
-
-                    <div *ngIf="showTicketGrid">
-                        <div style="float: right; margin-top: -30px;">
-                            <button pButton type="submit" label="Excel" (click)="dt.exportCSV()" icon="pi pi-download"
-                                [disabled]="(TicketReportData.length==0)"
-                                class="p-button-raised p-btn-pad bg-div"></button>
-                        </div>
-                        <div class="p-col-12" style="margin-top: 20px;">
-                            <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
-                                [value]="TicketReportData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
-                                [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                                selectionMode="single" (onRowSelect)="onRowSelect($event)"
-                                exportFilename="{{excelFileName}}">
-                                <ng-template pTemplate="header" let-columns>
-                                    <tr style="text-align: center;">
-                                        <th *ngFor="let col of columns">
-                                            {{col.header}}
-                                        </th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                                    <tr [pSelectableRow]="rowData">
-                                        <td *ngFor="let col of columns">
-                                            {{rowData[col.field]}}
-                                        </td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                        </div>
+                    <div style="float: right; margin-top: -30px;">
+                        <button pButton type="submit" label="Excel" (click)="dt.exportCSV()" icon="pi pi-download"
+                            [disabled]="(TicketReportData.length==0)" class="p-button-raised p-btn-pad bg-div"></button>
                     </div>
-                    <div *ngIf="showDialog">
-                        <div style="float: right;">
-                            <button pButton type="submit" label="Excel" (click)="td.exportCSV()"
-                                class="p-button-raised p-btn-pad bg-div" icon="" iconPos="right"></button>
-                        </div>
-                        <div style="float: right;">
-                            <button pButton type="submit" label="Back" class="p-button-raised p-btn-pad bg-div" icon=""
-                                iconPos="right" (click)="onCancel()"></button>
-                        </div>
-                        <div style="font-size: 16px; text-decoration: underline;">Ticket History</div>
-                        <p-table #td styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols"
-                            [value]="TDData" [rows]="20" [rowsPerPageOptions]="[10,20,30,40,50,100]" [paginator]="true"
-                            [responsive]="true" autoLayout="true" [loading]="loading" [(selection)]="selected"
-                            selectionMode="single" exportFilename="MY_TICKET_DESCRIPTIONS">
+                    <div class="p-col-12" style="margin-top: 20px;">
+                        <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TicketReportCols"
+                            [value]="TicketReportData" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                            [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
+                            selectionMode="single" (onRowSelect)="onRowSelect($event)"
+                            exportFilename="{{excelFileName}}">
                             <ng-template pTemplate="header" let-columns>
                                 <tr style="text-align: center;">
                                     <th *ngFor="let col of columns">
@@ -71,6 +37,37 @@
                             </ng-template>
                         </p-table>
                     </div>
+                    <p-dialog header="Ticket History" [(visible)]="showDialog" [style]="{width: '90vw'}" [modal]="true"
+                        [resizable]="true" [baseZIndex]="10000" [closable]="true" [maximizable]="true"
+                        icon="pi pi-exclamation-triangle">
+                        <div class="p-col-12 p-md-12 p-lg-12 card border-color margin-gap-layout"
+                            style="min-height: 20vw; margin-bottom: 10px;">
+                            <div style="float: right;">
+                                <button pButton type="submit" label="Excel" (click)="td.exportCSV()"
+                                    class="p-button-raised p-btn-pad bg-div" icon="pi pi-download"
+                                    iconPos="left"></button>
+                            </div>
+                            <p-table #td styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TDCols"
+                                [value]="TDData" [rows]="50" [rowsPerPageOptions]="[10,20,30,40,50,100]"
+                                [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
+                                [(selection)]="selected" selectionMode="single" exportFilename="MY_TICKET_DESCRIPTIONS">
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr style="text-align: center;">
+                                        <th *ngFor="let col of columns">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td *ngFor="let col of columns">
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </p-dialog>
                 </div>
             </p-panel>
 

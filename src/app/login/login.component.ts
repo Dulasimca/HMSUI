@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
           this.password.toLowerCase() === credentials[0].userpwd.toLowerCase()) {
           var obj = this.loginForm.value;
           obj['Id'] = credentials[0].userid;
+          obj['RoleId'] = credentials[0].role_id;
           this.authService.loginInfo(obj);
           this.router.navigate(['/home']);
         } else {

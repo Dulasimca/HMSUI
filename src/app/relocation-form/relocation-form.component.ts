@@ -37,6 +37,11 @@ export class RelocationFormComponent implements OnInit {
   shopData: any;
   reasonData: any;
   statusData: any;
+  Relocation_Id: any;
+  viewDate: any;
+  relocationDetailsData: any = [];
+  relocationDetailsCols: any;
+  isEditClicked: boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,
@@ -47,8 +52,28 @@ export class RelocationFormComponent implements OnInit {
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.shopData = this.masterDataService.getShops();
-    this.reasonData = this.masterDataService.getReasons();
     this.statusData = this.masterDataService.getBugStatus();
+    this.assignDefaultValues();
+    this.relocationDetailsCols = [
+      { field: 'SlNo', header: 'S.No.' },
+      { field: 'REGNNAME', header: 'Region Name' },
+      { field: 'Dname', header: 'District Name' },
+      { field: 'ShopCode', header: 'Shop Code' },
+      { field: 'Reason', header: 'Reason' },
+      { field: 'FromAddress', header: 'From Address' },
+      { field: 'ToAddress', header: 'To Address' },
+      { field: 'StatusName', header: 'Status' },
+      { field: 'DocDate', header: 'Doc.Date.' },
+      { field: 'CompletedDate', header: 'Completed Date' }
+    ]
+  }
+
+  assignDefaultValues() {
+    this.statusOptions = [{ label: 'OPEN', value: 2 }];
+    this.status = { label: 'OPEN', value: 2 };
+    this.isEditClicked = false;
+    this.relocationDetailsData = [];
+    this.blockScreen = false;
   }
 
   onSelect(type) {
@@ -126,21 +151,23 @@ export class RelocationFormComponent implements OnInit {
   onSave(form: NgForm) {
     this.blockScreen = true;
     const params = {
+      'Id': (this.Relocation_Id !== null && this.Relocation_Id !== undefined) ? this.Relocation_Id : 0,
       'Dcode': this.dcode.value,
       'Rcode': this.rcode.value,
       'Status': this.status.value,
-      'Reason': this.reason.value,
+      'Reason': this.reason,
       'ShopCode': this.shopNo.value,
       'FromAddress': this.fromAddress,
       'ToAddress': this.toAddress,
-      'DocDate': this.datepipe.transform(this.docDate, 'yyyy-MM-dd'),
-      'CompletedDate': this.datepipe.transform(this.completedDate, 'yyyy-MM-dd'),
+      'DocDate': this.docDate,
+      'CompletedDate': (this.isEditClicked && this.completedDate !== undefined
+        && this.completedDate !== null) ? this.datepipe.transform(this.completedDate, 'yyyy-MM-dd') : '-',
       'User': this.user
     }
     this.restApiService.post(PathConstants.RelocationDetailsPost, params).subscribe(res => {
       if (res.item1) {
-        this.blockScreen = false;
         form.reset();
+        this.assignDefaultValues();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'success',
@@ -163,7 +190,63 @@ export class RelocationFormComponent implements OnInit {
           summary: 'Error Message', detail: 'Please Contact Administrator!'
         });
       }
-
     });
+  }
+
+  resetFormFields(form) {
+    form.controls.rname.reset();
+    form.controls.dname.reset();
+    form.controls.shop.reset();
+    form.controls.fromAddr.reset();
+    form.controls.toAddr.reset();
+    form.controls.reasonText.reset();
+    form.controls.stats.reset();
+    form.controls.ddate.reset();
+  }
+
+  getRelocationDetails() {
+    if (this.viewDate !== null && this.viewDate !== undefined && this.viewDate.toString().trim() !== '') {
+      this.relocationDetailsData = [];
+      const params = {
+        'FDate': this.datepipe.transform(this.viewDate, 'yyyy-MM-dd'),
+        'TDate': this.datepipe.transform(this.viewDate, 'yyyy-MM-dd')
+      }
+      this.restApiService.getByParameters(PathConstants.RelocationDetailsGet, params).subscribe(res => {
+        if (res !== undefined && res !== null && res.length !== 0) {
+          this.relocationDetailsData = res;
+          let sno = 1;
+          this.relocationDetailsData.forEach(t => {
+            t.SlNo = sno;
+            sno += 1;
+          })
+        }
+      })
+    }
+  }
+
+
+  onRowSelect(row, index, form: NgForm) {
+    if (row !== undefined && row !== null) {
+      this.resetFormFields(form);
+      this.Relocation_Id = row.TId;
+      this.regionOptions = [{ label: row.REGNNAME, value: row.Rcode }];
+      this.rcode = { label: row.REGNNAME, value: row.Rcode };
+      this.districtOptions = [{ label: row.Dname, value: row.Dcode }];
+      this.dcode = { label: row.Dname, value: row.Dcode };
+      this.statusOptions = [{ label: row.StatusName, value: row.Status }];
+      this.status = { label: row.StatusName, value: row.Status };
+      this.shopOptions = [{ label: row.ShopCode, value: row.ShopCode }];
+      this.shopNo = { label: row.ShopCode, value: row.ShopCode };
+      this.reason = row.Reason;
+      this.fromAddress = row.FromAddress;
+      this.toAddress = row.ToAddress;
+      this.docDate = row.DocDate;
+      this.completedDate = row.completedDate;
+    }
+  }
+
+  onClear(form: NgForm) {
+    form.reset();
+    this.assignDefaultValues();
   }
 }

@@ -955,11 +955,13 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
   padding: 2px 4px;
   color: #ffffff;
 }
+
 .p-dialog .p-dialog-content{
   background: #ffffff;
-    color: #495057;
+    color: white;
     padding: 0 1.5rem 0rem 1.5rem;
 }
+
 @media only screen and (max-width: 1125px) {
   .dashboard-tiles .overview-box .overview-box-subtitle {
     margin-top: 1.2rem;
@@ -1357,6 +1359,33 @@ h6 {
   color: #495057;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
+}
+
+.p-dialog .p-dialog-header {
+  border: 1px solid rgb(194 241 147);
+  background: var(--panel-background);
+  color: #495057;
+  padding: 0.3rem;
+}
+
+.p-dialog .p-dialog-header .p-dialog-header-icon {
+  width: 2rem;
+  height: 2rem;
+  color: #495057;
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  margin-right: 0.5rem;
+}
+
+.pi-times {
+  color: #495057 !important;
+}
+
+.p-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 500;
+  font-size: 1.12rem !important;
 }
 
 .p-button {

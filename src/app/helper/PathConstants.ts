@@ -26,7 +26,9 @@ export class PathConstants {
     public static readonly MYTicket = '/api/TicketDescription/Get';
     public static readonly ChangePassword = '/api/ChangePassword/Put';
     public static readonly RelocationDetailsPost = '/api/RelocationDetails/Post';
+    public static readonly RelocationDetailsGet = '/api/RelocationDetails/Get';
     public static readonly TheftDetailsPost = '/api/TheftDetails/Post';
+    public static readonly TheftDetailsGet = '/api/TheftDetails/Get';
     public static readonly IssuesTypeGet = '/api/IssuesType';
     // public static readonly TicketReportByDate = '/api/Ticket'
 }
