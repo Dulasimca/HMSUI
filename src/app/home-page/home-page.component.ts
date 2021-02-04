@@ -8,6 +8,7 @@ import { LocationStrategy } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import * as FileSaver from 'file-saver';
 import { Router } from '@angular/router';
+import { MasterDataService } from '../masters-services/master-data.service';
 
 @Component({
   selector: 'app-home-page',
@@ -26,7 +27,7 @@ export class HomePageComponent implements OnInit {
   pieChartData: any[];
   plugin: any;
   pieData: any;
-  pieLabels: string[];
+  pieLabels: string[] = [];
   bug_count: any = [];
   userInfo: any;
   allBugsCount: any = 0;
@@ -43,23 +44,39 @@ export class HomePageComponent implements OnInit {
   OverallDistrictSLAtext: String;
   OverallShopSLAtext: string;
   roleId: any;
+  rname: string;
+  dname: string
+  bugStatusData: any = [];
+  bug_count_ro: any = [];
+  bug_count_do: any = [];
+  bug_count_sh: any = [];
+  pieDataForShops: any;
+  pieDataForDistrict: any;
+  pieDataForRegion: any;
 
   constructor(private locationStrategy: LocationStrategy, private restApi: RestAPIService,
-    private authService: AuthService, private router: Router) { }
+    private authService: AuthService, private router: Router, private masterService: MasterDataService) { }
 
   ngOnInit() {
     this.preventBackButton();
-    this.onLoadChart();
     this.userInfo = this.authService.getLoggedUser();
     this.onLoadGridValues();
     this.titleDownloadtext = 'Click to download .pdf';
-    this.OverallSLAHeadertext = 'Tasmac Head Office';
-    this.OverAllSLAtext = 'Overall SLA Status for Q1(Jan to March 2021)';
-    this.OverallHOSLAtext = 'OverAll HO SLA';
-    this.OverallRegionSLAtext = 'Overall Region SLA';
-    this.OverallDistrictSLAtext = 'Overall District SLA';
-    this.OverallShopSLAtext = 'Overall Shop SLA';
+    this.OverAllSLAtext = 'Overall SLA Status For Q1(Jan to March 2021)';
+    this.OverallHOSLAtext = 'SLA For HeadOffice';
+    this.OverallRegionSLAtext = 'SLA For Region - ' + this.rname;
+    this.OverallDistrictSLAtext = 'SLA For District - ' + this.dname;
+    this.OverallShopSLAtext = 'SLA For Shop';
     this.roleId = this.userInfo.RoleId;
+    this.OverallSLAHeadertext = 'Tasmac ' + ((this.roleId === 1 || this.roleId === 2) ? ' Head Office' :
+      (this.roleId === 3) ? ' Region Office - ' + this.rname :
+        (this.roleId === 4) ? ' District Office - ' + this.dname : '');
+    this.restApi.get(PathConstants.BugStatus).subscribe(bugstatus => {
+      bugstatus.forEach(bs => {
+        this.bugStatusData.push({ 'name': bs.value, 'id': bs.id });
+      });
+      this.onLoadChart();
+    });
   }
 
   onLoadGridValues() {
@@ -83,24 +100,6 @@ export class HomePageComponent implements OnInit {
               }
             }
           })
-          // this.allBugsCount = (data[0].total_bugs !== undefined && data[0].total_bugs !== null) ? data[0].total_bugs : 0;
-          // this.myBugsCount = (data[1].user_bugs !== undefined && data[1].user_bugs !== null) ? data[1].user_bugs : 0;
-          // if (data[2] !== undefined && data[2] !== null) {
-          //   if (data[2].length !== 0) {
-          //     data[2].forEach(i => {
-          //       if (i.product_id === 2) {
-          //         this.headOfficeBugsCount = i.product_bugs;
-          //       } else if (i.product_id === 3) {
-          //         this.regionBugsCount = i.product_bugs;
-          //       } else if (i.product_id === 4) {
-          //         this.districtBugsCount = i.product_bugs;
-          //       } else if (i.product_id === 5) {
-          //         this.shopBugsCount = i.product_bugs;
-          //       }
-          //     })
-          //   }
-          // }
-          // }
         })
       }
     });
@@ -108,14 +107,31 @@ export class HomePageComponent implements OnInit {
   }
 
   onLoadChart() {
-    this.pieLabels = ['Assigned', 'Completed', 'In-Progress', 'Open'];
+    this.bugStatusData.forEach(b => {
+      if (b.id === 7 || b.id === 6 || b.id === 2 || b.id === 3)
+        this.pieLabels.push(b.name);
+    })
+    let filteredArr = [];
     this.restApi.getByParameters(PathConstants.HMSReportURL, { 'value': 1 }).subscribe(res => {
+      if (this.roleId === 1 && this.roleId === 2) {
+        filteredArr = res;
+      } else if (this.roleId === 3) {
+        filteredArr = res.filter(f => {
+          return f.product_id === 3 || f.product_id === 4 || f.product_id === 5
+        })
+      } else if (this.roleId === 4) {
+        filteredArr = res.filter(f => {
+          return f.product_id === 4 || f.product_id === 5
+        })
+      }
       for (let i = 0; i < this.pieLabels.length; i++) {
-        res.forEach(c => {
+        let count = 0
+        filteredArr.forEach(c => {
           if (this.pieLabels[i].toLowerCase() === c.bug_status.toLowerCase()) {
-            this.bug_count.push(c.bug_count);
+            count += c.bug_count
           }
         })
+        this.bug_count.push(count);
       }
       this.pieData = {
         labels: this.pieLabels,
@@ -123,6 +139,102 @@ export class HomePageComponent implements OnInit {
           {
             label: "Percentage",
             data: this.bug_count,
+            backgroundColor: [
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
+            ],
+            hoverBackgroundColor: [
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
+            ]
+          }]
+      };
+      let filteredArrRO = res.filter(f => {
+        return f.product_id === 3 || f.product_id === 4 || f.product_id === 5
+      })
+      for (let i = 0; i < this.pieLabels.length; i++) {
+        let count = 0
+        filteredArrRO.forEach(c => {
+          if (this.pieLabels[i].toLowerCase() === c.bug_status.toLowerCase()) {
+            count += c.bug_count
+          }
+        })
+        this.bug_count_ro.push(count);
+      }
+      this.pieDataForRegion = {
+        labels: this.pieLabels,
+        datasets: [
+          {
+            label: "Percentage",
+            data: this.bug_count_ro,
+            backgroundColor: [
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
+            ],
+            hoverBackgroundColor: [
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
+            ]
+          }]
+      };
+      let filteredArrDO = res.filter(f => {
+        return f.product_id === 4 || f.product_id === 5
+      })
+      for (let i = 0; i < this.pieLabels.length; i++) {
+        let count = 0
+        filteredArrDO.forEach(c => {
+          if (this.pieLabels[i].toLowerCase() === c.bug_status.toLowerCase()) {
+            count += c.bug_count
+          }
+        })
+        this.bug_count_do.push(count);
+      }
+      this.pieDataForDistrict = {
+        labels: this.pieLabels,
+        datasets: [
+          {
+            label: "Percentage",
+            data: this.bug_count_do,
+            backgroundColor: [
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
+            ],
+            hoverBackgroundColor: [
+              "#1985ff",
+              "#00e71b",
+              "#FFFC00",
+              "#FF0000",
+            ]
+          }]
+      };
+      let filteredArrSH = res.filter(f => {
+        return f.product_id === 5
+      })
+      for (let i = 0; i < this.pieLabels.length; i++) {
+        let count = 0
+        filteredArrSH.forEach(c => {
+          if (this.pieLabels[i].toLowerCase() === c.bug_status.toLowerCase()) {
+            count += c.bug_count
+          }
+        })
+        this.bug_count_sh.push(count);
+      }
+      this.pieDataForShops = {
+        labels: this.pieLabels,
+        datasets: [
+          {
+            label: "Percentage",
+            data: this.bug_count_sh,
             backgroundColor: [
               "#1985ff",
               "#00e71b",

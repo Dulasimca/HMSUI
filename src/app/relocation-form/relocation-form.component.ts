@@ -43,6 +43,12 @@ export class RelocationFormComponent implements OnInit {
   relocationDetailsCols: any;
   isEditClicked: boolean;
   loading: Boolean;
+  locationsData: any;
+  locationOptions: SelectItem[];
+  location: any;
+  disableDM: boolean;
+  disableRM: boolean;
+  disableShop: boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,
@@ -50,6 +56,7 @@ export class RelocationFormComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(this.authService.getCredentials()).user;
+    this.locationsData = this.masterDataService.getProducts();
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.shopData = this.masterDataService.getShops();
@@ -57,6 +64,7 @@ export class RelocationFormComponent implements OnInit {
     this.assignDefaultValues();
     this.relocationDetailsCols = [
       { field: 'SlNo', header: 'S.No.' },
+      { field: 'LocName', header: 'Location Name' },
       { field: 'REGNNAME', header: 'Region Name' },
       { field: 'Dname', header: 'District Name' },
       { field: 'ShopCode', header: 'Shop Code' },
@@ -78,12 +86,40 @@ export class RelocationFormComponent implements OnInit {
   }
 
   onSelect(type) {
+    let locationSeletion = [];
     let regionSelection = [];
     let districtSeletion = [];
     let shopSeletion = [];
     let reasonSeletion = [];
     let statusSelection = [];
     switch (type) {
+      case 'L':
+        if (this.locationsData.length !== 0) {
+          this.locationsData.forEach(d => {
+            if (d.id !== 2) {
+              locationSeletion.push({ label: d.name, value: d.id });
+            }
+          })
+          this.locationOptions = locationSeletion;
+          this.locationOptions.unshift({ label: '-Select-', value: 'All' });
+          if (this.location.value === 5) {
+            this.disableDM = false;
+            this.disableRM = false;
+            this.disableShop = false;
+          } else if (this.location.value === 4) {
+            this.disableDM = false;
+            this.disableRM = false;
+            this.disableShop = true;
+          } else if (this.location.value === 3) {
+            this.disableDM = this.disableShop = true;
+            this.disableRM = false;
+          } else if (this.location.value === 9) {
+            this.disableDM = true;
+            this.disableShop = true;
+            this.disableRM = false;
+          }
+        }
+        break;
       case 'RM':
         if (this.regionsData.length !== 0) {
           this.regionsData.forEach(r => {
@@ -153,11 +189,12 @@ export class RelocationFormComponent implements OnInit {
     this.blockScreen = true;
     const params = {
       'Id': (this.Relocation_Id !== null && this.Relocation_Id !== undefined) ? this.Relocation_Id : 0,
-      'Dcode': this.dcode.value,
-      'Rcode': this.rcode.value,
+      'Location': this.location.value,
+      'Dcode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : 0,
+      'Rcode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : 0,
       'Status': this.status.value,
       'Reason': this.reason,
-      'ShopCode': this.shopNo.value,
+      'ShopCode': (this.shopNo !== undefined && this.shopNo !== null) ? this.shopNo.value : 0,
       'FromAddress': this.fromAddress,
       'ToAddress': this.toAddress,
       'DocDate': this.docDate,
@@ -195,6 +232,7 @@ export class RelocationFormComponent implements OnInit {
   }
 
   resetFormFields(form) {
+    form.controls.loc.reset();
     form.controls.rname.reset();
     form.controls.dname.reset();
     form.controls.shop.reset();
@@ -230,6 +268,8 @@ export class RelocationFormComponent implements OnInit {
     if (row !== undefined && row !== null) {
       this.resetFormFields(form);
       this.Relocation_Id = row.TId;
+      this.locationOptions = [{ label: row.LocName, value: row.location }];
+      this.location = { label: row.LocName, value: row.location };
       this.regionOptions = [{ label: row.REGNNAME, value: row.Rcode }];
       this.rcode = { label: row.REGNNAME, value: row.Rcode };
       this.districtOptions = [{ label: row.Dname, value: row.Dcode }];

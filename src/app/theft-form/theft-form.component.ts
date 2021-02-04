@@ -43,6 +43,11 @@ export class TheftFormComponent implements OnInit {
   theftDetailsData: any = [];
   Theft_Id: any;
   loading: Boolean;
+  locationsData: any;
+  locationOptions: SelectItem[];
+  location: any;
+  disableDM: boolean;
+  disableShop: boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,
@@ -50,6 +55,7 @@ export class TheftFormComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(this.authService.getCredentials()).user;
+    this.locationsData = this.masterDataService.getProducts();
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.shopData = this.masterDataService.getShops();
@@ -58,6 +64,7 @@ export class TheftFormComponent implements OnInit {
     this.assignDefaultValues();
     this.theftDetailsCols = [
       { field: 'SlNo', header: 'S.No.' },
+      { field: 'LocName', header: 'Location Name' },
       { field: 'REGNNAME', header: 'Region Name' },
       { field: 'Dname', header: 'District Name' },
       { field: 'Shopcode', header: 'Shop Code' },
@@ -80,12 +87,34 @@ export class TheftFormComponent implements OnInit {
   }
 
   onSelect(type) {
+    let locationSeletion = [];
     let regionSelection = [];
     let districtSeletion = [];
     let shopSeletion = [];
     let statusSelection = [];
     let issueTypeSelection = [];
     switch (type) {
+      case 'L':
+        if (this.locationsData.length !== 0) {
+          this.locationsData.forEach(d => {
+            if (d.id !== 2 && d.id !== 3) {
+              locationSeletion.push({ label: d.name, value: d.id });
+            }
+          })
+          this.locationOptions = locationSeletion;
+          this.locationOptions.unshift({ label: '-Select-', value: 'All' });
+          if (this.location.value === 5) {
+            this.disableDM = false;
+            this.disableShop = false;
+          } else if (this.location.value === 4) {
+            this.disableDM = false;
+            this.disableShop = true;
+          } else if (this.location.value === 9) {
+            this.disableDM = true;
+            this.disableShop = true;
+          }
+        }
+        break;
       case 'RM':
         if (this.regionsData.length !== 0) {
           this.regionsData.forEach(r => {
@@ -153,11 +182,12 @@ export class TheftFormComponent implements OnInit {
     this.blockScreen = true;
     const params = {
       'Id': (this.Theft_Id !== null && this.Theft_Id !== undefined) ? this.Theft_Id : 0,
-      'Dcode': this.dcode.value,
-      'Rcode': this.rcode.value,
+      'Location': this.location.value,
+      'Dcode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : 0,
+      'Rcode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : 0,
       'Status': this.status.value,
       'Reason': this.reason,
-      'ShopCode': this.shopNo.value,
+      'ShopCode': (this.shopNo !== undefined && this.shopNo !== null) ? this.shopNo.value : 0,
       'Address': this.address,
       'IssueType': this.issueType.value,
       'DocDate': this.docDate,
@@ -198,6 +228,7 @@ export class TheftFormComponent implements OnInit {
 
   resetFormFields(form) {
     form.controls.rname.reset();
+    form.controls.loc.reset();
     form.controls.dname.reset();
     form.controls.shop.reset();
     form.controls.issue.reset();
@@ -230,8 +261,11 @@ export class TheftFormComponent implements OnInit {
 
   onRowSelect(row, index, form: NgForm) {
     if (row !== undefined && row !== null) {
+      this.isEditClicked = false;
       this.resetFormFields(form);
       this.Theft_Id = row.TId;
+      this.locationOptions = [{ label: row.LocName, value: row.location }];
+      this.location = { label: row.LocName, value: row.location };
       this.regionOptions = [{ label: row.REGNNAME, value: row.Rcode }];
       this.rcode = { label: row.REGNNAME, value: row.Rcode };
       this.districtOptions = [{ label: row.Dname, value: row.Dcode }];

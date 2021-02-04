@@ -17,6 +17,18 @@
                 <form #f="ngForm" name="relocationForm">
                     <div class="p-grid card">
                         <!-- row 1 -->
+                        <div class="p-col-12 p-md-4 p-lg-2">
+                            <div>
+                                <label for="loc" class="label-text-color">Incident Location</label>
+                            </div>
+                            <p-dropdown #loc name="loc" [options]="locationOptions"
+                                [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="location"
+                                (onClick)="onSelect('L')" (onChange)="onResetFields('L')" optionLabel="label" required>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span style="vertical-align:middle">{{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
                             <div>
                                 <label for="rname" class="label-text-color">Region:</label>
@@ -38,7 +50,7 @@
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="dcode"
                                 (onClick)="onSelect('DM')" filter="true" resetFilterOnHide="true"
                                 filterMatchMode="startsWith" (onChange)="onResetFields('DM')" optionLabel="label"
-                                required>
+                                [disabled]="disableDM" required>
                                 <ng-template let-item pTemplate="selectedItem">
                                     <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
@@ -51,7 +63,7 @@
                             <p-dropdown #shop name="shop" [options]="shopOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="shopNo" filter="true"
                                 (onClick)="onSelect('SH')" resetFilterOnHide="true" filterMatchMode="startsWith"
-                                optionLabel="label" required>
+                                optionLabel="label" [disabled]="disableShop" required>
                                 <ng-template let-item pTemplate="selectedItem">
                                     <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
@@ -70,6 +82,8 @@
                                 </ng-template>
                             </p-dropdown>
                         </div>
+                        &nbsp;
+                        <!-- row 2 -->
                         <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="addr" id="float-input" size="30" pInputText
@@ -77,8 +91,6 @@
                                 <label for="float-input">Address</label>
                             </div>
                         </div>
-                        &nbsp;
-                        <!-- row 2 -->
                         <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="reasonText" id="float-input" size="30" pInputText
@@ -140,6 +152,9 @@
                                         (click)="onClear(f)"></button>
                                 </div>
                             </div>
+                        </div>
+                        <div class="p-col-12">**Dear users please update the video file Google drive before submitting
+                            the URL
                         </div>
                         <!-- row 4 -->
                         <div *ngIf="isEditClicked" class="p-col-12 p-md-12 p-lg-12 card border-color">

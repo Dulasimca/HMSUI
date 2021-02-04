@@ -15,7 +15,8 @@
                 </div>
                 <div class="p-col-12 p-md-12 p-lg-12 card border-color no-pad-bottom">
                     <div class="p-grid dashboard" style="margin-top: 1px;">
-                        <div class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
+                        <div *ngIf="roleId==3" class="p-col-1"></div>
+                        <div *ngIf="roleId!=4" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
                             <div class="overview-box  box-ab" (click)="onNavigateToReport(1)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">All Tickets</div>
@@ -23,7 +24,14 @@
                                 <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
                             </div>
                         </div>
-                        <div class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
+                        <div *ngIf="roleId==4" class="p-col-12 p-md-6 p-lg-3 cursor-pointer">
+                            <div class="overview-box  box-ab" (click)="onNavigateToReport(1)">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">All Tickets</div>
+                                <div class="overview-box-value">{{allBugsCount}}</div>
+                            </div>
+                        </div>
+                        <div *ngIf="roleId!=4" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
                             <div class="overview-box  box-mb" (click)="onNavigateToReport(5)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">My Tickets</div>
@@ -31,7 +39,14 @@
                                 <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
                             </div>
                         </div>
-                        <div *ngIf="roleId==1" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
+                        <div *ngIf="roleId==4" class="p-col-12 p-md-6 p-lg-3 cursor-pointer">
+                            <div class="overview-box  box-mb" (click)="onNavigateToReport(5)">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">My Tickets</div>
+                                <div class="overview-box-value">{{myBugsCount}}</div>
+                            </div>
+                        </div>
+                        <div *ngIf="roleId==1 || roleId==2" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
                             <div class="overview-box  box-ho" (click)="onNavigateToReport(2)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">Head Office Tickets</div>
@@ -39,7 +54,7 @@
                                 <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
                             </div>
                         </div>
-                        <div *ngIf="roleId==2 || roleId==1" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
+                        <div *ngIf="roleId!=4" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
                             <div class="overview-box  box-ro" (click)="onNavigateToReport(3)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">Regional Office Tickets</div>
@@ -47,7 +62,7 @@
                                 <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
                             </div>
                         </div>
-                        <div *ngIf="roleId==3 || roleId==1 || roleId==2" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
+                        <div *ngIf="roleId!=4" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
                             <div class="overview-box  box-do" (click)="onNavigateToReport(4)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">District Office Tickets</div>
@@ -55,7 +70,14 @@
                                 <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
                             </div>
                         </div>
-                        <div *ngIf="roleId==3 || roleId==1 || roleId==2" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
+                        <div *ngIf="roleId==4" class="p-col-12 p-md-6 p-lg-3 cursor-pointer">
+                            <div class="overview-box  box-do" (click)="onNavigateToReport(4)">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">District Office Tickets</div>
+                                <div class="overview-box-value">{{districtBugsCount}}</div>
+                            </div>
+                        </div>
+                        <div *ngIf="roleId!=4" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
                             <div class="overview-box  box-sh" (click)="onNavigateToReport(5)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">Shops Tickets</div>
@@ -63,29 +85,32 @@
                                 <!-- <div class="overview-box-status"><b>20%</b> more than yesterday</div> -->
                             </div>
                         </div>
-                        <!-- <div class="p-col-12 p-lg-4">
-                                        <div class="container">
-
-                                        </div>
-                                    </div> -->
+                        <div *ngIf="roleId==4" class="p-col-12 p-md-6 p-lg-3 cursor-pointer">
+                            <div class="overview-box  box-sh" (click)="onNavigateToReport(5)">
+                                <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
+                                <div class="overview-box-title">Shops Tickets</div>
+                                <div class="overview-box-value">{{shopBugsCount}}</div>
+                            </div>
+                        </div>
+                        <!-- pie chart design grid-->
                         <div class="p-col-12 p-md-12 p-lg-12">
                             <div class="p-grid border-color card" style="display: flex; margin-right: -0.1rem !important;
                         margin-left: -0.1rem !important;">
-                                <div *ngIf="roleId==1" class="p-col-12 p-md-12 p-lg-6 card">
+                                <div class="p-col-12 p-md-12 p-lg-6 card">
                                     <div class="header-line">{{OverallSLAHeadertext}}
                                     </div>
                                     <div class="header-line">{{OverAllSLAtext}}
                                     </div>
                                     <div class="margin-gap-layout">
-                                        <p-chart type="pie" [data]="pieData" width="auto" height="55vh"
+                                        <p-chart type="pie" [data]="pieData" width="auto" height="50vh"
                                             [plugins]="plugin" [options]="pieOptions"
                                             (onDataSelect)="selectData($event)"></p-chart>
                                     </div>
                                 </div>
-                                <div class="p-col-12 p-md-12 p-lg-6 card">
+                                <!-- For Headoffice -->
+                                <div *ngIf="roleId==1 || roleId==2" class="p-col-12 p-md-12 p-lg-6 card">
                                     <div class="p-grid">
-                                        <div *ngIf="roleId==1" class="p-col-12 p-md-6 p-lg-6 border-color"
-                                            style="margin-top: 10px;">
+                                        <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
                                             <div class="header-line">{{OverallHOSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
@@ -94,40 +119,98 @@
                                                     (onDataSelect)="selectData($event)"></p-chart>
                                             </div>
                                         </div>
-                                        <div *ngIf="roleId==2 || roleId==1" class="p-col-12 p-md-6 p-lg-6 border-color"
-                                            style="margin-top: 10px;">
+                                        <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
                                             <div class="header-line">{{OverallRegionSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
-                                                <p-chart type="pie" [data]="pieData" width="auto" height="auto"
+                                                <p-chart type="pie" [data]="pieDataForRegion" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
                                                     (onDataSelect)="selectData($event)"></p-chart>
                                             </div>
                                         </div>
-                                        <div *ngIf="roleId==3 || roleId==1 || roleId==2"
-                                            class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
+                                        <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
                                             <div class="header-line">{{OverallDistrictSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
-                                                <p-chart type="pie" [data]="pieData" width="auto" height="auto"
-                                                    [plugins]="plugin" [options]="pieOptions"
+                                                <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
+                                                    height="auto" [plugins]="plugin" [options]="pieOptions"
                                                     (onDataSelect)="selectData($event)"></p-chart>
                                             </div>
                                         </div>
-                                        <div *ngIf="roleId==3 || roleId==1 || roleId==2"
-                                            class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
+                                        <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
                                             <div class="header-line">{{OverallShopSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
-                                                <p-chart type="pie" [data]="pieData" width="auto" height="auto"
+                                                <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
                                                     (onDataSelect)="selectData($event)"></p-chart>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- end -->
+                                <!-- For Region -->
+                                <div *ngIf="roleId==3" class="p-col-12 p-md-12 p-lg-6 card">
+                                    <div class="p-grid">
+                                        <div class="p-col-12 p-md-12 p-lg-12 card border-color"
+                                            style="margin-top: 5px;">
+                                            <div class="header-line">{{OverallRegionSLAtext}}
+                                            </div>
+                                            <div class="margin-gap-layout">
+                                                <p-chart type="pie" [data]="pieDataForRegion" width="auto" height="auto"
+                                                    [plugins]="plugin" [options]="pieOptions"
+                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                            </div>
+                                        </div>
+                                        <div class="p-col-12 p-md-12 p-lg-6 card border-color" style="margin-top: 5px;">
+                                            <div class="header-line">{{OverallDistrictSLAtext}}
+                                            </div>
+                                            <div class="margin-gap-layout">
+                                                <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
+                                                    height="auto" [plugins]="plugin" [options]="pieOptions"
+                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                            </div>
+                                        </div>
+                                        <div class="p-col-12 p-md-12 p-lg-6 card border-color" style="margin-top: 5px;">
+                                            <div class="header-line">{{OverallShopSLAtext}}
+                                            </div>
+                                            <div class="margin-gap-layout">
+                                                <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
+                                                    [plugins]="plugin" [options]="pieOptions"
+                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end -->
+                                <!-- For District -->
+                                <div *ngIf="roleId==4" class="p-col-12 p-md-12 p-lg-6 card">
+                                    <div class="p-grid">
+                                        <div class="p-col-12 p-md-6 p-lg-12 card border-color"
+                                            style="margin-top: 10px;">
+                                            <div class="header-line">{{OverallDistrictSLAtext}}
+                                            </div>
+                                            <div class="margin-gap-layout">
+                                                <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
+                                                    height="auto" [plugins]="plugin" [options]="pieOptions"
+                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                            </div>
+                                        </div>
+                                        <div class="p-col-12 p-md-6 p-lg-12 card border-color"
+                                            style="margin-top: 10px;">
+                                            <div class="header-line">{{OverallShopSLAtext}}
+                                            </div>
+                                            <div class="margin-gap-layout">
+                                                <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
+                                                    [plugins]="plugin" [options]="pieOptions"
+                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end -->
                             </div>
-                            <div class="p-col-12 p-md-12 p-lg-12 card border-color">
+                            <div class="p-col-12 p-md-12 p-lg-12 card border-color" style="margin-top: 5px;">
                                 <div class="header-line">User Manual To Download</div>
                                 <div class="p-grid dashboard-tiles" style="padding-top: 25px;">
                                     <div class="p-col-3 p-md-3 p-lg-3 no-pad cursor-pointer" (click)="onPDFDownload(1)">

@@ -46,8 +46,8 @@ export class LoginComponent implements OnInit {
     this.isSubmitted = true;
     this.restApiService.getByParameters(PathConstants.LoginURL, { 'username': this.username }).subscribe(credentials => {
       if (credentials.length !== 0 && credentials !== null && credentials !== undefined) {
-        if (this.username.toLowerCase() === credentials[0].login_name.toLowerCase() &&
-          this.password.toLowerCase() === credentials[0].userpwd.toLowerCase()) {
+        if (this.username.toLowerCase().trim() === credentials[0].login_name.toLowerCase().trim() &&
+          this.password.toLowerCase().trim() === credentials[0].userpwd.toLowerCase().trim()) {
           var obj = this.loginForm.value;
           obj['Id'] = credentials[0].userid;
           obj['RoleId'] = credentials[0].role_id;
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'Please Contact Administrator!'
+          summary: 'Error Message', detail: 'Invalid user!'
         });
       }
     }, (err: HttpErrorResponse) => {

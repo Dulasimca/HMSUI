@@ -68,8 +68,7 @@ export class NewTicketComponent implements OnInit {
 
   ngOnInit() {
     this.showCloseDate = false;
-    this.login_User = JSON.parse(this.authService.getCredentials()).user;
-    this.user = this.login_User;
+    this.login_User = JSON.parse(this.authService.getCredentials());
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.locationsData = this.masterDataService.getProducts();
@@ -224,13 +223,14 @@ export class NewTicketComponent implements OnInit {
         'short_desc': this.Subject,
         'product': this.location.value,
         'component_id': this.compId.value,
-        'reporter': this.user,
+        'reporter': this.login_User.user,
         'URL': "Tasmac-hms.com",
         'everconfirmed': true,
         'reporter_accessible': true,
         'cclist_accessible': true,
         'CC': this.DefaultCC,
         'To': this.DefaultTo,
+        'UserId': this.login_User.Id,
         //mailsending
         'bodyMessage': bodyparams
       }
@@ -271,7 +271,7 @@ export class NewTicketComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticketID': this.TicketID,
-        'reporter': this.user,
+        'reporter': this.login_User.user,
         'ticketdescription': this.TicketDescription,
         'Status': this.Status
       }
