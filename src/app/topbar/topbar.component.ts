@@ -11,7 +11,7 @@ import { ThemeService } from '../theme/theme.service';
 export class TopbarComponent implements OnInit {
 
   constructor(private authService: AuthService, private themeService: ThemeService) { }
-    username: string;
+  username: string;
   ngOnInit() {
     this.themeService.getActiveTheme();
   }
