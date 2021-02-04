@@ -35,7 +35,6 @@ export class ReloctaionReportComponent implements OnInit {
       }
     ];
     this.RelocationCols = [
-      { field: 'SlNo', header: 'S.No.' },
       { field: 'REGNNAME', header: 'Region Name' },
       { field: 'Dname', header: 'District Name' },
       { field: 'ShopCode', header: 'Shop Code' },
@@ -83,12 +82,6 @@ export class ReloctaionReportComponent implements OnInit {
       if (res.length !== 0) {
         this.loading = false;
         this.RelocationData = res;
-        let sno = 0;
-        res.forEach(res => {
-          sno += 1;
-          res.SlNo = sno;
-        });
-        // this.compId.value = null;
       } else {
         this.loading = false;
         this.table.reset();

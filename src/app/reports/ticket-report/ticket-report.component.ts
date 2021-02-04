@@ -62,7 +62,6 @@ export class TicketReportComponent implements OnInit {
     this.regionsData = this.masterDataService.getRegions();
     this.locationsData = this.masterDataService.getProducts();
     this.TicketReportCols = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'TicketID', header: 'Ticket_ID' },
       { field: 'location', header: 'Location' },
       { field: 'ComponentName', header: 'Component_Name' },
@@ -198,12 +197,6 @@ export class TicketReportComponent implements OnInit {
       if (res.length !== 0) {
         this.blockScreen = false;
         this.excelFileName = this.location.label + ' TICKET_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
-        this.TicketReportData = res;
-        let sno = 0;
-        res.forEach(res => {
-          sno += 1;
-          res.SlNo = sno;
-        });
       } else {
         this.blockScreen = false;
         this.TicketReportData = [];

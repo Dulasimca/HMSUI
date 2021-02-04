@@ -31,7 +31,6 @@ export class AllTicketsReportComponent implements OnInit {
     let value: any = this.route.snapshot.queryParamMap.get('id');
     value = (value * 1);
     this.ticketCols = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'TicketID', header: 'Ticket_ID' },
       { field: 'location', header: 'Location' },
       { field: 'ComponentName', header: 'Component_Name' },
@@ -59,11 +58,6 @@ export class AllTicketsReportComponent implements OnInit {
             return (this.userInfo.Id === user_id)
           })
         }
-        let slno = 1;
-        this.ticketData.forEach(x => {
-          x.SlNo = slno;
-          slno += 1;
-        });
         this.excelFileName = 'TICKET_STATUS_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
         this.loading = false;
         if (this.ticketData.length !== 0) {

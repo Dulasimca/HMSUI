@@ -40,7 +40,6 @@ export class BugzillaReportComponent implements OnInit {
     ];
     const index = this.route.snapshot.queryParamMap.get('id');
     this.bugzillaCols = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'bug_id', header: 'Bug ID' },
       { field: 'bug_severity', header: 'Bug Severity' },
       { field: 'bug_status', header: 'Bug Status' },
@@ -53,10 +52,6 @@ export class BugzillaReportComponent implements OnInit {
       if (data !== undefined && data !== null && data.length !== 0) {
         let sno = 1;
         this.bugzillaData = data;
-        this.bugzillaData.forEach(x => {
-          x.SlNo = sno;
-          sno += 1;
-        });
         if (index !== undefined && index !== null) {
           this.bugzillaData = this.bugzillaData.filter(y => {
             return (index === '4' && y.bug_status.toUpperCase() === 'OPEN')
@@ -64,11 +59,6 @@ export class BugzillaReportComponent implements OnInit {
               || (index === '3' && y.bug_status.toUpperCase() === 'IN-PROGRESS')
               || (index === '1' && y.bug_status.toUpperCase() === 'COMPLETED')
           })
-          let slno = 1;
-          this.bugzillaData.forEach(x => {
-            x.SlNo = slno;
-            slno += 1;
-          });
         }
         this.excelFileName = 'BUGZILLA_STATUS_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
         this.loading = false;
@@ -103,7 +93,7 @@ export class BugzillaReportComponent implements OnInit {
   exportPdf() {
     var rows = [];
     this.bugzillaData.forEach(element => {
-      var temp = [element.SlNo, element.bug_id, element.bug_severity,
+      var temp = [element.bug_id, element.bug_severity,
       element.bug_status, element.assigned_to, element.short_desc,
       element.creation_ts];
       rows.push(temp);

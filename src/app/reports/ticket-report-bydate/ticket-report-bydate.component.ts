@@ -36,10 +36,10 @@ export class TicketReportBydateComponent implements OnInit {
       }
     ];
     this.TicketReportCols = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
+      // { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'TicketID', header: 'Ticket_ID' },
       { field: 'location', header: 'Location' },
-      { field: 'ComponentName', header: 'Component_Name' },
+      { field: 'ComponentName', header: 'Component' },
       { field: 'Status', header: 'Status' },
       { field: 'Subject', header: 'Subject' },
       { field: 'Assignee', header: 'Assignee' },
@@ -87,12 +87,6 @@ export class TicketReportBydateComponent implements OnInit {
       if (res.length !== 0) {
         this.loading = false;
         this.TicketReportData = res;
-        let sno = 0;
-        res.forEach(res => {
-          sno += 1;
-          res.SlNo = sno;
-        });
-        // this.compId.value = null;
       } else {
         this.loading = false;
         this.table.reset();

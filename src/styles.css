@@ -458,7 +458,9 @@ ul {
 
   .login-bar {
     text-align: center;
-    color: white;
+    background: #b7e0b8;
+    border: 1px solid var(--border-default);
+    color: #157110;
     padding: 12px !important;
   }
 
@@ -560,7 +562,7 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
   /* color: #87888a !important; */
   color: #656668 !important;
   text-decoration: underline !important;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center !important;
   font-weight: 400;
 }
@@ -659,6 +661,16 @@ body { margin: 0px; background-color: rgb(194, 189, 189);
   border-width: 0 0 1px 0;
   padding: 0.2rem;
   font-size: 0.9rem !important;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+  padding: 0.5rem 0.5rem;
+  white-space: pre;
+}
+
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+  color: #6c757d;
+  margin-left: 0 !important;
 }
 
 .p-datatable .p-datatable-thead > tr > th {

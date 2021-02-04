@@ -18,7 +18,7 @@ export class MenubarComponent implements OnInit {
   ngOnInit() {
     this.showNavBar = false;
     this.roleId = this.authService.getLoggedUser().RoleId;
-    const showMenu = (this.roleId === 1 || this.roleId === 3) ? true : false;
+    const showMenu = true;
     this.items = [
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: '/home' },
       {
@@ -41,15 +41,6 @@ export class MenubarComponent implements OnInit {
           { label: 'Theft', routerLink: '/TheftForm' },
         ]
       },
-
-      {
-        label: 'Profile', icon: 'pi pi-fw pi-comments', visible: showMenu,
-        items: [
-          {
-            label: 'Change Password', routerLink: '/ChangePassword'
-          },
-        ]
-      },
       {
         label: 'Reports', icon: 'pi pi-fw pi-file', visible: showMenu,
         items: [
@@ -68,6 +59,17 @@ export class MenubarComponent implements OnInit {
           {
             label: 'Relocation', routerLink: '/RelocationReport'
           }
+        ]
+      },
+      {
+        label: 'User', icon: 'pi pi-fw pi-comments', visible: showMenu,
+        items: [
+          {
+            label: 'Profile', routerLink: ''
+          },
+          {
+            label: 'Change Password', routerLink: '/ChangePassword'
+          },
         ]
       }
     ];

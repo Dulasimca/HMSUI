@@ -49,7 +49,6 @@ export class MyTicketsComponent implements OnInit {
     this.onTicket();
     this.onTD();
     this.TicketReportCols = [
-      { header: 'S.No', field: 'SlNo', width: '40px' },
       { field: 'TicketID', header: 'Ticket ID' },
       { field: 'TicketDate', header: 'Ticket Date' },
       { field: 'lastdiffed', header: 'Modified Date' },
@@ -97,11 +96,6 @@ export class MyTicketsComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
       if (res) {
         this.TicketReportData = res;
-        let sno = 0;
-        this.TicketReportData.forEach(result => {
-          sno += 1;
-          result.SlNo = sno;
-        });
       }
     });
   }

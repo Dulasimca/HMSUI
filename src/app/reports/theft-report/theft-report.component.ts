@@ -35,7 +35,6 @@ export class TheftReportComponent implements OnInit {
       }
     ];
     this.TheftCols = [
-      { field: 'SlNo', header: 'S.No.' },
       { field: 'REGNNAME', header: 'Region Name' },
       { field: 'Dname', header: 'District Name' },
       { field: 'Shopcode', header: 'Shop Code' },
@@ -84,12 +83,6 @@ export class TheftReportComponent implements OnInit {
       if (res.length !== 0) {
         this.loading = false;
         this.TheftData = res;
-        let sno = 0;
-        res.forEach(res => {
-          sno += 1;
-          res.SlNo = sno;
-        });
-        // this.compId.value = null;
       } else {
         this.loading = false;
         this.table.reset();

@@ -39,7 +39,7 @@
                         <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm" [columns]="TheftCols"
                             [value]="TheftData" [rows]="50" [rowsPerPageOptions]="[10,20,30,40,50,100]"
                             [paginator]="true" [responsive]="true" autoLayout="true" [loading]="loading"
-                            exportFilename="{{excelFileName}}"
+                            exportFilename="{{excelFileName}}" sortMode="multiple"
                             [globalFilterFields]="['Shopcode','StatusName','DocDate','REGNNAME', 'Dname', 'IssueName']">
                             <ng-template pTemplate="caption">
                                 <div class="p-d-flex">
@@ -53,13 +53,17 @@
                             </ng-template>
                             <ng-template pTemplate="header" let-columns>
                                 <tr style="text-align: center;">
-                                    <th *ngFor="let col of columns">
+                                    <th>S.No</th>
+                                    <th *ngFor="let col of columns" pSortableColumn="{{col.field}}">
                                         {{col.header}}
+                                        <p-sortIcon field="{{col.field}}">
+                                        </p-sortIcon>
                                     </th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                                 <tr [pSelectableRow]="rowData">
+                                    <td>{{rowIndex + 1 | number}}</td>
                                     <td *ngFor="let col of columns">
                                         {{rowData[col.field]}}
                                     </td>

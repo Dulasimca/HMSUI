@@ -36,6 +36,13 @@ export class HomePageComponent implements OnInit {
   districtBugsCount: any = 0;
   shopBugsCount: any = 0;
   titleDownloadtext: string;
+  OverallSLAHeadertext: string;
+  OverAllSLAtext: string;
+  OverallHOSLAtext: string;
+  OverallRegionSLAtext: string;
+  OverallDistrictSLAtext: String;
+  OverallShopSLAtext: string;
+  roleId: any;
 
   constructor(private locationStrategy: LocationStrategy, private restApi: RestAPIService,
     private authService: AuthService, private router: Router) { }
@@ -46,6 +53,13 @@ export class HomePageComponent implements OnInit {
     this.userInfo = this.authService.getLoggedUser();
     this.onLoadGridValues();
     this.titleDownloadtext = 'Click to download .pdf';
+    this.OverallSLAHeadertext = 'Tasmac Head Office';
+    this.OverAllSLAtext = 'Overall SLA Status for Q1(Jan to March 2021)';
+    this.OverallHOSLAtext = 'OverAll HO SLA';
+    this.OverallRegionSLAtext = 'Overall Region SLA';
+    this.OverallDistrictSLAtext = 'Overall District SLA';
+    this.OverallShopSLAtext = 'Overall Shop SLA';
+    this.roleId = this.userInfo.RoleId;
   }
 
   onLoadGridValues() {
@@ -56,16 +70,16 @@ export class HomePageComponent implements OnInit {
             if (index === 0) {
               this.allBugsCount = i.total_bugs;
             } else if (index === 1) {
-              this.myBugsCount = i.user_bugs;
+              this.myBugsCount = i.user_bugs + ' / ' + this.allBugsCount;
             } else {
               if (i.product_id === 2) {
-                this.headOfficeBugsCount = i.product_bugs;
+                this.headOfficeBugsCount = i.product_bugs + ' / ' + this.allBugsCount;
               } else if (i.product_id === 3) {
-                this.regionBugsCount = i.product_bugs;
+                this.regionBugsCount = i.product_bugs + ' / ' + this.allBugsCount;
               } else if (i.product_id === 4) {
-                this.districtBugsCount = i.product_bugs;
+                this.districtBugsCount = i.product_bugs + ' / ' + this.allBugsCount;
               } else if (i.product_id === 5) {
-                this.shopBugsCount = i.product_bugs;
+                this.shopBugsCount = i.product_bugs + ' / ' + this.allBugsCount;
               }
             }
           })
