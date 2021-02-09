@@ -26,7 +26,7 @@ import { PanelModule } from 'primeng/panel';
 import { DataViewModule } from 'primeng/dataview';
 import { RippleModule } from 'primeng/ripple';
 // import {TimelineModule} from 'primeng/timeline';
-
+import { FileUploadModule } from 'primeng/fileupload';
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
@@ -55,6 +55,7 @@ import { RelocationFormComponent } from './relocation-form/relocation-form.compo
 import { TheftFormComponent } from './theft-form/theft-form.component';
 import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaion-report.component';
 import { TheftReportComponent } from './reports/theft-report/theft-report.component';
+import { MyProfileComponent } from './profiles/my-profile/my-profile.component';
 
 
 
@@ -79,7 +80,8 @@ import { TheftReportComponent } from './reports/theft-report/theft-report.compon
     RelocationFormComponent,
     TheftFormComponent,
     ReloctaionReportComponent,
-    TheftReportComponent
+    TheftReportComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -116,6 +118,7 @@ import { TheftReportComponent } from './reports/theft-report/theft-report.compon
     DataViewModule,
     RippleModule,
     // TimelineModule
+    FileUploadModule
   ],
   providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
     PathConstants, ThemeService, FilterService, PrimeNGConfig],

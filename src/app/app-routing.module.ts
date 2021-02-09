@@ -16,6 +16,7 @@ import { RelocationFormComponent } from './relocation-form/relocation-form.compo
 import { TheftFormComponent } from './theft-form/theft-form.component';
 import { TheftReportComponent } from './reports/theft-report/theft-report.component';
 import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaion-report.component';
+import { MyProfileComponent } from './profiles/my-profile/my-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'TheftForm', component: TheftFormComponent, canActivate: [AuthGuard] },
   { path: 'TheftReport', component: TheftReportComponent, canActivate: [AuthGuard] },
   { path: 'RelocationReport', component: ReloctaionReportComponent, canActivate: [AuthGuard] },
+  { path: 'UserProfile', component: MyProfileComponent },
 ];
 
 @NgModule({
