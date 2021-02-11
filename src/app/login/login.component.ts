@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
           obj['District'] = (credentials[0].role_id === 4) ? credentials[0].Dname : '';
           obj['RCode'] = (credentials[0].role_id === 3 || credentials[0].role_id === 4) ? credentials[0].RegionID : '';
           obj['DCode'] = (credentials[0].role_id === 4) ? credentials[0].DistrictID : '';
+          obj['RealName'] = credentials[0].realname;
           this.authService.loginInfo(obj);
           this.router.navigate(['/home']);
         } else {

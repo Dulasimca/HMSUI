@@ -64,7 +64,7 @@ export class BugzillaReportComponent implements OnInit {
         this.loading = false;
       } else {
         this.loading = false;
-        this.bugzillaData = [];
+        this.table.reset();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'error',
@@ -72,6 +72,7 @@ export class BugzillaReportComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.table.reset();
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({

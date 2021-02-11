@@ -82,7 +82,7 @@ export class CalamityReportComponent implements OnInit {
       'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd')
     }
     this.restApiService.getByParameters(PathConstants.CalamityDetailsGet, params).subscribe(res => {
-      if (res.length !== 0) {
+      if (res.length !== 0 && res !== null && res !== undefined) {
         this.loading = false;
         this.TheftData = res;
       } else {

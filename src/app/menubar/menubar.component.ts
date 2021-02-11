@@ -73,7 +73,7 @@ export class MenubarComponent implements OnInit {
         label: 'User', icon: 'pi pi-fw pi-user-edit', visible: showMenu,
         items: [
           {
-            label: 'Profile', routerLink: ''
+            label: 'User Profile', routerLink: '/UserProfile'
           },
           {
             label: 'Change Password', routerLink: '/ChangePassword'

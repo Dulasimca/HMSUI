@@ -18,6 +18,7 @@ import { TheftReportComponent } from './reports/theft-report/theft-report.compon
 import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaion-report.component';
 import { RiotFormComponent } from './Documents/riot-form/riot-form.component';
 import { NaturalCalamitiesComponent } from './Documents/natural-calamities/natural-calamities.component';
+import { MyProfileComponent } from './profiles/my-profile/my-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -39,6 +40,8 @@ const routes: Routes = [
   { path: 'CalamityReport', component: TheftReportComponent, canActivate: [AuthGuard] },
   { path: 'RiotForm', component: RiotFormComponent, canActivate: [AuthGuard] },
   { path: 'CalamityForm', component: NaturalCalamitiesComponent, canActivate: [AuthGuard] },
+  { path: 'RelocationReport', component: ReloctaionReportComponent, canActivate: [AuthGuard] },
+  { path: 'UserProfile', component: MyProfileComponent },
 ];
 
 @NgModule({

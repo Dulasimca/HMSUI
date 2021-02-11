@@ -26,7 +26,7 @@ import { PanelModule } from 'primeng/panel';
 import { DataViewModule } from 'primeng/dataview';
 import { RippleModule } from 'primeng/ripple';
 // import {TimelineModule} from 'primeng/timeline';
-
+import { FileUploadModule } from 'primeng/fileupload';
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
@@ -59,6 +59,9 @@ import { NaturalCalamitiesComponent } from './Documents/natural-calamities/natur
 import { RiotFormComponent } from './Documents/riot-form/riot-form.component';
 import { RiotsReportComponent } from './reports/riots-report/riots-report.component';
 import { CalamityReportComponent } from './reports/calamity-report/calamity-report.component';
+import { MyProfileComponent } from './profiles/my-profile/my-profile.component';
+
+
 
 @NgModule({
   declarations: [
@@ -85,7 +88,8 @@ import { CalamityReportComponent } from './reports/calamity-report/calamity-repo
     NaturalCalamitiesComponent,
     RiotFormComponent,
     RiotsReportComponent,
-    CalamityReportComponent
+    CalamityReportComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -122,6 +126,7 @@ import { CalamityReportComponent } from './reports/calamity-report/calamity-repo
     DataViewModule,
     RippleModule,
     // TimelineModule
+    FileUploadModule
   ],
   providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
     PathConstants, ThemeService, FilterService, PrimeNGConfig, RadioControlRegistry],

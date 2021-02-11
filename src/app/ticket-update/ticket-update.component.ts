@@ -174,7 +174,7 @@ export class TicketUpdateComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticketID': this.TicketID,
-        'reporter': this.login_User.user,
+        'reporter': this.login_User.RealName,
         'ticketdescription': this.TicketDescription,
         'Status': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'StatusCode': (this.Status.value === undefined) ? this.StatusCode : this.Status.value

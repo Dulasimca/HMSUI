@@ -63,6 +63,8 @@ export class AllTicketsReportComponent implements OnInit {
         if (this.ticketData.length !== 0) {
           this.messageService.clear();
         } else {
+          this.table.reset();
+          this.loading = false;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'warn',
@@ -71,7 +73,7 @@ export class AllTicketsReportComponent implements OnInit {
         }
       } else {
         this.loading = false;
-        this.ticketData = [];
+        this.table.reset();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'warn',
@@ -79,6 +81,8 @@ export class AllTicketsReportComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.table.reset();
+      this.loading = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({

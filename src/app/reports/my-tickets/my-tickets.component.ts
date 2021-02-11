@@ -1,11 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
 import { MasterDataService } from '../../masters-services/master-data.service';
 import { AuthService } from '../../services/auth.service';
 import { RestAPIService } from '../../services/restAPI.service';
 import { PathConstants } from 'src/app/Helper/PathConstants';
+import { Table } from 'primeng/table/table';
 
 @Component({
   selector: 'app-my-tickets',
@@ -37,6 +38,7 @@ export class MyTicketsComponent implements OnInit {
   loading: boolean;
   selected: any;
   excelFileName: string;
+  @ViewChild('dt', { static: false }) table: Table;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
@@ -89,6 +91,7 @@ export class MyTicketsComponent implements OnInit {
   }
 
   onTicket() {
+    this.loading = true;
     const params = {
       'UserName': this.username,
       'TicketID': "A"
@@ -96,6 +99,31 @@ export class MyTicketsComponent implements OnInit {
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
       if (res) {
         this.TicketReportData = res;
+        this.loading = false;
+      } else {
+        this.table.reset();
+        this.loading = false;
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'warn',
+          summary: 'Warning Message', detail: 'No record found!'
+        });
+      }
+    }, (err: HttpErrorResponse) => {
+      this.table.reset();
+      this.loading = false;
+      if (err.status === 0 || err.status === 400) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please contact administrator!'
+        });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please check your network connection!'
+        });
       }
     });
   }

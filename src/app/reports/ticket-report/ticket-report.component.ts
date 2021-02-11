@@ -203,7 +203,7 @@ export class TicketReportComponent implements OnInit {
         this.excelFileName = this.location.label + ' TICKET_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
       } else {
         this.loading = false;
-        this.TicketReportData = [];
+        this.table.reset();
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'warn',
@@ -212,6 +212,7 @@ export class TicketReportComponent implements OnInit {
       }
     }, (err: HttpErrorResponse) => {
       this.loading = false;
+      this.table.reset();
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({
