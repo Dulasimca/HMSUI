@@ -13,7 +13,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SidebarModule } from 'primeng/sidebar';
-import { RadioButtonModule } from 'primeng/radiobutton';
+import { RadioButtonModule, RadioControlRegistry } from 'primeng/radiobutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar'
 import { ToastModule } from 'primeng/toast';
@@ -39,7 +39,7 @@ import { RestAPIService } from './services/restAPI.service';
 import { MessageService, FilterService, PrimeNGConfig } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { MasterDataService } from './masters-services/master-data.service';
-import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
+import { NewTicketComponent } from './Documents/new-ticket/new-ticket.component';
 import { TicketReportComponent } from './reports/ticket-report/ticket-report.component';
 import { MenubarComponent } from './menubar/menubar.component';
 import { MyTicketsComponent } from './reports/my-tickets/my-tickets.component';
@@ -51,12 +51,14 @@ import { TicketReportBydateComponent } from './reports/ticket-report-bydate/tick
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
 import { ThemeService } from './theme/theme.service';
 import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
-import { RelocationFormComponent } from './relocation-form/relocation-form.component';
-import { TheftFormComponent } from './theft-form/theft-form.component';
+import { RelocationFormComponent } from './Documents/relocation-form/relocation-form.component';
+import { TheftFormComponent } from './Documents/theft-form/theft-form.component';
 import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaion-report.component';
 import { TheftReportComponent } from './reports/theft-report/theft-report.component';
-
-
+import { NaturalCalamitiesComponent } from './Documents/natural-calamities/natural-calamities.component';
+import { RiotFormComponent } from './Documents/riot-form/riot-form.component';
+import { RiotsReportComponent } from './reports/riots-report/riots-report.component';
+import { CalamityReportComponent } from './reports/calamity-report/calamity-report.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,11 @@ import { TheftReportComponent } from './reports/theft-report/theft-report.compon
     RelocationFormComponent,
     TheftFormComponent,
     ReloctaionReportComponent,
-    TheftReportComponent
+    TheftReportComponent,
+    NaturalCalamitiesComponent,
+    RiotFormComponent,
+    RiotsReportComponent,
+    CalamityReportComponent
   ],
   imports: [
     BrowserModule,
@@ -118,7 +124,7 @@ import { TheftReportComponent } from './reports/theft-report/theft-report.compon
     // TimelineModule
   ],
   providers: [AuthService, RestAPIService, DatePipe, MessageService, MasterDataService,
-    PathConstants, ThemeService, FilterService, PrimeNGConfig],
+    PathConstants, ThemeService, FilterService, PrimeNGConfig, RadioControlRegistry],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

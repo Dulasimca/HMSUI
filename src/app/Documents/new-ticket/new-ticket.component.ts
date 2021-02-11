@@ -61,6 +61,7 @@ export class NewTicketComponent implements OnInit {
   ticketView: any[];
   login_User: any;
   user: any;
+  StatusCode: number = 8;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private router: Router,
@@ -111,25 +112,27 @@ export class NewTicketComponent implements OnInit {
           })
           this.locationOptions = locationSeletion;
           this.locationOptions.unshift({ label: '-Select-', value: 'All' });
-          if (this.location.value === 2) {
-            this.disableDM = true;
-            this.disableRM = true;
-            this.disableShop = true;
-          } else if (this.location.value === 5) {
-            this.disableDM = false;
-            this.disableRM = false;
-            this.disableShop = false;
-          } else if (this.location.value === 4) {
-            this.disableDM = false;
-            this.disableRM = false;
-            this.disableShop = true;
-          } else if (this.location.value === 3) {
-            this.disableDM = this.disableShop = true;
-            this.disableRM = false;
-          } else if (this.location.value === 9) {
-            this.disableDM = true;
-            this.disableShop = true;
-            this.disableRM = false;
+          if (this.location !== undefined && this.location !== null) {
+            if (this.location.value === 2) {
+              this.disableDM = true;
+              this.disableRM = true;
+              this.disableShop = true;
+            } else if (this.location.value === 5) {
+              this.disableDM = false;
+              this.disableRM = false;
+              this.disableShop = false;
+            } else if (this.location.value === 4) {
+              this.disableDM = false;
+              this.disableRM = false;
+              this.disableShop = true;
+            } else if (this.location.value === 3) {
+              this.disableDM = this.disableShop = true;
+              this.disableRM = false;
+            } else if (this.location.value === 9) {
+              this.disableDM = true;
+              this.disableShop = true;
+              this.disableRM = false;
+            }
           }
         }
         break;
@@ -158,7 +161,7 @@ export class NewTicketComponent implements OnInit {
         if (this.shopData.length !== 0) {
           this.shopData.forEach(s => {
             if (this.dcode.value === s.dcode) {
-              shopSeletion.push({ label: s.shop_num, value: s.dcode });
+              shopSeletion.push({ label: s.shop_num, value: s.shop_num });
             }
           });
           this.shopOptions = shopSeletion;
@@ -228,9 +231,10 @@ export class NewTicketComponent implements OnInit {
         'everconfirmed': true,
         'reporter_accessible': true,
         'cclist_accessible': true,
-        'CC': this.DefaultCC,
+        'CC': this.DefaultCC + ';' + this.login_User.user,
         'To': this.DefaultTo,
         'UserId': this.login_User.Id,
+        'StatusCode': this.StatusCode,
         //mailsending
         'bodyMessage': bodyparams
       }
@@ -273,7 +277,8 @@ export class NewTicketComponent implements OnInit {
         'ticketID': this.TicketID,
         'reporter': this.login_User.user,
         'ticketdescription': this.TicketDescription,
-        'Status': this.Status
+        'Status': this.Status,
+        'StatusCode': this.StatusCode
       }
       this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
         if (res.item1) {
@@ -316,6 +321,7 @@ export class NewTicketComponent implements OnInit {
     this.ComponentDescription = null;
     this.Subject = null;
     this.TicketDescription = null;
+    this.StatusCode = 8;
   }
 
   ticketUpdate() {
@@ -324,7 +330,7 @@ export class NewTicketComponent implements OnInit {
       ticketSelection.push({
         TicketID: this.TicketID, AssignedTo: this.Assignee, Region: this.rcode,
         District: this.dcode, Status: this.Status, Subject: this.Subject, location: this.location, component: this.compId,
-        Reporter: this.Assignee,
+        StatusCode: this.StatusCode, Reporter: this.Assignee,
         // URL: this.URL
       });
     })

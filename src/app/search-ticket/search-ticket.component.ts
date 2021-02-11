@@ -35,13 +35,13 @@ export class SearchTicketComponent implements OnInit {
   TDData: any = [];
   TDCols: any = [];
   blockScreen: boolean;
-  showTicketGrid: boolean = true;
   Ticket: any;
   ID: any;
   TT: [];
   login_User: any;
   loading: boolean;
   selected: any;
+  dialogHeader: string;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private authService: AuthService, private masterDataService: MasterDataService) { }
@@ -153,18 +153,17 @@ export class SearchTicketComponent implements OnInit {
 
   onRowSelect(event) {
     this.onResetTable();
-    console.log(event);
     this.TicketID = event.data.TicketID;
     this.Assignee = event.data.Assignee;
     this.DefaultCC = event.data.DefaultCC;
     this.reporter = event.data.reporter;
     this.Subject = event.data.Subject;
     this.URL = event.data.URL;
-    this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
-    this.Status = event.data.Status;
+    this.dialogHeader = 'Update Ticket ' + this.ticketID + - 'Reported By - ' + this.reporter;
+    this.StatusOptions = [{ label: event.data.Status, value: event.data.status_code }];
+    this.Status = [{ label: event.data.Status, value: event.data.status_code }];
     this.onTD();
     this.showDialog = true;
-    this.showTicketGrid = false;
   }
 
   get description() {
@@ -180,7 +179,8 @@ export class SearchTicketComponent implements OnInit {
         'ticketID': this.TicketID,
         'reporter': this.username,
         'ticketdescription': this.TicketDescription,
-        'Status': (this.Status.label === undefined) ? this.Status : this.Status.label
+        'Status': (this.Status !== undefined && this.Status !== null) ? this.Status.label : null,
+        'StatusCode': (this.Status !== undefined && this.Status !== null) ? this.Status.value : null,
       }
       this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
         if (res) {
@@ -188,7 +188,7 @@ export class SearchTicketComponent implements OnInit {
           this.onTicket();
           this.messageService.clear();
           this.messageService.add({
-            key: 't-err', severity: 'success',
+            key: 'd-err', severity: 'success',
             summary: 'Success Message', detail: 'Ticket ID: ' + this.TicketID + ' Updated Successfully !'
           });
           this.CancelTD();
@@ -197,7 +197,7 @@ export class SearchTicketComponent implements OnInit {
           this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({
-            key: 't-err', severity: 'error',
+            key: 'd-err', severity: 'error',
             summary: 'Error Message', detail: res.item2
           });
         }
@@ -206,7 +206,7 @@ export class SearchTicketComponent implements OnInit {
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
           this.messageService.add({
-            key: 't-err', severity: 'error',
+            key: 'd-err', severity: 'error',
             summary: 'Error Message', detail: 'Please Contact Administrator!'
           });
         }
@@ -281,8 +281,4 @@ export class SearchTicketComponent implements OnInit {
     this.TicketDescription = null;
   }
 
-  onBack() {
-    this.showTicketGrid = true;
-    this.showDialog = false;
-  }
 }

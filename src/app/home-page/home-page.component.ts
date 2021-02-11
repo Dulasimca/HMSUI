@@ -47,12 +47,14 @@ export class HomePageComponent implements OnInit {
   rname: string;
   dname: string
   bugStatusData: any = [];
+  bug_count_ho: any = [];
   bug_count_ro: any = [];
   bug_count_do: any = [];
   bug_count_sh: any = [];
   pieDataForShops: any;
   pieDataForDistrict: any;
   pieDataForRegion: any;
+  pieDataForHO: any;
 
   constructor(private locationStrategy: LocationStrategy, private restApi: RestAPIService,
     private authService: AuthService, private router: Router, private masterService: MasterDataService) { }
@@ -60,14 +62,18 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
     this.preventBackButton();
     this.userInfo = this.authService.getLoggedUser();
+    this.roleId = this.userInfo.RoleId;
+    this.rname = this.userInfo.Region;
+    this.dname = this.userInfo.District;
     this.onLoadGridValues();
     this.titleDownloadtext = 'Click to download .pdf';
     this.OverAllSLAtext = 'Overall SLA Status For Q1(Jan to March 2021)';
     this.OverallHOSLAtext = 'SLA For HeadOffice';
-    this.OverallRegionSLAtext = 'SLA For Region - ' + this.rname;
-    this.OverallDistrictSLAtext = 'SLA For District - ' + this.dname;
-    this.OverallShopSLAtext = 'SLA For Shop';
-    this.roleId = this.userInfo.RoleId;
+    this.OverallRegionSLAtext = (this.roleId === 1 || this.roleId === 2) ?
+      'SLA For All RMC' : 'SLA For Region - ' + this.rname;
+    this.OverallDistrictSLAtext = (this.roleId === 1 || this.roleId === 2) ?
+      'SLA For All DMC' : (this.roleId === 3) ? 'SLA For District' : 'SLA For District - ' + this.dname;
+    this.OverallShopSLAtext = 'SLA For Shops';
     this.OverallSLAHeadertext = 'Tasmac ' + ((this.roleId === 1 || this.roleId === 2) ? ' Head Office' :
       (this.roleId === 3) ? ' Region Office - ' + this.rname :
         (this.roleId === 4) ? ' District Office - ' + this.dname : '');
@@ -108,12 +114,20 @@ export class HomePageComponent implements OnInit {
 
   onLoadChart() {
     this.bugStatusData.forEach(b => {
-      if (b.id === 7 || b.id === 6 || b.id === 2 || b.id === 3)
+      if (b.id === 7 || b.id === 6 || b.id === 5 || b.id === 2) {
         this.pieLabels.push(b.name);
+      }
     })
     let filteredArr = [];
     this.restApi.getByParameters(PathConstants.HMSReportURL, { 'value': 1 }).subscribe(res => {
-      if (this.roleId === 1 && this.roleId === 2) {
+      res.forEach(x => {
+        if (x.status_code === 8) {
+          x.bug_status = 'OPEN';
+        } else if (x.status_code === 4) {
+          x.bug_status = 'COMPLETED';
+        }
+      })
+      if (this.roleId === 1 || this.roleId === 2) {
         filteredArr = res;
       } else if (this.roleId === 3) {
         filteredArr = res.filter(f => {
@@ -140,21 +154,53 @@ export class HomePageComponent implements OnInit {
             label: "Percentage",
             data: this.bug_count,
             backgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ],
             hoverBackgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
+              "#FF0000",
+            ]
+          }]
+      };
+      let filteredArrHO = res.filter(f => {
+        return f.product_id === 2
+      })
+      for (let i = 0; i < this.pieLabels.length; i++) {
+        let count = 0
+        filteredArrHO.forEach(c => {
+          if (this.pieLabels[i].toLowerCase() === c.bug_status.toLowerCase()) {
+            count += c.bug_count
+          }
+        })
+        this.bug_count_ho.push(count);
+      }
+      this.pieDataForHO = {
+        labels: this.pieLabels,
+        datasets: [
+          {
+            label: "Percentage",
+            data: this.bug_count_ho,
+            backgroundColor: [
+              "#00e71b",
+              "#ffc400",
+              "#1985ff",
+              "#FF0000",
+            ],
+            hoverBackgroundColor: [
+              "#00e71b",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ]
           }]
       };
       let filteredArrRO = res.filter(f => {
-        return f.product_id === 3 || f.product_id === 4 || f.product_id === 5
+        return f.product_id === 3
       })
       for (let i = 0; i < this.pieLabels.length; i++) {
         let count = 0
@@ -172,21 +218,21 @@ export class HomePageComponent implements OnInit {
             label: "Percentage",
             data: this.bug_count_ro,
             backgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ],
             hoverBackgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ]
           }]
       };
       let filteredArrDO = res.filter(f => {
-        return f.product_id === 4 || f.product_id === 5
+        return f.product_id === 4
       })
       for (let i = 0; i < this.pieLabels.length; i++) {
         let count = 0
@@ -204,15 +250,15 @@ export class HomePageComponent implements OnInit {
             label: "Percentage",
             data: this.bug_count_do,
             backgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ],
             hoverBackgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ]
           }]
@@ -236,15 +282,15 @@ export class HomePageComponent implements OnInit {
             label: "Percentage",
             data: this.bug_count_sh,
             backgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ],
             hoverBackgroundColor: [
-              "#1985ff",
               "#00e71b",
-              "#FFFC00",
+              "#ffc400",
+              "#1985ff",
               "#FF0000",
             ]
           }]
@@ -264,7 +310,7 @@ export class HomePageComponent implements OnInit {
               sum += data;
             });
             const percentage = (value * 100 / sum);
-            const calculatedPercent = percentage !== 0 ? percentage.toFixed(2) + '%' : '';
+            const calculatedPercent = percentage !== 0 ? percentage.toFixed(0) + '%' : '';
             return calculatedPercent;
           },
           color: '#fff',
@@ -272,7 +318,8 @@ export class HomePageComponent implements OnInit {
         }
       },
       legend: {
-        position: 'bottom'
+        position: 'bottom',
+        fontSize: 12
       }
     }
   }
@@ -293,6 +340,7 @@ export class HomePageComponent implements OnInit {
         fileName = 'KVMSUserManual';
         break;
       case 4:
+        fileName = 'HMS';
         break;
     }
     const pdfURL = fileLoc + fileName + '.pdf';

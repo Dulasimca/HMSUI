@@ -48,13 +48,13 @@ export class AllTicketsReportComponent implements OnInit {
     this.restApi.get(PathConstants.AllTicketsGetURL).subscribe(data => {
       if (data !== undefined && data !== null && data.length !== 0) {
         this.ticketData = data;
-        if (value !== undefined && value !== null && value !== 1 && value !== 5) {
+        if (value !== undefined && value !== null && value !== 1 && value !== 6) {
           this.ticketData = this.ticketData.filter(y => {
             return (value === y.product_id)
           })
-        } else if (value === 5) {
+        } else if (value === 6) {
           this.ticketData = this.ticketData.filter(y => {
-            const user_id = (y.assigned_to * 1);
+            const user_id = (y.userid * 1);
             return (this.userInfo.Id === user_id)
           })
         }

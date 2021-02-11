@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div *ngIf="roleId!=4" class="p-col-12 p-md-6 p-lg-2 cursor-pointer">
-                            <div class="overview-box  box-mb" (click)="onNavigateToReport(5)">
+                            <div class="overview-box  box-mb" (click)="onNavigateToReport(6)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">My Tickets</div>
                                 <div class="overview-box-value">{{myBugsCount}}</div>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div *ngIf="roleId==4" class="p-col-12 p-md-6 p-lg-3 cursor-pointer">
-                            <div class="overview-box  box-mb" (click)="onNavigateToReport(5)">
+                            <div class="overview-box  box-mb" (click)="onNavigateToReport(6)">
                                 <div class="overview-box-icon"><i class="pi pi-chart-line"></i></div>
                                 <div class="overview-box-title">My Tickets</div>
                                 <div class="overview-box-value">{{myBugsCount}}</div>
@@ -111,16 +111,16 @@
                                 <div *ngIf="roleId==1 || roleId==2" class="p-col-12 p-md-12 p-lg-6 card">
                                     <div class="p-grid">
                                         <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
-                                            <div class="header-line">{{OverallHOSLAtext}}
+                                            <div class="header-line-l2">{{OverallHOSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
-                                                <p-chart type="pie" [data]="pieData" width="auto" height="auto"
+                                                <p-chart type="pie" [data]="pieDataForHO" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
                                                     (onDataSelect)="selectData($event)"></p-chart>
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
-                                            <div class="header-line">{{OverallRegionSLAtext}}
+                                            <div class="header-line-l2">{{OverallRegionSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForRegion" width="auto" height="auto"
@@ -129,7 +129,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
-                                            <div class="header-line">{{OverallDistrictSLAtext}}
+                                            <div class="header-line-l2">{{OverallDistrictSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
@@ -138,7 +138,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
-                                            <div class="header-line">{{OverallShopSLAtext}}
+                                            <div class="header-line-l2">{{OverallShopSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
@@ -154,7 +154,7 @@
                                     <div class="p-grid">
                                         <div class="p-col-12 p-md-12 p-lg-12 card border-color"
                                             style="margin-top: 5px;">
-                                            <div class="header-line">{{OverallRegionSLAtext}}
+                                            <div class="header-line-l2">{{OverallRegionSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForRegion" width="auto" height="auto"
@@ -163,7 +163,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-12 p-lg-6 card border-color" style="margin-top: 5px;">
-                                            <div class="header-line">{{OverallDistrictSLAtext}}
+                                            <div class="header-line-l2">{{OverallDistrictSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
@@ -172,7 +172,7 @@
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-12 p-lg-6 card border-color" style="margin-top: 5px;">
-                                            <div class="header-line">{{OverallShopSLAtext}}
+                                            <div class="header-line-l2">{{OverallShopSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
@@ -188,7 +188,7 @@
                                     <div class="p-grid">
                                         <div class="p-col-12 p-md-6 p-lg-12 card border-color"
                                             style="margin-top: 10px;">
-                                            <div class="header-line">{{OverallDistrictSLAtext}}
+                                            <div class="header-line-l2">{{OverallDistrictSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
@@ -198,7 +198,7 @@
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-12 card border-color"
                                             style="margin-top: 10px;">
-                                            <div class="header-line">{{OverallShopSLAtext}}
+                                            <div class="header-line-l2">{{OverallShopSLAtext}}
                                             </div>
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"

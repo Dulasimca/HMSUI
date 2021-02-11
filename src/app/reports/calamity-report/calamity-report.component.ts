@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PathConstants } from 'src/app/helper/PathConstants';
-import { MenuItem } from 'primeng/api/menuitem';
 import { Table } from 'primeng/table/table';
+import { MenuItem } from 'primeng/api/menuitem';
+import { MessageService } from 'primeng/api';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { DatePipe } from '@angular/common';
-import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-theft-report',
-  templateUrl: './theft-report.component.html',
-  styleUrls: ['./theft-report.component.css']
+  selector: 'app-calamity-report',
+  templateUrl: './calamity-report.component.html',
+  styleUrls: ['./calamity-report.component.css']
 })
-export class TheftReportComponent implements OnInit {
+export class CalamityReportComponent implements OnInit {
   maxDate: Date = new Date();
   TheftCols: any;
   TheftData: any = [];
@@ -81,7 +81,7 @@ export class TheftReportComponent implements OnInit {
       'FDate': this.datepipe.transform(this.fromDate, 'yyyy-MM-dd'),
       'TDate': this.datepipe.transform(this.toDate, 'yyyy-MM-dd')
     }
-    this.restApiService.getByParameters(PathConstants.TheftDetailsGet, params).subscribe(res => {
+    this.restApiService.getByParameters(PathConstants.CalamityDetailsGet, params).subscribe(res => {
       if (res.length !== 0) {
         this.loading = false;
         this.TheftData = res;

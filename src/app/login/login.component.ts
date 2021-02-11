@@ -20,10 +20,9 @@ export class LoginComponent implements OnInit {
   pwdResetForm: FormGroup;
   isSubmitted: boolean;
   clickedReset: boolean;
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
+  emailId: string;
   showPwdNoMatchErr: boolean;
+  showPswd: boolean;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private router: Router,
     private restApiService: RestAPIService, private messageService: MessageService) { }
@@ -36,9 +35,7 @@ export class LoginComponent implements OnInit {
       pswd: ['', Validators.required]
     });
     this.pwdResetForm = this.fb.group({
-      oldPwd: ['', Validators.required],
-      newPwd: ['', Validators.required],
-      confirmPwd: ['', Validators.required]
+      email: ['', Validators.required]
     })
   }
 
@@ -51,6 +48,10 @@ export class LoginComponent implements OnInit {
           var obj = this.loginForm.value;
           obj['Id'] = credentials[0].userid;
           obj['RoleId'] = credentials[0].role_id;
+          obj['Region'] = (credentials[0].role_id === 3 || credentials[0].role_id === 4) ? credentials[0].REGNNAME : '';
+          obj['District'] = (credentials[0].role_id === 4) ? credentials[0].Dname : '';
+          obj['RCode'] = (credentials[0].role_id === 3 || credentials[0].role_id === 4) ? credentials[0].RegionID : '';
+          obj['DCode'] = (credentials[0].role_id === 4) ? credentials[0].DistrictID : '';
           this.authService.loginInfo(obj);
           this.router.navigate(['/home']);
         } else {
@@ -84,29 +85,26 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onChangePassword() {
-
+  onForgotPassword() {
+    const params = {
+      'MailId': this.emailId
+    }
   }
 
   openPwdReset() {
     this.clickedReset = true;
   }
 
-  onValidatePwd(value) {
-    const pwd: string = value.toString();
-    const npwd = this.newPassword;
-    if (pwd !== null && pwd !== '' && npwd !== '' && npwd !== null) {
-      if (pwd.length === npwd.length && pwd !== npwd) {
-        this.showPwdNoMatchErr = true;
-      } else if (pwd.length !== npwd.length) {
-        this.showPwdNoMatchErr = true;
-      } else {
-        this.showPwdNoMatchErr = false;
-      }
-
+  onShowPswd() {
+    var inputValue = (<HTMLInputElement>document.getElementById('pswd'));
+    if (inputValue.type === 'password') {
+      inputValue.type = 'text';
+      this.showPswd = !this.showPswd;
+    } else {
+      this.showPswd = !this.showPswd;
+      inputValue.type = 'password';
     }
   }
-
 }
 
 

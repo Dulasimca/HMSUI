@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
-import { NewTicketComponent } from '../Ticket/new-ticket/new-ticket.component';
+import { NewTicketComponent } from '../Documents/new-ticket/new-ticket.component';
 import { RestAPIService } from '../services/restAPI.service';
 import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
@@ -22,7 +22,6 @@ export class TicketUpdateComponent implements OnInit {
   showDialog: boolean = false;
   showComment: boolean = false;
   selectedDocId: number;
-  userName: string;
   Assignee: any;
   DefaultCC: any;
   URL: any;
@@ -49,16 +48,17 @@ export class TicketUpdateComponent implements OnInit {
   Component: any;
   ComponentDescription: any;
   dialogHeader: string;
+  StatusCode: any;
+  blockScreen_dialog: boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private authService: AuthService) { }
 
   ngOnInit() {
     this.bugStatusData = this.masterDataService.getBugStatus();
-    this.login_User = JSON.parse(this.authService.getCredentials()).user;
-    this.userName = this.login_User;
+    this.login_User = JSON.parse(this.authService.getCredentials());
     this.onTicket();
-    this.onTD();
+    // this.onTD();
     this.TicketReportCols = [
       { field: 'TicketID', header: 'Ticket ID' },
       { field: 'TicketDate', header: 'Ticket Date' },
@@ -100,24 +100,40 @@ export class TicketUpdateComponent implements OnInit {
 
   onTicket() {
     const params = {
-      'UserName': this.userName,
+      'UserId': this.login_User.Id,
       'TicketID': "A"
     }
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
-      if (res) {
+      if (res.length !== 0 && res !== undefined && res !== null) {
         this.TicketReportData = res;
+        this.onTD();
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'warn',
+          summary: 'Warning Message', detail: 'No record found!'
+        });
       }
     });
   }
 
   onTD() {
     const params = {
-      'UserName': this.userName,
+      'UserId': this.login_User.Id,
       'TicketID': "TD"
     }
     this.restApiService.getByParameters(PathConstants.MYTicket, params).subscribe(res => {
       if (res) {
         this.AllTD = res;
+        if (this.AllTD.length !== 0) {
+          this.AllTD.forEach(t => {
+            this.TicketReportData.forEach(d => {
+              if (d.TicketID === t.ticket_id) {
+                d.TicketDescription = t.description;
+              }
+            })
+          })
+        }
         if (this.TicketID !== undefined) {
           let ATD = [];
           ATD = this.AllTD;
@@ -144,9 +160,11 @@ export class TicketUpdateComponent implements OnInit {
     this.reporter = event.data.reporter;
     this.Subject = event.data.Subject;
     this.URL = event.data.URL;
+    this.TicketDescription = event.data.TicketDescription;
     this.ComponentDescription = (event.data.description !== undefined && event.data.description !== null) ? event.data.description : '';
-    this.StatusOptions = [{ label: event.data.Status, value: event.data.Status }];
+    this.StatusOptions = [{ label: event.data.Status, value: event.data.status_code }];
     this.Status = event.data.Status;
+    this.StatusCode = event.data.status_code;
     this.onTD();
     this.showDialog = true;
     this.dialogHeader = 'Update Ticket' + this.TicketID + ' - Reported By ' + this.reporter
@@ -156,9 +174,10 @@ export class TicketUpdateComponent implements OnInit {
     if (this.TicketID !== undefined) {
       const params = {
         'ticketID': this.TicketID,
-        'reporter': this.userName,
+        'reporter': this.login_User.user,
         'ticketdescription': this.TicketDescription,
-        'Status': (this.Status.label === undefined) ? this.Status : this.Status.label
+        'Status': (this.Status.label === undefined) ? this.Status : this.Status.label,
+        'StatusCode': (this.Status.value === undefined) ? this.StatusCode : this.Status.value
       }
       this.restApiService.post(PathConstants.TicketDescription, params).subscribe(res => {
         if (res) {
@@ -174,6 +193,7 @@ export class TicketUpdateComponent implements OnInit {
           this.onTD();
         } else {
           this.blockScreen = false;
+          this.showDialog = true;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'error',
@@ -181,6 +201,7 @@ export class TicketUpdateComponent implements OnInit {
           });
         }
       }, (err: HttpErrorResponse) => {
+        this.showDialog = true;
         this.blockScreen = false;
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
@@ -195,6 +216,7 @@ export class TicketUpdateComponent implements OnInit {
 
   onSave() {
     this.blockScreen = true;
+    this.showDialog = false;
     if (this.TicketID !== undefined) {
       const bodyparams = {
         'TicketId': this.TicketID,
@@ -205,17 +227,19 @@ export class TicketUpdateComponent implements OnInit {
         'Component': this.Component,
         'Asignee': this.Assignee,
         'Status': (this.Status.label === undefined) ? this.Status : this.Status.label,
+        'StatusCode': (this.Status.value === undefined) ? this.StatusCode : this.Status.value,
         'ComponentDescription': this.ComponentDescription,
         'TicketDescription': this.TicketDescription,
         'Subject': this.Subject
       }
       const params = {
         'ticket_id': this.TicketID,
-        'assingedTo': this.userName,
+        'assingedTo': this.login_User.user,
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
         'URL': "Tasmac-hms.com",
-        'CC': this.DefaultCC,
+        'CC': this.DefaultCC + ';' + this.login_User.user,
+        'StatusCode': (this.Status.value === undefined) ? this.StatusCode : this.Status.value,
         //mailsending
         'bodyMessage': bodyparams
 
@@ -223,7 +247,7 @@ export class TicketUpdateComponent implements OnInit {
       this.restApiService.put(PathConstants.UpdateTicket, params).subscribe(res => {
         if (res) {
           this.onUpdate();
-          this.blockScreen = false;
+          // this.blockScreen = false;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'success',
@@ -231,6 +255,7 @@ export class TicketUpdateComponent implements OnInit {
           });
         } else {
           this.blockScreen = false;
+          this.showDialog = true;
           this.messageService.clear();
           this.messageService.add({
             key: 't-err', severity: 'error',
@@ -239,6 +264,7 @@ export class TicketUpdateComponent implements OnInit {
         }
       }, (err: HttpErrorResponse) => {
         this.blockScreen = false;
+        this.showDialog = true;
         if (err.status === 0 || err.status === 400) {
           this.messageService.clear();
           this.messageService.add({
@@ -255,7 +281,7 @@ export class TicketUpdateComponent implements OnInit {
     ticketSelection.forEach(res => {
       ticketSelection.push({
         TicketID: this.TicketID, AssignedTo: this.Assignee, Status: this.Status, Subject: this.Subject,
-        Reporter: this.Assignee, URL: this.URL
+        Reporter: this.Assignee, URL: this.URL, StatusCode: this.StatusCode
       });
     })
   }
@@ -267,6 +293,7 @@ export class TicketUpdateComponent implements OnInit {
 
   onCancel() {
     this.Status = null;
+    this.StatusCode = null;
     this.Assignee = null;
     this.TicketID = null;
     this.DefaultCC = null;

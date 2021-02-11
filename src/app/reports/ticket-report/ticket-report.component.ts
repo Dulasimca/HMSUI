@@ -7,6 +7,7 @@ import { MasterDataService } from 'src/app/masters-services/master-data.service'
 import { HttpErrorResponse } from '@angular/common/http';
 import { Table } from 'primeng/table';
 import { PathConstants } from 'src/app/Helper/PathConstants';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -37,19 +38,21 @@ export class TicketReportComponent implements OnInit {
   disableShop: boolean;
   componentsData: any[];
   items: MenuItem[];
-  blockScreen: boolean;
   shopOptions: SelectItem[];
   shopData: any = [];
   shopCode: any;
   loading: boolean;
   excelFileName: string;
   @ViewChild('dt', { static: false }) table: Table;
+  loggedInRcode: any;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
-    private messageService: MessageService, private masterDataService: MasterDataService) { }
+    private messageService: MessageService, private masterDataService: MasterDataService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.showCloseDate = false;
+    this.loggedInRcode = this.authService.getLoggedUser().RCode;
     this.shopData = this.masterDataService.getShops();
     this.items = [
       {
@@ -152,7 +155,7 @@ export class TicketReportComponent implements OnInit {
         if (this.shopData.length !== 0) {
           this.shopData.forEach(s => {
             if (this.dcode === s.dcode) {
-              shopSeletion.push({ label: s.shop_num, value: s.dcode });
+              shopSeletion.push({ label: s.shop_num, value: s.shop_num });
             }
           })
           this.shopOptions = shopSeletion;
@@ -195,10 +198,11 @@ export class TicketReportComponent implements OnInit {
     }
     this.restApiService.getByParameters(PathConstants.TicketReport, params).subscribe(res => {
       if (res.length !== 0) {
-        this.blockScreen = false;
+        this.TicketReportData = res;
+        this.loading = false;
         this.excelFileName = this.location.label + ' TICKET_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
       } else {
-        this.blockScreen = false;
+        this.loading = false;
         this.TicketReportData = [];
         this.messageService.clear();
         this.messageService.add({
@@ -207,7 +211,7 @@ export class TicketReportComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
-      this.blockScreen = false;
+      this.loading = false;
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
         this.messageService.add({

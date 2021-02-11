@@ -18,29 +18,30 @@ export class ChangePasswordComponent implements OnInit {
   ChangeForm: FormGroup;
   districtsData: any = [];
   regionsData: any = [];
-  userName: any;
   password: any;
   OldPassword: any;
   NewPassword: any;
   login_User: any;
+  userName: any;
 
   constructor(private router: Router, private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
     // this.login_User = JSON.parse(this.authService.getUserInfo()).user;
-    this.login_User = JSON.parse(this.authService.getCredentials()).user;
-    this.userName = this.login_User;
+    this.login_User = JSON.parse(this.authService.getCredentials());
     this.ChangeForm = this.fb.group({
       user: ['', Validators.required],
       pswd: ['', Validators.required],
       Newpswd: ['', Validators.required]
     })
+    this.userName = this.login_User.user;
   }
 
   onViewUserinfo(event, panel) {
     panel.toggle(event);
-    this.userName = JSON.parse(this.authService.getCredentials()).user;
+    this.login_User = JSON.parse(this.authService.getCredentials()).user;
+    this.userName = this.login_User.user;
     // this.password = JSON.parse(this.authService.getCredentials()).pswd;
     // if(this.data !== undefined) {
     //  this.data.forEach(x => {
@@ -86,7 +87,7 @@ export class ChangePasswordComponent implements OnInit {
   onNew() {
     let head = JSON.parse(this.authService.getCredentials()).pswd;
     const params = {
-      'UserName': this.userName,
+      'UserId': this.login_User.Id,
       'Pswd': this.NewPassword
     };
     if (this.OldPassword === head && this.NewPassword !== undefined && this.NewPassword !== null && this.NewPassword !== this.OldPassword) {
@@ -133,18 +134,23 @@ export class ChangePasswordComponent implements OnInit {
   setUsername(username) {
     this.userName = username;
   }
+
   getUsername() {
     return this.userName;
   }
+
   setOldPassword(OldPassword) {
     this.OldPassword = OldPassword;
   }
+
   getOldPassword() {
     return this.OldPassword;
   }
+
   setNewPassword(NewPassword) {
     this.NewPassword = NewPassword;
   }
+
   getNewPassword() {
     return this.NewPassword;
   }

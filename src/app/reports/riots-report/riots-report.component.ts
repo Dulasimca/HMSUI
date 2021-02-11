@@ -1,18 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { PathConstants } from 'src/app/helper/PathConstants';
-import { MenuItem } from 'primeng/api/menuitem';
-import { Table } from 'primeng/table/table';
+import { MessageService, MenuItem } from 'primeng/api';
 import { RestAPIService } from 'src/app/services/restAPI.service';
 import { DatePipe } from '@angular/common';
-import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table/table';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PathConstants } from 'src/app/helper/PathConstants';
 
 @Component({
-  selector: 'app-theft-report',
-  templateUrl: './theft-report.component.html',
-  styleUrls: ['./theft-report.component.css']
+  selector: 'app-riots-report',
+  templateUrl: './riots-report.component.html',
+  styleUrls: ['./riots-report.component.css']
 })
-export class TheftReportComponent implements OnInit {
+export class RiotsReportComponent implements OnInit {
   maxDate: Date = new Date();
   TheftCols: any;
   TheftData: any = [];

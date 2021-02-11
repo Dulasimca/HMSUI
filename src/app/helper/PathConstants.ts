@@ -30,5 +30,9 @@ export class PathConstants {
     public static readonly TheftDetailsPost = '/api/TheftDetails/Post';
     public static readonly TheftDetailsGet = '/api/TheftDetails/Get';
     public static readonly IssuesTypeGet = '/api/IssuesType';
+    public static readonly RiotDetailsPost = '/api/RiotDetails/Post';
+    public static readonly RiotDetailsGet = '/api/RiotDetails/Get';
+    public static readonly CalamityDetailsPost = '/api/CalamityDetails/Post';
+    public static readonly CalamityDetailsGet = '/api/CalamityDetails/Get';
     // public static readonly TicketReportByDate = '/api/Ticket'
 }

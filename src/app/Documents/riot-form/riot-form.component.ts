@@ -1,32 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/api/selectitem';
-import { RestAPIService } from '../services/restAPI.service';
-import { MessageService } from 'primeng/api';
-import { DatePipe } from '@angular/common';
-import { MasterDataService } from '../masters-services/master-data.service';
-import { AuthService } from '../services/auth.service';
 import { NgForm } from '@angular/forms';
-import { PathConstants } from '../helper/PathConstants';
+import { PathConstants } from 'src/app/helper/PathConstants';
+import { SelectItem } from 'primeng/api/selectitem';
+import { RestAPIService } from 'src/app/services/restAPI.service';
+import { DatePipe } from '@angular/common';
+import { MasterDataService } from 'src/app/masters-services/master-data.service';
+import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-relocation-form',
-  templateUrl: './relocation-form.component.html',
-  styleUrls: ['./relocation-form.component.css']
+  selector: 'app-riot-form',
+  templateUrl: './riot-form.component.html',
+  styleUrls: ['./riot-form.component.css']
 })
-export class RelocationFormComponent implements OnInit {
+export class RiotFormComponent implements OnInit {
   shopOptions: SelectItem[];
   shopNo: any;
   regionOptions: SelectItem[];
   rcode: any;
   districtOptions: SelectItem[];
   dcode: any;
-  reasonOptions: SelectItem[];
-  reason: any;
+  reason: string;
   statusOptions: SelectItem[];
   status: any;
-  fromAddress: string;
-  toAddress: string;
+  issueTypeOptions: SelectItem[];
+  issueType: any;
+  address: string;
   docDate: any;
   completedDate: any;
   maxDate: Date = new Date();
@@ -35,54 +35,68 @@ export class RelocationFormComponent implements OnInit {
   districtsData: any;
   regionsData: any;
   shopData: any;
-  reasonData: any;
   statusData: any;
-  Relocation_Id: any;
-  viewDate: any;
-  relocationDetailsData: any = [];
-  relocationDetailsCols: any;
+  issuesData: any;
+  videoURLPath: string;
   isEditClicked: boolean;
+  viewDate: any;
+  riotDetailsCols: any;
+  riotDetailsData: any = [];
+  Riot_Id: any;
   loading: Boolean;
   locationsData: any;
   locationOptions: SelectItem[];
   location: any;
-  disableDM: boolean;
-  disableRM: boolean;
   disableShop: boolean;
+  selectedIType: number;
+  isVideoURLDisabled: boolean;
+  isImageURLDisabled: boolean;
+  showCDate: boolean;
+  imageURLPath: string;
+  selectedVType: number;
+  disableStatus: boolean;
+  minDate: Date;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,
     private authService: AuthService) { }
 
   ngOnInit() {
+    this.minDate = this.masterDataService.getMinDate();
     this.user = JSON.parse(this.authService.getCredentials()).user;
     this.locationsData = this.masterDataService.getProducts();
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.shopData = this.masterDataService.getShops();
     this.statusData = this.masterDataService.getBugStatus();
+    this.issuesData = this.masterDataService.getIssuesType();
     this.assignDefaultValues();
-    this.relocationDetailsCols = [
+    this.riotDetailsCols = [
       { field: 'SlNo', header: 'S.No.' },
       { field: 'LocName', header: 'Location Name' },
       { field: 'REGNNAME', header: 'Region Name' },
       { field: 'Dname', header: 'District Name' },
-      { field: 'ShopCode', header: 'Shop Code' },
+      { field: 'Shopcode', header: 'Shop Code' },
       { field: 'Reason', header: 'Reason' },
-      { field: 'FromAddress', header: 'From Address' },
-      { field: 'ToAddress', header: 'To Address' },
+      { field: 'IssueName', header: 'Issue Type' },
       { field: 'StatusName', header: 'Status' },
       { field: 'DocDate', header: 'Doc.Date.' },
+      { field: 'Address', header: 'Address' },
+      { field: 'URL', header: 'Video URL' },
       { field: 'CompletedDate', header: 'Completed Date' }
-    ]
+    ];
   }
 
   assignDefaultValues() {
     this.statusOptions = [{ label: 'OPEN', value: 2 }];
     this.status = { label: 'OPEN', value: 2 };
     this.isEditClicked = false;
-    this.relocationDetailsData = [];
+    this.riotDetailsData = [];
     this.blockScreen = false;
+    this.showCDate = false;
+    this.isImageURLDisabled = true;
+    this.isVideoURLDisabled = true;
+    this.disableStatus = true;
   }
 
   onSelect(type) {
@@ -90,41 +104,42 @@ export class RelocationFormComponent implements OnInit {
     let regionSelection = [];
     let districtSeletion = [];
     let shopSeletion = [];
-    let reasonSeletion = [];
     let statusSelection = [];
+    let issueTypeSelection = [];
     switch (type) {
       case 'L':
         if (this.locationsData.length !== 0) {
           this.locationsData.forEach(d => {
-            if (d.id !== 2) {
+            if (d.id !== 2 && d.id !== 3) {
               locationSeletion.push({ label: d.name, value: d.id });
             }
           })
           this.locationOptions = locationSeletion;
           this.locationOptions.unshift({ label: '-Select-', value: 'All' });
-          if (this.location.value === 5) {
-            this.disableDM = false;
-            this.disableRM = false;
-            this.disableShop = false;
-          } else if (this.location.value === 4) {
-            this.disableDM = false;
-            this.disableRM = false;
-            this.disableShop = true;
-          } else if (this.location.value === 3) {
-            this.disableDM = this.disableShop = true;
-            this.disableRM = false;
-          } else if (this.location.value === 9) {
-            this.disableDM = true;
-            this.disableShop = true;
-            this.disableRM = false;
+          if (this.location !== undefined && this.location !== null) {
+            if (this.location.value === 5) {
+              this.disableShop = false;
+            } else if (this.location.value === 4) {
+              this.disableShop = true;
+            } else if (this.location.value === 9) {
+              this.disableShop = true;
+            }
           }
         }
         break;
       case 'RM':
         if (this.regionsData.length !== 0) {
-          this.regionsData.forEach(r => {
-            regionSelection.push({ label: r.name, value: r.code });
-          })
+          if (this.user.RoleId === 3 || this.user.RoleId === 4) {
+            this.regionsData.forEach(r => {
+              if (r.code === this.user.RCode) {
+                regionSelection.push({ label: r.name, value: r.code, address: r.address });
+              }
+            })
+          } else {
+            this.regionsData.forEach(r => {
+              regionSelection.push({ label: r.name, value: r.code, address: r.address });
+            })
+          }
           this.regionOptions = regionSelection;
           this.regionOptions.unshift({ label: '-select-', value: null });
         }
@@ -133,7 +148,7 @@ export class RelocationFormComponent implements OnInit {
         if (this.districtsData.length !== 0) {
           this.districtsData.forEach(d => {
             if (this.rcode.value === d.rcode) {
-              districtSeletion.push({ label: d.name, value: d.code });
+              districtSeletion.push({ label: d.name, value: d.code, address: d.address });
             }
           })
           this.districtOptions = districtSeletion;
@@ -144,22 +159,11 @@ export class RelocationFormComponent implements OnInit {
         if (this.shopData.length !== 0) {
           this.shopData.forEach(s => {
             if (this.dcode.value === s.dcode) {
-              shopSeletion.push({ label: s.shop_num, value: s.dcode });
+              shopSeletion.push({ label: s.shop_num, value: s.shop_num, address: s.address });
             }
           })
           this.shopOptions = shopSeletion;
           this.shopOptions.unshift({ label: '-select-', value: null });
-        }
-        break;
-      case 'RE':
-        if (this.reasonData.length !== 0) {
-          this.reasonData.forEach(r => {
-            if (r.type === 2) {
-              reasonSeletion.push({ label: r.name, value: r.id });
-            }
-          })
-          this.reasonOptions = reasonSeletion;
-          this.reasonOptions.unshift({ label: '-select-', value: null });
         }
         break;
       case 'ST':
@@ -174,35 +178,50 @@ export class RelocationFormComponent implements OnInit {
           this.statusOptions.unshift({ label: '-select-', value: null });
         }
         break;
+      case 'IT':
+        if (this.issuesData.length !== 0) {
+          this.issuesData.forEach(it => {
+            issueTypeSelection.push({ label: it.type, value: it.id });
+          })
+          this.issueTypeOptions = issueTypeSelection;
+          this.issueTypeOptions.unshift({ label: '-select-', value: null });
+        }
+        break;
     }
   }
 
   onResetFields(field) {
     if (field === 'RM') {
       this.dcode = null;
+      this.address = (this.rcode !== undefined && this.rcode !== null) ? this.rcode.address : null;
     } else if (field === 'DM') {
       this.shopNo = null;
+      this.address = (this.dcode !== undefined && this.dcode !== null) ? this.dcode.address : null;
+    } else if (field === 'SH') {
+      this.address = (this.shopNo !== undefined && this.shopNo !== null) ? this.shopNo.address : null;
     }
   }
 
   onSave(form: NgForm) {
     this.blockScreen = true;
     const params = {
-      'Id': (this.Relocation_Id !== null && this.Relocation_Id !== undefined) ? this.Relocation_Id : 0,
+      'Id': (this.Riot_Id !== null && this.Riot_Id !== undefined) ? this.Riot_Id : 0,
       'Location': this.location.value,
       'Dcode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : 0,
       'Rcode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : 0,
       'Status': this.status.value,
       'Reason': this.reason,
       'ShopCode': (this.shopNo !== undefined && this.shopNo !== null) ? this.shopNo.value : 0,
-      'FromAddress': this.fromAddress,
-      'ToAddress': this.toAddress,
+      'Address': this.address,
+      'IssueType': this.issueType.value,
       'DocDate': this.docDate,
       'CompletedDate': (this.isEditClicked && this.completedDate !== undefined
         && this.completedDate !== null) ? this.datepipe.transform(this.completedDate, 'yyyy-MM-dd') : '-',
+      'VideoURL': this.videoURLPath,
+      'ImageURL': this.imageURLPath,
       'User': this.user
     }
-    this.restApiService.post(PathConstants.RelocationDetailsPost, params).subscribe(res => {
+    this.restApiService.post(PathConstants.RiotDetailsPost, params).subscribe(res => {
       if (res.item1) {
         form.reset();
         this.assignDefaultValues();
@@ -228,66 +247,80 @@ export class RelocationFormComponent implements OnInit {
           summary: 'Error Message', detail: 'Please Contact Administrator!'
         });
       }
+
     });
   }
 
-  resetFormFields(form) {
-    form.controls.loc.reset();
-    form.controls.rname.reset();
-    form.controls.dname.reset();
-    form.controls.shop.reset();
-    form.controls.fromAddr.reset();
-    form.controls.toAddr.reset();
-    form.controls.reasonText.reset();
-    form.controls.stats.reset();
-    form.controls.ddate.reset();
-  }
-
-  getRelocationDetails() {
+  getRiotDetails() {
     if (this.viewDate !== null && this.viewDate !== undefined && this.viewDate.toString().trim() !== '') {
-      this.relocationDetailsData = [];
+      this.riotDetailsData = [];
       const params = {
         'FDate': this.datepipe.transform(this.viewDate, 'yyyy-MM-dd'),
         'TDate': this.datepipe.transform(this.viewDate, 'yyyy-MM-dd')
       }
-      this.restApiService.getByParameters(PathConstants.RelocationDetailsGet, params).subscribe(res => {
+      this.restApiService.getByParameters(PathConstants.RiotDetailsGet, params).subscribe(res => {
         if (res !== undefined && res !== null && res.length !== 0) {
-          this.relocationDetailsData = res;
+          this.riotDetailsData = res;
           let sno = 1;
-          this.relocationDetailsData.forEach(t => {
+          this.riotDetailsData.forEach(t => {
             t.SlNo = sno;
             sno += 1;
           })
+        } else {
+          this.messageService.add({
+            key: 't-err', severity: 'warn',
+            summary: 'Warning Message', detail: 'No data found for selected date!'
+          });
         }
       })
     }
   }
 
-
   onRowSelect(row, index, form: NgForm) {
     if (row !== undefined && row !== null) {
-      this.resetFormFields(form);
-      this.Relocation_Id = row.TId;
-      this.locationOptions = [{ label: row.LocName, value: row.location }];
-      this.location = { label: row.LocName, value: row.location };
+      this.showCDate = true;
+      form.reset();
+      this.disableStatus = false;
+      this.Riot_Id = row.TId;
+      this.reason = row.Reason;
+      this.address = row.Address;
+      this.videoURLPath = row.VideoURL;
+      this.selectedVType = (row.VideoURL !== undefined && row.VideoURL !== null && row.VideoURL.trim() !== '')
+        ? 1 : 0;
+      this.imageURLPath = row.ImageURL;
+      this.selectedIType = (row.ImageURL !== undefined && row.ImageURL !== null && row.ImageURL.trim() !== '')
+        ? 1 : 0;
+      this.completedDate = row.completedDate;
+      this.docDate = (this.datepipe.transform(row.DocDate, 'yyyy-MM-dd'));
+      this.locationOptions = [{ label: row.LocName, value: row.Location }];
+      this.location = { label: row.LocName, value: row.Location };
       this.regionOptions = [{ label: row.REGNNAME, value: row.Rcode }];
       this.rcode = { label: row.REGNNAME, value: row.Rcode };
       this.districtOptions = [{ label: row.Dname, value: row.Dcode }];
       this.dcode = { label: row.Dname, value: row.Dcode };
       this.statusOptions = [{ label: row.StatusName, value: row.Status }];
       this.status = { label: row.StatusName, value: row.Status };
-      this.shopOptions = [{ label: row.ShopCode, value: row.ShopCode }];
-      this.shopNo = { label: row.ShopCode, value: row.ShopCode };
-      this.reason = row.Reason;
-      this.fromAddress = row.FromAddress;
-      this.toAddress = row.ToAddress;
-      this.docDate = row.DocDate;
-      this.completedDate = row.completedDate;
+      this.issueTypeOptions = [{ label: row.IssueName, value: row.IssueType }];
+      this.issueType = { label: row.IssueName, value: row.IssueType };
+      if (row.Location === 4) {
+        this.disableShop = true;
+        this.shopNo = null;
+      } else {
+        this.disableShop = false;
+        this.shopOptions = [{ label: row.Shopcode, value: row.Shopcode }];
+        this.shopNo = { label: row.Shopcode, value: row.Shopcode };
+      }
     }
   }
 
   onClear(form: NgForm) {
     form.reset();
     this.assignDefaultValues();
+  }
+  openGoogleDrive() {
+    const google_drive_url = 'https://drive.google.com/drive/u/1/folders/1x9tnr1T0ekG5DP7yK847m53bQYF-Mryt';
+    const username = 'tasmaccloud@gmail.com';
+    const password = 'Tasmac@123';
+    window.open(google_drive_url);
   }
 }

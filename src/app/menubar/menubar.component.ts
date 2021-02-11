@@ -26,43 +26,51 @@ export class MenubarComponent implements OnInit {
         items: [
           { label: 'New Ticket', icon: '', routerLink: '/NewTicket' },
           { label: 'Update Ticket', routerLink: '/TicketUpdate' },
-          { label: 'Search', icon: '', routerLink: '/SearchTicket' },
+          // { label: 'Search Ticket', icon: '', routerLink: '/SearchTicket' },
         ]
       },
       {
-        label: 'Request', icon: 'pi pi-file', visible: showMenu,
+        label: 'Relocation', icon: 'pi pi-file', visible: showMenu,
         items: [
-          { label: 'Relocation', routerLink: '/RelocationForm' },
+          { label: 'RO/DO/Shop', routerLink: '/RelocationForm' },
         ]
       },
       {
         label: 'Incident', icon: 'pi pi-file', visible: showMenu,
         items: [
           { label: 'Theft', routerLink: '/TheftForm' },
+          { label: 'Riot', routerLink: '/RiotForm' },
+          { label: 'Natural Calamities', routerLink: '/CalamityForm' },
         ]
       },
       {
-        label: 'Reports', icon: 'pi pi-fw pi-file', visible: showMenu,
+        label: 'Reports', icon: 'pi pi-fw pi-chart-line', visible: showMenu,
         items: [
           {
-            label: 'My Tickets', routerLink: '/MyTickets'
+            label: 'All Tickets', routerLink: '/TicketReport'
           },
           {
-            label: 'All Tickets', routerLink: '/TicketReport'
+            label: 'My Tickets', routerLink: '/MyTickets'
           },
           {
             label: 'Tickets By Date', routerLink: '/TicketByDateReport'
           },
           {
+            label: 'Relocation', routerLink: '/RelocationReport'
+          },
+          {
             label: 'Theft', routerLink: '/TheftReport'
           },
           {
-            label: 'Relocation', routerLink: '/RelocationReport'
+            label: 'Riots', routerLink: '/RiotReport'
+          },
+          {
+            label: 'Natural Calamity', routerLink: '/CalamityReport'
           }
         ]
       },
       {
-        label: 'User', icon: 'pi pi-fw pi-comments', visible: showMenu,
+        label: 'User', icon: 'pi pi-fw pi-user-edit', visible: showMenu,
         items: [
           {
             label: 'Profile', routerLink: ''

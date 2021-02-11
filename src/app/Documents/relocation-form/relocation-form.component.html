@@ -19,7 +19,9 @@
                         <!-- row 1 -->
                         <div class="p-col-12 p-md-4 p-lg-2">
                             <div>
-                                <label for="loc" class="label-text-color">Request Location</label>
+                                <label for="loc" class="label-text-color">Request Location:
+                                    <span class="form-mandatory-field">*</span>
+                                </label>
                             </div>
                             <p-dropdown #loc name="loc" [options]="locationOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="location"
@@ -31,13 +33,14 @@
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
                             <div>
-                                <label for="rname" class="label-text-color">Region:</label>
+                                <label for="rname" class="label-text-color">Region:
+                                    <span class="form-mandatory-field">*</span>
+                                </label>
                             </div>
                             <p-dropdown #reg name="rname" [options]="regionOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="rcode"
                                 (onClick)="onSelect('RM')" (onChange)="onResetFields('RM')" filter="true"
-                                resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label"
-                                [disabled]="disableRM" required>
+                                resetFilterOnHide="true" filterMatchMode="startsWith" optionLabel="label" required>
                                 <ng-template let-item pTemplate="selectedItem">
                                     <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
@@ -45,7 +48,9 @@
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
                             <div>
-                                <label for="dname" class="label-text-color">District:</label>
+                                <label for="dname" class="label-text-color">District:
+                                    <span *ngIf="!disableDM" class="form-mandatory-field">*</span>
+                                </label>
                             </div>
                             <p-dropdown #dist name="dname" [options]="districtOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="dcode"
@@ -59,69 +64,82 @@
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2">
                             <div>
-                                <label class="label-text-color" for="shopcd">Shop Number:</label>
+                                <label class="label-text-color" for="shopcd">Shop Number:
+                                    <span *ngIf="!disableShop" class="form-mandatory-field">*</span>
+                                </label>
                             </div>
                             <p-dropdown #shop name="shop" [options]="shopOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="shopNo" filter="true"
-                                (onClick)="onSelect('SH')" resetFilterOnHide="true" filterMatchMode="startsWith"
-                                optionLabel="label" [disabled]="disableShop" required>
+                                (onClick)="onSelect('SH')" (onChange)="onResetFields('SH')" resetFilterOnHide="true"
+                                filterMatchMode="startsWith" optionLabel="label" [disabled]="disableShop" required>
                                 <ng-template let-item pTemplate="selectedItem">
                                     <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
                             </p-dropdown>
                         </div>
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-3">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="fromAddr" id="float-input" size="30" pInputText
                                     [(ngModel)]="fromAddress" type="text" autocomplete="off" tabindex="3">
-                                <label for="float-input">From Address</label>
+                                <label for="float-input">Current Location:<span
+                                        class="form-mandatory-field">*</span></label>
                             </div>
                         </div>
                         &nbsp;
                         <!-- row 2 -->
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-3">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="toAddr" id="float-input" size="30" pInputText
                                     [(ngModel)]="toAddress" type="text" autocomplete="off" tabindex="3">
-                                <label for="float-input">To Address</label>
+                                <label for="float-input">New Location:<span
+                                        class="form-mandatory-field">*</span></label>
                             </div>
                         </div>
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-2">
                             <div class="p-float-label">
-                                <input class="p-col-12" name="reasonText" id="float-input" size="30" pInputText
-                                    [(ngModel)]="reason" type="text" autocomplete="off" tabindex="3">
-                                <label for="float-input">Reason</label>
+                                <input class="p-col-12" name="newShopNum" id="float-input" size="30" pInputText
+                                    [(ngModel)]="newShopNum" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">New Shop No:</label>
                             </div>
                         </div>
-                        <div class="p-col-12 p-md-6 p-lg-2">
+                        <div class="p-col-12 p-md-6 p-lg-2 no-pad-top">
                             <div>
                                 <label for="stats" class="label-text-color">Status:</label>
                             </div>
                             <p-dropdown #stats name="stats" [options]="statusOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="status" filter="true"
                                 resetFilterOnHide="true" (onClick)="onSelect('ST')" filterMatchMode="startsWith"
-                                optionLabel="label" [disabled]="!isEditClicked" required>
+                                optionLabel="label" [disabled]="disableStatus" required>
                                 <ng-template let-item pTemplate="selectedItem">
                                     <span style="vertical-align:middle">{{item.label}}</span>
                                 </ng-template>
                             </p-dropdown>
                         </div>
-                        <div class="p-col-12 p-md-4 p-lg-2">
+                        <div class="p-col-12 p-md-4 p-lg-2 no-pad-top">
                             <div>
-                                <label class="label-text-color" for="ddate">Document Date:</label>
+                                <label class="label-text-color" for="ddate">Relocation Date:<span
+                                        class="form-mandatory-field">*</span></label>
                             </div>
-                            <p-calendar name="ddate" [maxDate]="maxDate" dateFormat="yy-mm-dd" [(ngModel)]="docDate"
-                                [showIcon]="true" required></p-calendar>
+                            <p-calendar name="ddate" dateFormat="yy-mm-dd" [(ngModel)]="docDate" [showIcon]="true"
+                                required></p-calendar>
+                        </div> &nbsp;
+                        <!-- row 3 -->
+                        <div style="padding-top: 1.5rem;" class="p-col-12 p-md-6 p-lg-3">
+                            <div class="p-float-label">
+                                <input class="p-col-12" name="reasonText" id="float-input" size="30" pInputText
+                                    [(ngModel)]="reason" type="text" autocomplete="off" tabindex="3">
+                                <label for="float-input">Reason:<span class="form-mandatory-field">*</span></label>
+                            </div>
                         </div>
-                        <div *ngIf="isEditClicked" class="p-col-12 p-md-4 p-lg-2">
+                        <div *ngIf="showCDate" class="p-col-12 p-md-4 p-lg-2 no-pad-top">
                             <div>
                                 <label class="label-text-color" for="cdate">Completed Date:</label>
                             </div>
-                            <p-calendar name="cdate" [maxDate]="maxDate" dateFormat="yy-mm-dd"
-                                [(ngModel)]="completedDate" [showIcon]="true" required>
+                            <p-calendar name="cdate" dateFormat="yy-mm-dd" [(ngModel)]="completedDate" [showIcon]="true"
+                                required>
                             </p-calendar>
-                        </div>
-                        <!-- row 3 -->
+                        </div> &nbsp;
+                        <!-- row 4 -->
                         <div class="p-col-12 p-md-12 p-lg-12">
                             <div class="p-grid">
                                 <div class="p-col-4 p-md-2 p-lg-5"></div>
@@ -152,9 +170,8 @@
                                 <div>
                                     <label class="label-text-color" for="vdate">Date:</label>
                                 </div>
-                                <p-calendar name="vdate" [maxDate]="maxDate" dateFormat="yy-mm-dd"
-                                    [(ngModel)]="viewDate" [showIcon]="true" (ngModelChange)="getRelocationDetails()"
-                                    required>
+                                <p-calendar name="vdate" dateFormat="yy-mm-dd" [(ngModel)]="viewDate" [showIcon]="true"
+                                    (ngModelChange)="getRelocationDetails()">
                                 </p-calendar>
                             </div>
                             <p-table #dt styleClass="p-datatable-gridlines p-datatable-sm"
@@ -178,7 +195,16 @@
                             </p-table>
                         </div>
                     </div>
-                </form>
+                </form><br />
+                <div class="p-col-12" style="font-size: 15px;">
+                    <span style="text-decoration:underline;"> This form will help you to enter the relocation
+                        information:
+                    </span><br />
+                    * User has to select Request location<br />
+                    * Based on selected location respective address will be displayed automatically<br />
+                    * User have to enter “New Address” and reason and Relocation date<br />
+                    * User can mention the “New Shop Number” if its available otherwise it can be leave as empty<br />
+                </div>
             </p-panel>
         </div>
     </div>

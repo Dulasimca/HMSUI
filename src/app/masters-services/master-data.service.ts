@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RestAPIService } from '../services/restAPI.service';
 import { PathConstants } from '../Helper/PathConstants';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,21 @@ export class MasterDataService {
   bugStatus?: any;
   cc?: any;
   issuesType: any[];
+  minDate: Date;
+  roleId: any;
+  role_regions: any;
+  loggedInRcode: any;
 
-  constructor(private restApiService: RestAPIService) { }
+  constructor(private restApiService: RestAPIService, private authService: AuthService) {
+    this.roleId = this.authService.getLoggedUser().RoleId;
+    this.loggedInRcode = this.authService.getLoggedUser().RCode;
+  }
 
   getRegions() {
     this.regions = [];
     this.restApiService.get(PathConstants.RegionMasterURL).subscribe(reg => {
       reg.forEach(r => {
-        this.regions.push({ 'name': r.REGNNAME, 'code': r.REGNCODE });
+        this.regions.push({ 'name': r.REGNNAME, 'code': r.REGNCODE, 'address': r.Address });
       })
     })
     return this.regions;
@@ -31,7 +39,7 @@ export class MasterDataService {
     this.districts = [];
     this.restApiService.get(PathConstants.DistrictMasterURL).subscribe(dist => {
       dist.forEach(d => {
-        this.districts.push({ 'name': d.Dname, 'code': d.Dcode, 'rcode': d.Rcode });
+        this.districts.push({ 'name': d.Dname, 'code': d.Dcode, 'rcode': d.Rcode, 'address': d.Address });
       })
     })
     return this.districts;
@@ -51,7 +59,7 @@ export class MasterDataService {
     this.shops = [];
     this.restApiService.getByParameters(PathConstants.ShopsGetURL, { 'type': 2 }).subscribe(shop => {
       shop.forEach(s => {
-        this.shops.push({ 'shop_num': s.SHOPNO, 'dcode': s.Dcode });
+        this.shops.push({ 'shop_num': s.SHOPNO, 'dcode': s.Dcode, 'address': s.SHOPADDRESS });
       })
     })
     return this.shops;
@@ -95,5 +103,44 @@ export class MasterDataService {
       })
     });
     return this.issuesType;
+  }
+
+  getMinDate() {
+    const currentDate = new Date().getDate(); //current date
+    const currentMonth = new Date().getMonth() + 1; //current month
+    const currentYear = new Date().getFullYear(); //current year
+    const prevMonth = new Date().getMonth(); //previous month
+    const prevYear = new Date().getFullYear() - 1; //previous year
+    const days = 30; // setting minimum no.of days
+    //getting previous month last date
+    var d = new Date(); // current date
+    d.setDate(1); // going to 1st of the month
+    d.setHours(-1);
+    //end
+    const prevDate = d.getDate(); //previous month date
+    const minDays = (currentDate - days);
+    const date = (minDays < 0) ? (prevDate + minDays) : ((minDays === 0) ? prevDate : minDays);//date to set
+    let month = (minDays <= 0) ? prevMonth : currentMonth;//month to set
+    const year = (month === 12 && prevMonth === 1) ? prevYear : currentYear;//year to set
+    this.minDate = new Date();
+    this.minDate.setDate(date);
+    month = (month === 1) ? 12 : month - 1;//since month are zero based
+    this.minDate.setMonth(month);
+    this.minDate.setFullYear(year);
+    return this.minDate;
+  }
+
+  getRoleWiseRegions() {
+    this.role_regions = [];
+    this.restApiService.get(PathConstants.RegionMasterURL).subscribe(reg => {
+      reg.forEach(r => {
+        if ((this.roleId === 3 || this.roleId === 4) && r.REGNCODE === this.loggedInRcode) {
+          this.role_regions.push({ 'name': r.REGNNAME, 'code': r.REGNCODE, 'address': r.Address });
+        } else {
+          this.role_regions.push({ 'name': r.REGNNAME, 'code': r.REGNCODE, 'address': r.Address });
+        }
+      })
+    })
+    return this.role_regions;
   }
 }

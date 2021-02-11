@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
-import { NewTicketComponent } from './Ticket/new-ticket/new-ticket.component';
+import { NewTicketComponent } from './Documents/new-ticket/new-ticket.component';
 import { AuthGuard } from './services/auth.guard';
 import { TicketReportComponent } from './reports/ticket-report/ticket-report.component';
 import { MyTicketsComponent } from './reports/my-tickets/my-tickets.component';
@@ -12,10 +12,12 @@ import { ChangePasswordComponent } from './profiles/change-password/change-passw
 import { TicketReportBydateComponent } from './reports/ticket-report-bydate/ticket-report-bydate.component';
 import { BugzillaReportComponent } from './reports/bugzilla-report/bugzilla-report.component';
 import { AllTicketsReportComponent } from './reports/all-tickets-report/all-tickets-report.component';
-import { RelocationFormComponent } from './relocation-form/relocation-form.component';
-import { TheftFormComponent } from './theft-form/theft-form.component';
+import { RelocationFormComponent } from './Documents/relocation-form/relocation-form.component';
+import { TheftFormComponent } from './Documents/theft-form/theft-form.component';
 import { TheftReportComponent } from './reports/theft-report/theft-report.component';
 import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaion-report.component';
+import { RiotFormComponent } from './Documents/riot-form/riot-form.component';
+import { NaturalCalamitiesComponent } from './Documents/natural-calamities/natural-calamities.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -33,7 +35,10 @@ const routes: Routes = [
   { path: 'RelocationForm', component: RelocationFormComponent, canActivate: [AuthGuard] },
   { path: 'TheftForm', component: TheftFormComponent, canActivate: [AuthGuard] },
   { path: 'TheftReport', component: TheftReportComponent, canActivate: [AuthGuard] },
-  { path: 'RelocationReport', component: ReloctaionReportComponent, canActivate: [AuthGuard] },
+  { path: 'RiotReport', component: TheftReportComponent, canActivate: [AuthGuard] },
+  { path: 'CalamityReport', component: TheftReportComponent, canActivate: [AuthGuard] },
+  { path: 'RiotForm', component: RiotFormComponent, canActivate: [AuthGuard] },
+  { path: 'CalamityForm', component: NaturalCalamitiesComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
