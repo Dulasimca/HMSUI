@@ -90,8 +90,8 @@ export class CalamityReportComponent implements OnInit {
         this.table.reset();
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'No records been found'
+          key: 't-err', severity: 'warn',
+          summary: 'Warning Message', detail: 'No records been found!'
         });
       }
     }, (err: HttpErrorResponse) => {

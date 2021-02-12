@@ -86,6 +86,15 @@ export class RelocationFormComponent implements OnInit {
     this.blockScreen = false;
     this.showCDate = false;
     this.disableStatus = true;
+    this.viewDate = null;
+    this.location = null;
+    this.locationOptions = null;
+    this.rcode = null;
+    this.regionOptions = null;
+    this.dcode = null;
+    this.districtOptions = null;
+    this.shopNo = null;
+    this.shopOptions = null;
   }
 
   onSelect(type) {
@@ -210,17 +219,17 @@ export class RelocationFormComponent implements OnInit {
       'ShopCode': (this.shopNo !== undefined && this.shopNo !== null) ? this.shopNo.value : 0,
       'FromAddress': this.fromAddress,
       'ToAddress': this.toAddress,
-      'DocDate': this.docDate,
+      'DocDate': (this.isEditClicked && this.docDate !== undefined
+        && this.docDate !== null) ? this.docDate : this.datepipe.transform(this.docDate, 'yyyy-MM-dd'),
       'CompletedDate': (this.isEditClicked && this.completedDate !== undefined
-        && this.completedDate !== null) ? this.datepipe.transform(this.completedDate, 'yyyy-MM-dd') : '-',
+        && this.completedDate !== null) ? this.datepipe.transform(this.completedDate, 'yyyy-MM-dd') : null,
       'User': this.user,
       'NewShopNo': (this.newShopNum !== undefined && this.newShopNum !== null) ?
         this.newShopNum : null
     }
     this.restApiService.post(PathConstants.RelocationDetailsPost, params).subscribe(res => {
       if (res.item1) {
-        form.reset();
-        this.assignDefaultValues();
+        this.onClear(form);
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'success',
@@ -290,12 +299,12 @@ export class RelocationFormComponent implements OnInit {
       this.resetFormFields(form);
       this.disableStatus = false;
       this.showCDate = true;
-      this.Relocation_Id = row.TId;
+      this.Relocation_Id = row.Id;
       this.reason = row.Reason;
       this.fromAddress = row.FromAddress;
       this.toAddress = row.ToAddress;
       this.docDate = (this.datepipe.transform(row.DocDate, 'yyyy-MM-dd'));
-      this.completedDate = row.completedDate;
+      this.completedDate = row.CompletedDate;
       this.locationOptions = [{ label: row.LocName, value: row.Location }];
       this.location = { label: row.LocName, value: row.Location };
       this.regionOptions = [{ label: row.REGNNAME, value: row.Rcode }];
@@ -318,6 +327,8 @@ export class RelocationFormComponent implements OnInit {
 
   onClear(form: NgForm) {
     form.reset();
+    form.form.markAsUntouched();
+    form.form.markAsPristine();
     this.assignDefaultValues();
   }
 }

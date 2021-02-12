@@ -104,7 +104,7 @@
                                     <div class="margin-gap-layout">
                                         <p-chart type="pie" [data]="pieData" width="auto" height="50vh"
                                             [plugins]="plugin" [options]="pieOptions"
-                                            (onDataSelect)="selectData($event)"></p-chart>
+                                            (onDataSelect)="selectData($event, 0)"></p-chart>
                                     </div>
                                 </div>
                                 <!-- For Headoffice -->
@@ -116,7 +116,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForHO" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 1)"></p-chart>
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
@@ -125,7 +125,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForRegion" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 2)"></p-chart>
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
@@ -134,7 +134,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
                                                     height="auto" [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 3)"></p-chart>
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-6 border-color" style="margin-top: 10px;">
@@ -143,7 +143,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 4)"></p-chart>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +159,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForRegion" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 2)"></p-chart>
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-12 p-lg-6 card border-color" style="margin-top: 5px;">
@@ -168,7 +168,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
                                                     height="auto" [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 3)"></p-chart>
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-12 p-lg-6 card border-color" style="margin-top: 5px;">
@@ -177,7 +177,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 4)"></p-chart>
                                             </div>
                                         </div>
                                     </div>
@@ -193,7 +193,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForDistrict" width="auto"
                                                     height="auto" [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 3)"></p-chart>
                                             </div>
                                         </div>
                                         <div class="p-col-12 p-md-6 p-lg-12 card border-color"
@@ -203,7 +203,7 @@
                                             <div class="margin-gap-layout">
                                                 <p-chart type="pie" [data]="pieDataForShops" width="auto" height="auto"
                                                     [plugins]="plugin" [options]="pieOptions"
-                                                    (onDataSelect)="selectData($event)"></p-chart>
+                                                    (onDataSelect)="selectData($event, 4)"></p-chart>
                                             </div>
                                         </div>
                                     </div>
@@ -212,7 +212,7 @@
                             </div>
                             <div class="p-col-12 p-md-12 p-lg-12 card border-color" style="margin-top: 5px;">
                                 <div class="header-line">User Manual To Download</div>
-                                <div class="p-grid dashboard-tiles" style="padding-top: 25px;">
+                                <div class="p-grid dashboard-tiles" style="padding-top: 5px;">
                                     <div class="p-col-3 p-md-3 p-lg-3 no-pad cursor-pointer" (click)="onPDFDownload(1)">
                                         <div class="card overview-box overview-box-1">
                                             <span class="overview-box-name">Network & Camera Manual</span>

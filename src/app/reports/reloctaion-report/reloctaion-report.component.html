@@ -16,15 +16,15 @@
                         <div>
                             <label class="label-text-color" for="shopcd">From Date:</label>
                         </div>
-                        <p-calendar name="fDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="fromDate"
-                            [showIcon]="true" (ngModelChange)="checkValidDateSelection()"></p-calendar>
+                        <p-calendar name="fDate" dateFormat="dd/mm/yy" [(ngModel)]="fromDate" [showIcon]="true"
+                            (ngModelChange)="checkValidDateSelection()"></p-calendar>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-2 no-pad-top">
                         <div>
                             <label class="label-text-color" for="shopcd">To Date:</label>
                         </div>
-                        <p-calendar name="tDate" [maxDate]="maxDate" dateFormat="dd/mm/yy" [(ngModel)]="toDate"
-                            [showIcon]="true" (ngModelChange)="checkValidDateSelection()"></p-calendar>
+                        <p-calendar name="tDate" dateFormat="dd/mm/yy" [(ngModel)]="toDate" [showIcon]="true"
+                            (ngModelChange)="checkValidDateSelection()"></p-calendar>
                     </div>
                     <div class="p-col-12 p-md-4 p-lg-6"></div>
 

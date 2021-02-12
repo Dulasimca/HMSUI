@@ -230,7 +230,8 @@ export class TicketUpdateComponent implements OnInit {
         'StatusCode': (this.Status.value === undefined) ? this.StatusCode : this.Status.value,
         'ComponentDescription': this.ComponentDescription,
         'TicketDescription': this.TicketDescription,
-        'Subject': this.Subject
+        'Subject': this.Subject,
+        'ToCC': this.DefaultCC + ';' + this.login_User.user,
       }
       const params = {
         'ticket_id': this.TicketID,
@@ -238,7 +239,7 @@ export class TicketUpdateComponent implements OnInit {
         'Ticketstatus': (this.Status.label === undefined) ? this.Status : this.Status.label,
         'short_desc': this.Subject,
         'URL': "Tasmac-hms.com",
-        'CC': this.DefaultCC + ';' + this.login_User.user,
+        'CC': this.DefaultCC,
         'StatusCode': (this.Status.value === undefined) ? this.StatusCode : this.Status.value,
         //mailsending
         'bodyMessage': bodyparams

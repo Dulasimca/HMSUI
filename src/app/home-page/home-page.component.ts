@@ -352,9 +352,9 @@ export class HomePageComponent implements OnInit {
     this.router.navigate(['/AllTicketsReport'], { queryParams: { id: value, si: true } });
   }
 
-  selectData(event) {
+  selectData(event, value) {
     const index: string = event.element._index;
-    this.router.navigate(['Bugzilla'], { queryParams: { id: index, si: true } });
+    this.router.navigate(['Bugzilla'], { queryParams: { id: index, value: value, si: true } });
   }
 
   preventBackButton() {

@@ -82,7 +82,8 @@ export class RiotFormComponent implements OnInit {
       { field: 'StatusName', header: 'Status' },
       { field: 'DocDate', header: 'Doc.Date.' },
       { field: 'Address', header: 'Address' },
-      { field: 'URL', header: 'Video URL' },
+      { field: 'VideoURL', header: 'Video URL' },
+      { field: 'ImageURL', header: 'Image URL' },
       { field: 'CompletedDate', header: 'Completed Date' }
     ];
   }
@@ -94,9 +95,19 @@ export class RiotFormComponent implements OnInit {
     this.riotDetailsData = [];
     this.blockScreen = false;
     this.showCDate = false;
+    this.disableStatus = true;
     this.isImageURLDisabled = true;
     this.isVideoURLDisabled = true;
-    this.disableStatus = true;
+    this.locationOptions = null;
+    this.location = null;
+    this.regionOptions = null;
+    this.rcode = null;
+    this.districtOptions = null;
+    this.dcode = null;
+    this.shopOptions = null;
+    this.shopNo = null;
+    this.issueType = null;
+    this.issueTypeOptions = null;
   }
 
   onSelect(type) {
@@ -214,17 +225,17 @@ export class RiotFormComponent implements OnInit {
       'ShopCode': (this.shopNo !== undefined && this.shopNo !== null) ? this.shopNo.value : 0,
       'Address': this.address,
       'IssueType': this.issueType.value,
-      'DocDate': this.docDate,
+      'DocDate': (this.isEditClicked && this.docDate !== undefined
+        && this.docDate !== null) ? this.docDate : this.datepipe.transform(this.docDate, 'yyyy-MM-dd'),
       'CompletedDate': (this.isEditClicked && this.completedDate !== undefined
-        && this.completedDate !== null) ? this.datepipe.transform(this.completedDate, 'yyyy-MM-dd') : '-',
+        && this.completedDate !== null) ? this.datepipe.transform(this.completedDate, 'yyyy-MM-dd') : null,
       'VideoURL': this.videoURLPath,
       'ImageURL': this.imageURLPath,
       'User': this.user
     }
     this.restApiService.post(PathConstants.RiotDetailsPost, params).subscribe(res => {
       if (res.item1) {
-        form.reset();
-        this.assignDefaultValues();
+        this.onClear(form);
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'success',
@@ -290,7 +301,7 @@ export class RiotFormComponent implements OnInit {
       this.imageURLPath = row.ImageURL;
       this.selectedIType = (row.ImageURL !== undefined && row.ImageURL !== null && row.ImageURL.trim() !== '')
         ? 1 : 0;
-      this.completedDate = row.completedDate;
+      this.completedDate = row.CmpletedDate;
       this.docDate = (this.datepipe.transform(row.DocDate, 'yyyy-MM-dd'));
       this.locationOptions = [{ label: row.LocName, value: row.Location }];
       this.location = { label: row.LocName, value: row.Location };
@@ -315,6 +326,8 @@ export class RiotFormComponent implements OnInit {
 
   onClear(form: NgForm) {
     form.reset();
+    form.form.markAsUntouched();
+    form.form.markAsPristine();
     this.assignDefaultValues();
   }
   openGoogleDrive() {

@@ -13,7 +13,6 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./reloctaion-report.component.css']
 })
 export class ReloctaionReportComponent implements OnInit {
-  maxDate: Date = new Date();
   RelocationCols: any;
   RelocationData: any = [];
   fromDate: any;
@@ -87,8 +86,8 @@ export class ReloctaionReportComponent implements OnInit {
         this.table.reset();
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'No records been found'
+          key: 't-err', severity: 'warn',
+          summary: 'Warning Message', detail: 'No records been found!'
         });
       }
     }, (err: HttpErrorResponse) => {

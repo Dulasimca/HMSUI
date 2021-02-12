@@ -21,6 +21,8 @@ export class BugzillaReportComponent implements OnInit {
   items: MenuItem[];
   excelFileName: string;
   @ViewChild('dt', { static: false }) table: Table;
+  index: string;
+  type: string;
 
   constructor(private restApi: RestAPIService, private route: ActivatedRoute,
     private messageService: MessageService, private datepipe: DatePipe) { }
@@ -38,27 +40,69 @@ export class BugzillaReportComponent implements OnInit {
         }
       },
     ];
-    const index = this.route.snapshot.queryParamMap.get('id');
+    this.index = this.route.snapshot.queryParamMap.get('id');
+    this.type = this.route.snapshot.queryParamMap.get('value');
     this.bugzillaCols = [
-      { field: 'bug_id', header: 'Bug ID' },
-      { field: 'bug_severity', header: 'Bug Severity' },
-      { field: 'bug_status', header: 'Bug Status' },
+      { field: 'ticket_id', header: 'Ticket ID' },
       { field: 'assigned_to', header: 'Assigned To' },
+      { field: 'ticket_status', header: 'Ticket Status' },
+      { field: 'REGNNAME', header: 'Region Name' },
+      { field: 'Dname', header: 'District Name' },
+      { field: 'pname', header: 'Product' },
+      { field: 'cname', header: 'Component' },
       { field: 'short_desc', header: 'Description' },
       { field: 'creation_ts', header: 'Created Date' }
     ];
     this.loading = true;
+    this.onLoadData();
+  }
+
+  onFilterData() {
+    if (this.index !== undefined && this.index !== null) {
+      this.bugzillaData = this.bugzillaData.filter(y => {
+        return (this.index === '3' && (y.status_code === 8 || y.status_code === 2))
+          || (this.index === '2' && y.status_code === 5)
+          || (this.index === '1' && y.status_code === 6)
+          || (this.index === '0' && (y.status_code === 7 || y.status_code === 4))
+      })
+    }
+  }
+
+  onLoadData() {
     this.restApi.get(PathConstants.HMSReportURL).subscribe(data => {
       if (data !== undefined && data !== null && data.length !== 0) {
-        let sno = 1;
         this.bugzillaData = data;
-        if (index !== undefined && index !== null) {
-          this.bugzillaData = this.bugzillaData.filter(y => {
-            return (index === '4' && y.bug_status.toUpperCase() === 'OPEN')
-              || (index === '0' && y.bug_status.toUpperCase() === 'ASSIGNED')
-              || (index === '3' && y.bug_status.toUpperCase() === 'IN-PROGRESS')
-              || (index === '1' && y.bug_status.toUpperCase() === 'COMPLETED')
-          })
+        if (this.type !== null && this.type !== undefined) {
+          switch (this.type) {
+            case '0':
+              //all data
+              this.bugzillaData = data;
+              break;
+            case '1':
+              //head office
+              this.bugzillaData = this.bugzillaData.filter(f => {
+                return f.product_id === 2
+              })
+              break;
+            case '2':
+              //region
+              this.bugzillaData = this.bugzillaData.filter(f => {
+                return f.product_id === 3
+              })
+              break;
+            case '3':
+              //district
+              this.bugzillaData = this.bugzillaData.filter(f => {
+                return f.product_id === 4
+              })
+              break;
+            case '4':
+              //shops
+              this.bugzillaData = this.bugzillaData.filter(f => {
+                return f.product_id === 5
+              })
+              break;
+          }
         }
         this.excelFileName = 'BUGZILLA_STATUS_REPORT ' + this.datepipe.transform(new Date(), 'dd-MM-yyyy hh:mm a');
         this.loading = false;
@@ -72,6 +116,7 @@ export class BugzillaReportComponent implements OnInit {
         });
       }
     }, (err: HttpErrorResponse) => {
+      this.loading = false;
       this.table.reset();
       if (err.status === 0 || err.status === 400) {
         this.messageService.clear();
@@ -86,8 +131,9 @@ export class BugzillaReportComponent implements OnInit {
           summary: 'Error Message', detail: 'Please check your network connection!'
         });
       }
-    });
+    }, () => this.onFilterData());
   }
+
   onDownload() {
 
   }

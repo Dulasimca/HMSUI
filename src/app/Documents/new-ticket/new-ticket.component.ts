@@ -213,7 +213,8 @@ export class NewTicketComponent implements OnInit {
         'Status': this.Status,
         'ComponentDescription': this.ComponentDescription,
         'TicketDescription': this.TicketDescription,
-        'Subject': this.Subject
+        'Subject': this.Subject,
+        'ToCC': this.DefaultCC + ';' + this.login_User.user,
       }
 
       const params = {
@@ -231,7 +232,7 @@ export class NewTicketComponent implements OnInit {
         'everconfirmed': true,
         'reporter_accessible': true,
         'cclist_accessible': true,
-        'CC': this.DefaultCC + ';' + this.login_User.user,
+        'CC': this.DefaultCC,
         'To': this.DefaultTo,
         'UserId': this.login_User.Id,
         'StatusCode': this.StatusCode,

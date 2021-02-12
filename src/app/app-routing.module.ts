@@ -19,6 +19,8 @@ import { ReloctaionReportComponent } from './reports/reloctaion-report/reloctaio
 import { RiotFormComponent } from './Documents/riot-form/riot-form.component';
 import { NaturalCalamitiesComponent } from './Documents/natural-calamities/natural-calamities.component';
 import { MyProfileComponent } from './profiles/my-profile/my-profile.component';
+import { RiotsReportComponent } from './reports/riots-report/riots-report.component';
+import { CalamityReportComponent } from './reports/calamity-report/calamity-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -36,8 +38,8 @@ const routes: Routes = [
   { path: 'RelocationForm', component: RelocationFormComponent, canActivate: [AuthGuard] },
   { path: 'TheftForm', component: TheftFormComponent, canActivate: [AuthGuard] },
   { path: 'TheftReport', component: TheftReportComponent, canActivate: [AuthGuard] },
-  { path: 'RiotReport', component: TheftReportComponent, canActivate: [AuthGuard] },
-  { path: 'CalamityReport', component: TheftReportComponent, canActivate: [AuthGuard] },
+  { path: 'RiotReport', component: RiotsReportComponent, canActivate: [AuthGuard] },
+  { path: 'CalamityReport', component: CalamityReportComponent, canActivate: [AuthGuard] },
   { path: 'RiotForm', component: RiotFormComponent, canActivate: [AuthGuard] },
   { path: 'CalamityForm', component: NaturalCalamitiesComponent, canActivate: [AuthGuard] },
   { path: 'RelocationReport', component: ReloctaionReportComponent, canActivate: [AuthGuard] },

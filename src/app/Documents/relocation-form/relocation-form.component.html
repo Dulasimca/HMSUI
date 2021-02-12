@@ -104,7 +104,8 @@
                         </div>
                         <div class="p-col-12 p-md-6 p-lg-2 no-pad-top">
                             <div>
-                                <label for="stats" class="label-text-color">Status:</label>
+                                <label for="stats" class="label-text-color">Status:<span *ngIf="!disableStatus"
+                                        class="form-mandatory-field">*</span></label>
                             </div>
                             <p-dropdown #stats name="stats" [options]="statusOptions"
                                 [style]="{'width':'-webkit-fill-available'}" [(ngModel)]="status" filter="true"
@@ -133,7 +134,8 @@
                         </div>
                         <div *ngIf="showCDate" class="p-col-12 p-md-4 p-lg-2 no-pad-top">
                             <div>
-                                <label class="label-text-color" for="cdate">Completed Date:</label>
+                                <label class="label-text-color" for="cdate">Completed Date:<span
+                                        class="form-mandatory-field">*</span></label>
                             </div>
                             <p-calendar name="cdate" dateFormat="yy-mm-dd" [(ngModel)]="completedDate" [showIcon]="true"
                                 required>
@@ -145,7 +147,8 @@
                                 <div class="p-col-4 p-md-2 p-lg-5"></div>
                                 <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
                                     <button pButton type="submit" label="Save" class="p-button-raised p-btn-pad bg-div"
-                                        (click)="onSave(f)" [disabled]="!f.valid"></button>
+                                        (click)="onSave(f)"
+                                        [disabled]="(!f.valid || (isEditClicked && !f.dirty))"></button>
                                 </div>
                                 <div class="p-col-4 p-md-2 p-lg-1 txt-align" style="display: grid;">
                                     <button pButton type="button" label="View" class="p-button-raised p-btn-pad bg-div"

@@ -44,7 +44,7 @@ export class TheftReportComponent implements OnInit {
       { field: 'StatusName', header: 'Status' },
       { field: 'DocDate', header: 'Doc.Date.' },
       { field: 'Address', header: 'Address' },
-      { field: 'URL', header: 'Video URL' },
+      { field: 'VideoURL', header: 'Video URL' },
       { field: 'ImageURL', header: 'Image URL' },
       { field: 'CompletedDate', header: 'Completed Date' },
       { field: 'CreatedDate', header: 'Created Date' }
@@ -90,8 +90,8 @@ export class TheftReportComponent implements OnInit {
         this.table.reset();
         this.messageService.clear();
         this.messageService.add({
-          key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: 'No records been found'
+          key: 't-err', severity: 'warn',
+          summary: 'Warning Message', detail: 'No records been found'
         });
       }
     }, (err: HttpErrorResponse) => {
