@@ -34,7 +34,8 @@
                         <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="user_phno" id="float-input" size="30" pInputText
-                                    [(ngModel)]="Phone" type="number" autocomplete="off" tabindex="3">
+                                    [(ngModel)]="Phone" type="text" autocomplete="off" tabindex="3" 
+                                    minlength="1" maxlength="10">
                                 <label for="float-input">Phone Number:<span
                                         class="form-mandatory-field">*</span></label>
                             </div>
@@ -42,7 +43,7 @@
                         <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-3">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="user_mailid" id="float-input" size="30" pInputText
-                                    [(ngModel)]="Email" type="text" autocomplete="off" tabindex="3">
+                                    [(ngModel)]="Email" type="email" autocomplete="off" tabindex="3">
                                 <label for="float-input">Personal Email ID:<span
                                         class="form-mandatory-field">*</span></label>
                             </div>
@@ -110,7 +111,8 @@
                                 <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
                                     <div class="p-float-label">
                                         <input class="p-col-12" name="rm_phno" id="float-input" size="30" pInputText
-                                            [(ngModel)]="RMPhnNo" type="text" autocomplete="off" tabindex="3">
+                                            [(ngModel)]="RMPhnNo" type="text" autocomplete="off" tabindex="3"
+                                            minlength="1" maxlength="10">
                                         <label for="float-input">Phone Number<span
                                                 class="form-mandatory-field">*</span></label>
                                     </div>

@@ -122,10 +122,14 @@ export class MyProfileComponent implements OnInit {
       'Name': this.Name,
       'Address': this.Address,
       'Phone': this.Phone,
-      'FileName': this.FileName
+      'FileName': this.FileName,
+      'RMName': this.RMName,
+      'RMPhone': this.RMPhnNo,
+      'RMDistrict': this.RMDistrict.value,
+      'RMEmailId': this.RMEmailId
       // 'User': this.user
     }
-    this.restApiService.post('', params).subscribe(res => {
+    this.restApiService.post(PathConstants.UserProfilePost, params).subscribe(res => {
       if (res.item1) {
         form.reset();
         this.assignDefaultValues();
