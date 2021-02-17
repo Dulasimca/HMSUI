@@ -5,8 +5,8 @@
                     icon="pi pi-arrow-left" (click)="clickedReset=false"></button></div>
             <div class="login-container">
                 <div class="login-content">
+                    <p-toast position="top-center" key="t-err"></p-toast>
                     <div *ngIf="!clickedReset">
-                        <p-toast position="top-center" key="t-err"></p-toast>
                         <div class="p-grid login-card border-color">
                             <div class="p-col-12 p-md-12 p-lg-12 login-bar">
                                 <div class="no-pad-top p-grid" style="display: inherit !important;">
@@ -96,6 +96,10 @@
                                             <button pButton type="submit" label="Submit"
                                                 class="p-button-raised p-btn-pad bg-div"
                                                 [disabled]="!pwdResetForm.valid"></button>
+                                        </div>
+                                        <div class="p-col-12 p-md-12 p-lg-12 txt-align">
+                                            <div class="f-pwd-text cursor-pointer" (click)="clickedReset=false">Go back to Login
+                                            </div>
                                         </div>
                                     </form>
 

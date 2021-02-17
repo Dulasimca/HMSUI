@@ -88,12 +88,31 @@ export class LoginComponent implements OnInit {
 
   onForgotPassword() {
     const params = {
-      'MailId': this.emailId
+      'EMailId': this.emailId
     }
+    this.restApiService.getByParameters(PathConstants.ForgetPasswordGet, params).subscribe(res => {
+      if(res) {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'success',
+          summary: 'Success Message', detail: 'Mail sent successfully!'
+        });
+      } else {
+        this.messageService.clear();
+        this.messageService.add({
+          key: 't-err', severity: 'error',
+          summary: 'Error Message', detail: 'Please Contact Administrator!'
+        });
+      }
+    })
   }
 
   openPwdReset() {
     this.clickedReset = true;
+  }
+
+  onLogOut() {
+    this.authService.logout();
   }
 
   onShowPswd() {
