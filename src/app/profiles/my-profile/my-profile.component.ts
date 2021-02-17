@@ -49,7 +49,6 @@ export class MyProfileComponent implements OnInit {
   RMDistrict: any;
   RMPhnNo: number;
   RMEmailId: string;
-  isExists: boolean;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,
