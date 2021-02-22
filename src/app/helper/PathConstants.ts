@@ -39,4 +39,5 @@ export class PathConstants {
     public static readonly MyProfilePost = '/api/MyProfile/Post';
     public static readonly ForgetPasswordGet = '/api/ForgotPassword/Get';
     public static readonly UserProfilePost = '/api/UserProfile/Post';
+    public static readonly UserProfileGet = '/api/UserProfile/Get';
 }

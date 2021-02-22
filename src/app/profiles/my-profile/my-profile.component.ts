@@ -74,6 +74,7 @@ export class MyProfileComponent implements OnInit {
 
   assignDefaultValues() {
     this.isEditClicked = false;
+    this.User_Id = this.login_details.Id;
     this.UserProfileData = [];
     this.blockScreen = false;
     this.Username = this.login_details.RealName;
@@ -175,14 +176,9 @@ export class MyProfileComponent implements OnInit {
 
   getUserProfile() {
     this.UserProfileData = [];
-    this.restApiService.get('').subscribe(res => {
+    this.restApiService.getByParameters(PathConstants.UserProfileGet, { Id: this.User_Id }).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.UserProfileData = res;
-        let sno = 1;
-        this.UserProfileData.forEach(t => {
-          t.SlNo = sno;
-          sno += 1;
-        })
+
       }
     })
   }

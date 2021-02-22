@@ -340,7 +340,7 @@ export class HomePageComponent implements OnInit {
         fileName = 'KVMSUserManual';
         break;
       case 4:
-        fileName = 'HMS';
+        fileName = 'CCTV_HMS_User_manual_v1';
         break;
     }
     const pdfURL = fileLoc + fileName + '.pdf';
