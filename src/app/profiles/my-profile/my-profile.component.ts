@@ -50,6 +50,7 @@ export class MyProfileComponent implements OnInit {
   RMPhnNo: number;
   RMEmailId: string;
   isExists: boolean;
+  uploadURL: string;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService,
@@ -61,6 +62,7 @@ export class MyProfileComponent implements OnInit {
     this.districtsData = this.masterDataService.getDistricts();
     this.regionsData = this.masterDataService.getRegions();
     this.assignDefaultValues();
+    this.getUserProfile();
     this.UserProfileCols = [
       { field: 'SlNo', header: 'S.No.' },
       { field: 'Name', header: 'Name' },
@@ -78,6 +80,7 @@ export class MyProfileComponent implements OnInit {
     this.UserProfileData = [];
     this.blockScreen = false;
     this.Username = this.login_details.RealName;
+    this.User_Id = this.login_details.Id;
   }
 
   onSelect(type) {
@@ -116,17 +119,18 @@ export class MyProfileComponent implements OnInit {
   onSave(form: NgForm) {
     this.blockScreen = true;
     const params = {
-      'UserId': (this.User_Id !== null && this.User_Id !== undefined) ? this.User_Id : 0,
+      'UserId': (this.User_Id !== null && this.User_Id !== undefined) ? this.User_Id : null,
       'LocationURL': this.LocationURL,
-      'Dcode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : 0,
-      'Rcode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : 0,
+      'Dcode': (this.dcode !== undefined && this.dcode !== null) ? this.dcode.value : null,
+      'Rcode': (this.rcode !== undefined && this.rcode !== null) ? this.rcode.value : null,
       'Name': this.Name,
       'Address': this.Address,
       'Phone': this.Phone,
+      'MailId': this.Email,
       'FileName': this.FileName,
       'RMName': this.RMName,
       'RMPhone': this.RMPhnNo,
-      'RMDistrict': this.RMDistrict.value,
+      'RMDistrict': (this.RMDistrict !== undefined && this.RMDistrict !== null) ? this.RMDistrict.value : null,
       'RMEmailId': this.RMEmailId
       // 'User': this.user
     }
@@ -144,7 +148,7 @@ export class MyProfileComponent implements OnInit {
         this.messageService.clear();
         this.messageService.add({
           key: 't-err', severity: 'error',
-          summary: 'Error Message', detail: res.item2
+          summary: 'Error Message', detail: 'Please Contact Administrator !'
         });
       }
     }, (err: HttpErrorResponse) => {
@@ -176,40 +180,37 @@ export class MyProfileComponent implements OnInit {
 
   getUserProfile() {
     this.UserProfileData = [];
-    this.restApiService.get('').subscribe(res => {
+    this.restApiService.getByParameters(PathConstants.UserProfileGet, {Id: this.User_Id}).subscribe(res => {
       if (res !== undefined && res !== null && res.length !== 0) {
-        this.UserProfileData = res;
-        let sno = 1;
-        this.UserProfileData.forEach(t => {
-          t.SlNo = sno;
-          sno += 1;
-        })
+        this.Address = res[0].Address;
+        this.Phone = res[0].Phone;
+        this.Email = res[0].MailId;
+        this.LocationURL = res[0].LocationURL;
+        this.regionOptions = [{ label: res[0].REGNNAME, value: res[0].Rcode }];
+        this.rcode = [{ label: res[0].REGNNAME, value: res[0].Rcode }];
+        this.districtOptions = [{ label: res[0].Dname, value: res[0].Dcode }];
+        this.dcode = [{ label: res[0].Dname, value: res[0].Dcode }];
+        this.RMName = res[0].RMName;
+        this.RMPhnNo = res[0].RMPhone;
+        this.RMEmailId = res[0].RMEmailId;
+        this.RMDistrict = [{ label: res[0].RMDistrictName, value: res[0].RMDistrict }];
+        this.FileName = res[0].FileName;
       }
     })
   }
 
+  onSelectImage(event) {
+    this.FileName = event.files[0].name;
+    this.uploadURL = 'C:/Users/chandrika/hms/HMSUI/src/assets/images/profiles' + this.FileName;
 
-  onRowSelect(row, index, form: NgForm) {
-    if (row !== undefined && row !== null) {
-      this.resetFormFields(form);
-      this.User_Id = row.TId;
-      this.LocationURL = row.location;
-      this.regionOptions = [{ label: row.REGNNAME, value: row.Rcode }];
-      this.rcode = { label: row.REGNNAME, value: row.Rcode };
-      this.districtOptions = [{ label: row.Dname, value: row.Dcode }];
-      this.dcode = { label: row.Dname, value: row.Dcode };
-      this.Name = row.Name;
-      this.Address = row.Address;
-      this.Phone = row.Phone;
-      this.Email = row.Email;
-    }
   }
 
   onUpload(event) {
+    const reader = new FileReader();
     for (let file of event.files) {
       this.uploadedFiles.push(file);
+      reader.readAsDataURL(file);
     }
-
     this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
   }
 

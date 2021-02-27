@@ -17,21 +17,21 @@
                 <form #f="ngForm" name="profileForm">
                     <div class="p-grid card">
                         <!-- <div class="p-col-12 p-md-6 p-lg-1"></div> -->
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                        <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-2">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="user_name" id="float-input" size="30" pInputText
                                     [(ngModel)]="Username" type="text" autocomplete="off" tabindex="3">
                                 <label for="float-input">Name:<span class="form-mandatory-field">*</span></label>
                             </div>
                         </div>
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-3">
+                        <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-3">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="user_addr" id="float-input" size="30" pInputText
                                     [(ngModel)]="Address" type="text" autocomplete="off" tabindex="3">
                                 <label for="float-input">Address:<span class="form-mandatory-field">*</span></label>
                             </div>
                         </div>
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                        <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-2">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="user_phno" id="float-input" size="30" pInputText
                                     [(ngModel)]="Phone" type="text" autocomplete="off" tabindex="3" 
@@ -40,7 +40,7 @@
                                         class="form-mandatory-field">*</span></label>
                             </div>
                         </div>
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-3">
+                        <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-3">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="user_mailid" id="float-input" size="30" pInputText
                                     [(ngModel)]="Email" type="email" autocomplete="off" tabindex="3">
@@ -48,7 +48,7 @@
                                         class="form-mandatory-field">*</span></label>
                             </div>
                         </div>
-                        <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-3">
+                        <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-3">
                             <div class="p-float-label">
                                 <input class="p-col-12" name="user_loc" id="float-input" size="30" pInputText
                                     [(ngModel)]="locationURL" type="text" autocomplete="off" tabindex="3">
@@ -92,7 +92,7 @@
                         <div class="p-col-12 border-color" style="margin-left: 10px;width: 98.5%;">
                             <span class="comment-text">Enter Reporting Manager details:-</span>
                             <div class="p-grid">
-                                <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                                <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-2">
                                     <div class="p-float-label">
                                         <input class="p-col-12" name="rm_name" id="float-input" size="30" pInputText
                                             [(ngModel)]="RMName" type="text" autocomplete="off" tabindex="3">
@@ -100,7 +100,7 @@
                                                 class="form-mandatory-field">*</span></label>
                                     </div>
                                 </div>
-                                <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-3">
+                                <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-3">
                                     <div class="p-float-label">
                                         <input class="p-col-12" name="rm_email" id="float-input" size="30" pInputText
                                             [(ngModel)]="RMEmailId" type="text" autocomplete="off" tabindex="3">
@@ -108,7 +108,7 @@
                                                 class="form-mandatory-field">*</span></label>
                                     </div>
                                 </div>
-                                <div style="padding-top: 1.7rem;" class="p-col-12 p-md-6 p-lg-2">
+                                <div style="padding-top: 1.8rem;" class="p-col-12 p-md-6 p-lg-2">
                                     <div class="p-float-label">
                                         <input class="p-col-12" name="rm_phno" id="float-input" size="30" pInputText
                                             [(ngModel)]="RMPhnNo" type="text" autocomplete="off" tabindex="3"
@@ -136,8 +136,8 @@
                         </div>
                         <!-- row 4 -->
                         <div class="p-col-12 p-md-6 p-lg-6">
-                            <p-fileUpload name="prof_pic" url="./uploadProfilePic" (onUpload)="onUpload($event)"
-                                multiple="single" accept="image/*" maxFileSize="1000000">
+                            <p-fileUpload name="prof_pic" url="{{uploadURL}}" (onUpload)="onUpload($event)"
+                                multiple="single" accept="image/*" (onSelect)="onSelectImage($event)" maxFileSize="1000000">
                                 <ng-template pTemplate="content">
                                     <ul *ngIf="uploadedFiles.length">
                                         <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>

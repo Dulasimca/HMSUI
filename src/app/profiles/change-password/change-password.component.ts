@@ -23,12 +23,12 @@ export class ChangePasswordComponent implements OnInit {
   NewPassword: string;
   login_User: any;
   userName: any;
+  @ViewChild('f', {static: false}) form: NgForm;
 
   constructor(private router: Router, private restApiService: RestAPIService, private datepipe: DatePipe,
     private messageService: MessageService, private masterDataService: MasterDataService, private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
-    // this.login_User = JSON.parse(this.authService.getUserInfo()).user;
     this.login_User = JSON.parse(this.authService.getCredentials());
     this.ChangeForm = this.fb.group({
       user: ['', Validators.required],
