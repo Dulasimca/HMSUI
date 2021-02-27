@@ -49,7 +49,6 @@ export class MyProfileComponent implements OnInit {
   RMDistrict: any;
   RMPhnNo: number;
   RMEmailId: string;
-  isExists: boolean;
   uploadURL: string;
 
   constructor(private restApiService: RestAPIService, private datepipe: DatePipe,
@@ -77,6 +76,7 @@ export class MyProfileComponent implements OnInit {
 
   assignDefaultValues() {
     this.isEditClicked = false;
+    this.User_Id = this.login_details.Id;
     this.UserProfileData = [];
     this.blockScreen = false;
     this.Username = this.login_details.RealName;
